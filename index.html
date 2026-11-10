@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#fbfaf8">
+  <title>The Two-Hand Loom</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ===== The loom: the whole screen is one touch surface ===== -->
+  <div id="stage">
+    <div class="zone" id="zone-left" aria-label="Left hand zone">
+      <span class="zone-label">hold here</span>
+    </div>
+
+    <div id="loom-wrap">
+      <canvas id="loom" aria-label="The shared weave"></canvas>
+    </div>
+
+    <div class="zone" id="zone-right" aria-label="Right hand zone">
+      <span class="zone-label">hold here</span>
+    </div>
+  </div>
+
+  <p id="status" aria-live="polite">Each person: touch one edge</p>
+
+  <!-- Small, quiet controls at the top centre (outside both hand zones) -->
+  <div id="controls">
+    <button id="sound-toggle" class="pill" type="button" aria-pressed="false">Sound off</button>
+    <button id="finish" class="pill" type="button" disabled>Finish</button>
+  </div>
+
+  <!-- ===== Start screen ===== -->
+  <section id="start-screen" class="screen">
+    <div class="screen-inner">
+      <h1>The Two-Hand Loom</h1>
+      <p class="lead">A loom that only weaves when two people touch it at the same time.</p>
+      <ol class="steps">
+        <li>Hold the screen between you.</li>
+        <li>Each of you, rest a finger on one edge.</li>
+        <li>Stay together. The thread moves only while you both touch. If one lets go, the newest rows unravel.</li>
+      </ol>
+      <button id="begin" class="primary" type="button">Begin</button>
+      <p class="fine">
+        A speculative design prototype: what if a technology refused to work for one person alone?
+        Nothing you do here leaves this device.
+      </p>
+      <p class="fine hint-keys">On a laptop: hold the A and L keys together.</p>
+    </div>
+  </section>
+
+  <!-- ===== End screen ===== -->
+  <section id="end-screen" class="screen" hidden>
+    <div class="screen-inner">
+      <h2>Your weave</h2>
+      <img id="weave-image" alt="The weave you made together">
+      <button id="save" class="primary" type="button">Save our weave</button>
+      <div class="row-buttons">
+        <button id="back" class="secondary" type="button">Back to the loom</button>
+        <button id="again" class="secondary" type="button">Weave again</button>
+      </div>
+      <p class="fine">The image is saved only to this device.</p>
+    </div>
+  </section>
+
+  <script src="loom.js"></script>
+</body>
+</html>
