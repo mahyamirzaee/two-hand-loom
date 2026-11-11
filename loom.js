@@ -1,38 +1,58 @@
-// The Two-Hand Loom — main script (Phase 4: start screen, ending, save as PNG)
+// The Two-Hand Loom — main script
 //
-// What this file does, in plain words:
-// 1. Start screen explains the loom. "Begin" opens the loom.
-// 2. It watches every finger. A finger near the left edge belongs to the LEFT
-//    person, near the right edge to the RIGHT person.
-// 3. While BOTH edges are held, a shuttle carries the thread across, row by row.
-//    Each finished row is one shared beat (pulse, vibration on Android, optional sound).
-// 4. If one person lets go, the newest rows slowly unravel, up to a limit.
-// 5. "Finish" (or a full loom) opens the end screen, where the pair can save
-//    their weave as a PNG image.
+// Two modes share this file:
 //
-// Privacy: this file never sends data anywhere. Nothing is stored by the app.
-// The PNG goes only where the people saving it choose to put it.
+// CLASSIC MODE (the normal link)
+//   Start screen → weave while both touch → letting go unravels the newest rows
+//   → "Finish" → save the weave as a PNG.
+//
+// EXHIBITION MODE: "The Loom That Waits"  (link ending in ?mode=exhibition)
+//   The loom waits, responds and remembers. It does not ask, reward or judge.
+//   • No instructions on screen. Hidden artist menu: hold the top centre for a
+//     moment (or press M on a laptop) to save the cloth or start a new day.
+//   • One touch: the free warp threads are pulled gently towards that hand and
+//     tremble, like yarn under a finger. A faint light gathers at that edge.
+//   • Two touches: the threads go taut, light travels from both edges towards
+//     the centre, and only when it meets does the shuttle start, slowly at first.
+//     While both stay, the threads grow gradually more luminous; each finished
+//     row is a beat: a light runs along the new thread.
+//   • Letting go: nothing is erased. The row stays as far as it got, with a
+//     loose thread end. A dark "header" pick marks where each encounter began.
+//   • One cloth for the whole day, kept only on this device. The woven cloth
+//     rolls up like on a real loom, so there is always free warp waiting.
+//
+// Privacy: this file never sends data anywhere. The cloth (threads only, no
+// information about people) is kept in this browser's storage on this device.
 
 (function () {
   "use strict";
 
-  // ---------- Settings you can tweak ----------
-  const ZONE_SHARE     = 0.22; // each edge zone = 22% of screen width (matches CSS)
-  const ROW_MS         = 700;  // time to weave one row = one shared beat
-  const GRACE_MS       = 600;  // pause before unravelling starts after letting go
-  const UNRAVEL_ROW_MS = 1800; // time for one row to unravel (slower than weaving)
-  const UNRAVEL_LIMIT  = 6;    // max rows lost each time someone lets go
-  const ROW_HEIGHT     = 10;   // height of one weft row, in screen points
-  const WARP_GAP       = 10;   // space between warp threads, in screen points
-  const VIBRATE_MS     = 15;   // length of the vibration tap (Android only)
-  const FULL_WAIT_MS   = 1500; // when the loom is full, wait this long, then show the end
-  const EXPORT_SCALE   = 3;    // the saved image is 3x sharper than the screen
+  const PARAMS = new URLSearchParams(location.search);
+  const EXHIBITION = PARAMS.get("mode") === "exhibition";
+  // demo=1: used when the loom is embedded in the project page. It behaves like the
+  // exhibition, but keeps nothing (so it never mixes with a real exhibition cloth).
+  const DEMO = PARAMS.get("demo") === "1";
 
-  const COLOURS = {
-    paper:  "#fbfaf8",
-    ink:    "#141418",
-    indigo: "#26307f",
-  };
+  // ---------- Settings you can tweak ----------
+  const ROW_MS           = 700;   // time to weave one row = one shared beat
+  const GRACE_MS         = 600;   // a slip of the hand shorter than this is forgiven
+  const UNRAVEL_ROW_MS   = 1800;  // classic: time for one row to unravel
+  const UNRAVEL_LIMIT    = 6;     // classic: max rows lost each time someone lets go
+  const ROW_HEIGHT       = 10;    // height of one weft row, in screen points
+  const WARP_GAP         = 10;    // space between warp threads, in screen points
+  const VIBRATE_MS       = 15;    // vibration tap (Android only)
+  const FULL_WAIT_MS     = 1500;  // classic: full loom → end screen after this
+  const EXPORT_SCALE     = 3;     // saved image sharpness (lowered for very long cloths)
+  const ENCOUNTER_GAP_MS = 20000; // exhibition: 20 s with nobody weaving = next encounter
+  const MENU_HOLD_MS     = 1200;  // exhibition: hold the top centre this long → artist menu
+  const STORE_KEY        = "two-hand-loom-day-v1";
+  const JOIN_MS          = 900;   // light travels from both edges to the centre, then weaving starts
+  const LIGHT_FADE_MS    = 1600;  // after parting, the light slowly withdraws to the edges
+  const SHARED_RISE_MS   = 3500;  // the threads grow more luminous during shared weaving
+  const RAMP_MS          = 1200;  // the shuttle starts slowly, then finds the rhythm
+  const FELL_AT          = 0.62;  // exhibition: the weaving line rests at 62% of the height
+
+  const COLOURS = { paper: "#fbfaf8", ink: "#141418", indigo: "#26307f" };
 
   // ---------- Page elements ----------
   const $ = function (id) { return document.getElementById(id); };
@@ -45,49 +65,116 @@
   const finishBtn   = $("finish");
   const startScreen = $("start-screen");
   const endScreen   = $("end-screen");
+  const artistMenu  = $("artist-menu");
   const beginBtn    = $("begin");
+  const endTitle    = $("end-title");
   const weaveImg    = $("weave-image");
   const saveBtn     = $("save");
   const backBtn     = $("back");
   const againBtn    = $("again");
+  const menuInfo    = $("menu-info");
+  const menuSave    = $("menu-save");
+  const menuSound   = $("menu-sound");
+  const menuBack    = $("menu-back");
+  const menuNewDay  = $("menu-new-day");
   const ctx         = canvas.getContext("2d");
 
+  // The finished cloth is drawn once into this hidden canvas and reused every frame.
+  const clothCanvas = document.createElement("canvas");
+  const cctx = clothCanvas.getContext("2d");
+
+  if (EXHIBITION) {
+    document.body.classList.add("exhibition");
+    document.title = "The Loom That Waits";
+    if (!DEMO) {
+      // lets the tablet add the exhibition as a full-screen home-screen app
+      const link = document.createElement("link");
+      link.rel = "manifest";
+      link.href = "manifest.webmanifest";
+      document.head.appendChild(link);
+    }
+  }
+
   // ---------- State ----------
-  let screen = "start";                        // "start", "loom" or "end"
-  const fingers = new Map();                   // finger id -> "left" or "right"
-  const keys = { left: false, right: false };  // laptop test keys
-  const rows = [];        // finished rows: { dir: 1 or -1, tone: lightness % }
-  let current = null;     // the row on the loom right now (half-woven or unravelling)
+  let screen = EXHIBITION ? "loom" : "start";   // "start", "loom", "end" or "menu"
+  const fingers = new Map();                     // finger id -> { zone, y }
+  const keys = { left: false, right: false };    // laptop test keys
+  const rows = [];      // woven rows: { dir, hue, tone, p, loose, head, wob, wasFinished }
+  let current = null;   // the row on the loom right now
+  let clothVersion = 0; // goes up whenever the finished cloth changes (redraw needed)
   let maxRows = 0;
-  let apartMs = 0;
-  let lostThisTime = 0;
-  let pulse = 0;          // 1 right after a beat, fades to 0
-  let fullBeatMs = 0;
-  let fullMs = 0;         // how long the loom has been full
-  let endShownForFull = false;
+  let pulse = 0;        // 1 right after a beat, fades to 0
+  let clock = 0;        // running time, for thread movement
   let lastFrame = performance.now();
   let lastStatus = "";
-  let savedBlob = null;   // the PNG of the weave, made when the end screen opens
-  let savedUrl = null;
+  let savedBlob = null, savedUrl = null;
+  let wasTogether = false;
+  let weaveMs = 0;      // how long the current shared weaving has run (for the slow start)
 
-  let W = 0, H = 0, dpr = 1; // canvas size in screen points
+  // light and tension (all 0–1, eased every frame)
+  let join = 0;         // how far the light has travelled from the edges towards the centre
+  let shared = 0;       // luminosity of the threads during shared weaving
+  let pullL = 0, pullR = 0;          // threads pulled towards a single hand
+  let yL = 0, yR = 0;                // where that hand is, in canvas coordinates
+  let rowLight = null;               // a light running along the newest row after a beat
+
+  // classic mode
+  let apartMs = 0, lostThisTime = 0, fullBeatMs = 0, fullMs = 0, endShownForFull = false;
+
+  // exhibition mode
+  let parted = true;                    // true when nobody is weaving together
+  let quietMs = ENCOUNTER_GAP_MS;       // time since anyone last wove together
+  let encounters = 0;
+  let band = newBand();                 // colour of the current encounter
+  let headNext = false;                 // the next row opens a new encounter
+  let day = todayISO();
+  let viewTop = 0;                      // how far the cloth has rolled up, in rows
+
+  let W = 0, H = 0, dpr = 1, canvasTop = 0;
 
   // ---------- 1. Touch detection ----------
+  // Landscape: 16% zones; portrait: 22% (matches style.css).
+  function zoneShare() { return window.innerWidth > window.innerHeight ? 0.16 : 0.22; }
+
   function zoneAt(x) {
-    const width = window.innerWidth;
-    if (x < width * ZONE_SHARE) return "left";
-    if (x > width * (1 - ZONE_SHARE)) return "right";
+    const width = window.innerWidth, s = zoneShare();
+    if (x < width * s) return "left";
+    if (x > width * (1 - s)) return "right";
     return null;
   }
 
+  let menuTimer = null, menuPointer = null, menuStart = null;
+  function cancelMenuHold() {
+    if (menuTimer) clearTimeout(menuTimer);
+    menuTimer = null;
+    menuPointer = null;
+  }
+
   stage.addEventListener("pointerdown", function (e) {
+    keepAwake();
     if (screen !== "loom") return;
     const zone = zoneAt(e.clientX);
-    if (zone) fingers.set(e.pointerId, zone); // a finger keeps the zone where it landed
+    if (zone) {
+      fingers.set(e.pointerId, { zone: zone, y: e.clientY }); // keeps the zone where it landed
+    } else if (EXHIBITION && e.clientY < window.innerHeight * 0.3) {
+      cancelMenuHold();
+      menuPointer = e.pointerId;
+      menuStart = { x: e.clientX, y: e.clientY };
+      menuTimer = setTimeout(function () { menuTimer = null; show("menu"); }, MENU_HOLD_MS);
+    }
   });
 
-  // Listen on the whole window, so a finger lifted over a screen or button is never "stuck".
-  function release(e) { fingers.delete(e.pointerId); }
+  stage.addEventListener("pointermove", function (e) {
+    const f = fingers.get(e.pointerId);
+    if (f) f.y = e.clientY;
+    if (e.pointerId === menuPointer && menuStart &&
+        Math.hypot(e.clientX - menuStart.x, e.clientY - menuStart.y) > 20) cancelMenuHold();
+  });
+
+  function release(e) {
+    fingers.delete(e.pointerId);
+    if (e.pointerId === menuPointer) cancelMenuHold();
+  }
   window.addEventListener("pointerup", release);
   window.addEventListener("pointercancel", release);
   stage.addEventListener("pointerleave", function (e) {
@@ -97,17 +184,19 @@
   function forgetAll() {
     fingers.clear();
     keys.left = keys.right = false;
+    cancelMenuHold();
   }
   window.addEventListener("blur", forgetAll);
   document.addEventListener("visibilitychange", function () {
-    if (document.hidden) forgetAll();
+    if (document.hidden) forgetAll(); else keepAwake();
   });
 
-  // Laptop testing: hold A (left person) and L (right person) together.
+  // Laptop testing: hold A (left person) and L (right person) together. M = artist menu.
   window.addEventListener("keydown", function (e) {
     const k = e.key.toLowerCase();
     if (k === "a") keys.left = true;
     if (k === "l") keys.right = true;
+    if (k === "m" && EXHIBITION && !e.repeat) show(screen === "menu" ? "loom" : "menu");
   });
   window.addEventListener("keyup", function (e) {
     const k = e.key.toLowerCase();
@@ -115,30 +204,43 @@
     if (k === "l") keys.right = false;
   });
 
-  // iPhone guards: no pinch-zoom, no page bounce, no long-press menu
-  // (except on the finished weave image, so it can be saved with a long press).
+  // iPhone/iPad guards: no pinch-zoom, no page bounce, no long-press menu
+  // (except on the finished image, so it can be saved with a long press).
   document.addEventListener("gesturestart", function (e) { e.preventDefault(); });
   document.addEventListener("touchmove", function (e) { e.preventDefault(); }, { passive: false });
   document.addEventListener("contextmenu", function (e) {
     if (e.target !== weaveImg) e.preventDefault();
   });
 
+  // Who is touching, and where (height) on each side.
   function whoIsTouching() {
-    if (screen !== "loom") return { left: false, right: false };
-    let left = keys.left, right = keys.right;
-    for (const zone of fingers.values()) {
-      if (zone === "left") left = true;
-      if (zone === "right") right = true;
+    const t = { left: false, right: false, yL: H * 0.75, yR: H * 0.75 };
+    if (screen !== "loom") return t;
+    let nL = 0, nR = 0, sL = 0, sR = 0;
+    for (const f of fingers.values()) {
+      if (f.zone === "left") { nL++; sL += f.y; } else { nR++; sR += f.y; }
     }
-    return { left: left, right: right };
+    t.left = keys.left || nL > 0;
+    t.right = keys.right || nR > 0;
+    if (nL) t.yL = sL / nL - canvasTop;
+    if (nR) t.yR = sR / nR - canvasTop;
+    return t;
+  }
+
+  // Keep the tablet screen awake during an exhibition (where supported).
+  let wakeLock = null;
+  function keepAwake() {
+    if (!EXHIBITION || DEMO || document.hidden || !("wakeLock" in navigator)) return;
+    if (wakeLock && !wakeLock.released) return;
+    navigator.wakeLock.request("screen").then(function (l) { wakeLock = l; }).catch(function () {});
   }
 
   // ---------- 2. Sound (optional, off by default) ----------
   let audio = null;
   let soundOn = false;
 
-  soundBtn.addEventListener("click", function () {
-    soundOn = !soundOn;
+  function setSound(on) {
+    soundOn = on;
     if (soundOn) {
       if (!audio) {
         const AC = window.AudioContext || window.webkitAudioContext;
@@ -148,7 +250,10 @@
     }
     soundBtn.textContent = soundOn ? "Sound on" : "Sound off";
     soundBtn.setAttribute("aria-pressed", String(soundOn));
-  });
+    menuSound.textContent = soundOn ? "Sound: on" : "Sound: off";
+  }
+  soundBtn.addEventListener("click", function () { setSound(!soundOn); });
+  menuSound.addEventListener("click", function () { setSound(!soundOn); });
 
   function thock() {
     if (!soundOn || !audio) return;
@@ -167,57 +272,175 @@
     osc.stop(t + 0.3);
   }
 
+  // One beat = one finished row: light runs along the new thread, threads brighten,
+  // a tiny vibration on Android, and (if on) a soft sound. Light and sound share the beat.
   function beat() {
     pulse = 1;
-    if (navigator.vibrate) navigator.vibrate(VIBRATE_MS); // Android; iPhone has no vibrate
+    if (rows.length) rowLight = { index: rows.length - 1, t: 0 };
+    if (navigator.vibrate) navigator.vibrate(VIBRATE_MS);
     thock();
   }
 
-  // ---------- 3. Canvas size ----------
+  // ---------- 3. Keeping the day's cloth on this device (exhibition only) ----------
+  function todayISO() {
+    const d = new Date();
+    const pad = function (n) { return String(n).padStart(2, "0"); };
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  }
+
+  function saveDay() {
+    if (!EXHIBITION || DEMO) return;
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        v: 2, day: day, encounters: encounters,
+        rows: rows.map(function (r) {
+          return [r.dir, +r.hue.toFixed(1), +r.tone.toFixed(1), +r.p.toFixed(3),
+            r.loose ? 1 : 0, r.head ? 1 : 0, r.wob | 0];
+        }),
+      }));
+    } catch (e) { /* storage unavailable: the cloth simply isn't kept after reload */ }
+  }
+
+  function loadDay() {
+    if (DEMO) return;
+    try {
+      const d = JSON.parse(localStorage.getItem(STORE_KEY));
+      if (!d || (d.v !== 1 && d.v !== 2) || !Array.isArray(d.rows)) return;
+      day = typeof d.day === "string" ? d.day : day;
+      encounters = d.encounters | 0;
+      for (const a of d.rows) {
+        if (!Array.isArray(a)) continue;
+        rows.push({
+          dir: a[0] === -1 ? -1 : 1,
+          hue: +a[1] || 248,
+          tone: +a[2] || 74,
+          p: Math.min(1, Math.max(0.04, +a[3] || 1)),
+          loose: !!a[4],
+          head: !!a[5],
+          wob: Math.min(3, a[6] | 0),
+          wasFinished: true,
+        });
+      }
+      clothVersion++;
+    } catch (e) { /* nothing saved yet, or storage unavailable */ }
+  }
+
+  function newDay() {
+    rows.length = 0;
+    current = null;
+    encounters = 0;
+    parted = true;
+    quietMs = ENCOUNTER_GAP_MS;
+    day = todayISO();
+    viewTop = 0;
+    clothVersion++;
+    saveDay();
+  }
+
+  // ---------- 4. Canvas size (also handles turning the tablet) ----------
   function resize() {
     dpr = window.devicePixelRatio || 1;
     W = canvas.clientWidth;
     H = canvas.clientHeight;
+    canvasTop = canvas.getBoundingClientRect().top;
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
     maxRows = Math.max(1, Math.floor(H / ROW_HEIGHT));
-    while (rows.length > maxRows) rows.pop();
-    if (rows.length >= maxRows) current = null;
+    if (!EXHIBITION) {
+      while (rows.length > maxRows) rows.pop();
+      if (rows.length >= maxRows) current = null;
+    }
+    clothVersion++;
   }
   new ResizeObserver(resize).observe(canvas);
 
-  // ---------- 4. Weaving logic (runs every frame) ----------
-  function newRow() {
-    return {
-      dir: rows.length % 2 === 0 ? 1 : -1,   // alternate like a real shuttle
-      tone: 73 + Math.random() * 6,         // tiny hand-made colour variation
-      p: 0,                                 // how far across (0 to 1)
-      wasFinished: false,
-    };
+  // ---------- 5. Weaving logic (runs every frame) ----------
+  function newBand() {
+    // each encounter gets its own shade, within the lilac family
+    return { hue: 238 + Math.random() * 24, tone: 68 + Math.random() * 11 };
   }
 
-  function step(dt, t) {
-    if (screen !== "loom") return "idle";
-    const together = t.left && t.right;
+  function newRow() {
+    const r = {
+      dir: rows.length % 2 === 0 ? 1 : -1,   // alternate like a real shuttle
+      hue: EXHIBITION ? band.hue : 248,
+      tone: EXHIBITION ? band.tone + (Math.random() - 0.5) * 2.5 : 73 + Math.random() * 6,
+      p: 0, loose: false, head: false, wob: 0, wasFinished: false,
+    };
+    if (EXHIBITION && headNext) { r.head = true; headNext = false; }
+    return r;
+  }
 
+  function weaveForward(dt) {
+    weaveMs += dt;
+    const ramp = Math.min(1, weaveMs / RAMP_MS);
+    const speed = 0.3 + 0.7 * ramp * ramp;        // slow first passes, then the rhythm
+    if (!current) current = newRow();
+    current.p += (dt / ROW_MS) * speed;
+    if (current.p >= 1) {
+      current.p = 1;
+      current.wasFinished = true;
+      rows.push(current);
+      current = null;
+      clothVersion++;
+      beat();
+      saveDay();
+    }
+  }
+
+  // Exhibition: when two people part, the cloth keeps a loose thread end.
+  function part() {
+    if (current && current.p > 0.04) {
+      current.loose = true;          // the half-woven row stays half-woven
+      rows.push(current);
+    } else if (rows.length > 0) {
+      rows[rows.length - 1].loose = true;
+    }
+    current = null;
+    parted = true;
+    apartMs = 0;
+    clothVersion++;
+    saveDay();
+  }
+
+  function stepExhibition(dt, together) {
+    if (together) {
+      if (parted) {
+        if (quietMs >= ENCOUNTER_GAP_MS || encounters === 0) {
+          encounters++;
+          band = newBand();
+          headNext = true;           // a dark pick will mark where this encounter begins
+        }
+        parted = false;
+      } else if (apartMs > 0 && current) {
+        current.wob = Math.min(3, (current.wob | 0) + 1); // a hesitation leaves the row a little uneven
+      }
+      apartMs = 0;
+      quietMs = 0;
+      if (join < 1) return "joining";
+      weaveForward(dt);
+      return "weaving";
+    }
+    if (!parted) {
+      apartMs += dt;
+      if (apartMs >= GRACE_MS) part();
+      return "paused";
+    }
+    quietMs += dt;
+    return "waiting";
+  }
+
+  function stepClassic(dt, together) {
     if (together) {
       apartMs = 0;
       lostThisTime = 0;
-
       if (rows.length >= maxRows) {
         fullBeatMs += dt;
         if (fullBeatMs >= ROW_MS) { fullBeatMs -= ROW_MS; beat(); }
         return "full";
       }
-      if (!current) current = newRow();
-      current.p += dt / ROW_MS;
-      if (current.p >= 1) {
-        current.p = 1;
-        current.wasFinished = true;
-        rows.push(current);
-        current = null;
-        beat();
-      }
+      if (join < 1) return "joining";
+      weaveForward(dt);
       return "weaving";
     }
 
@@ -227,6 +450,7 @@
 
     if (!current && rows.length > 0 && lostThisTime < UNRAVEL_LIMIT) {
       current = rows.pop();
+      clothVersion++;
     }
     if (current) {
       const speed = current.wasFinished ? UNRAVEL_ROW_MS : ROW_MS * 0.6;
@@ -240,132 +464,350 @@
     return rows.length > 0 ? "holding" : "empty";
   }
 
-  // ---------- 5. Drawing (used for the screen AND for the saved image) ----------
-  function lilac(tone, alpha) {
-    return "hsla(248, 38%, " + tone.toFixed(1) + "%, " + alpha + ")";
+  function step(dt, t) {
+    if (screen !== "loom") return "idle";
+    const together = t.left && t.right;
+    if (together && !wasTogether) weaveMs = 0;
+    wasTogether = together;
+    return EXHIBITION ? stepExhibition(dt, together) : stepClassic(dt, together);
   }
 
+  // ---------- 6. Thread drawing (screen AND saved image) ----------
+  // Small, repeatable "irregularity" for each thread, so the cloth looks hand-made
+  // but always looks the same for the same row and thread.
+  function rand2(a, b) {
+    let h = (Math.imul(a | 0, 374761393) + Math.imul(b | 0, 668265263)) | 0;
+    h = Math.imul(h ^ (h >>> 13), 1274126177);
+    return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+  }
+  function clamp01(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
+
+  function threadColour(r, alpha, dl) {
+    if (r.head) return "hsla(236, 42%, " + (28 + (dl || 0) * 0.6).toFixed(1) + "%, " + alpha + ")";
+    return "hsla(" + r.hue.toFixed(1) + ", 38%, " + (r.tone + (dl || 0)).toFixed(1) + "%, " + alpha + ")";
+  }
+
+  // Warp positions: evenly spaced with a slight hand-made irregularity.
+  let geoCache = null;
   function geometry(width) {
+    if (geoCache && geoCache.width === width) return geoCache;
     const cols = Math.max(2, Math.floor(width / WARP_GAP));
     const firstX = (width - (cols - 1) * WARP_GAP) / 2;
-    return { cols: cols, firstX: firstX, lastX: firstX + (cols - 1) * WARP_GAP };
+    const xs = [], ws = [];
+    for (let i = 0; i < cols; i++) {
+      xs.push(firstX + i * WARP_GAP + (rand2(i, 1) - 0.5) * 1.1);
+      ws.push(1.35 + rand2(i, 2) * 0.5);
+    }
+    geoCache = { width: width, cols: cols, xs: xs, ws: ws, firstX: firstX, lastX: firstX + (cols - 1) * WARP_GAP };
+    return geoCache;
   }
 
-  // Draw one weft row on context c. p = how far the thread has travelled (0 to 1).
-  function drawRow(c, r, index, p, geo, mode) {
-    const y = index * ROW_HEIGHT;
+  function pill(c, x, y, w, h) {
+    if (w <= 0) return;
+    if (c.roundRect) c.roundRect(x, y, w, h, Math.min(h / 2, w / 2));
+    else c.rect(x, y, w, h);
+  }
+
+  // A loose thread end hanging from the tip of a row
+  function looseEnd(c, r, tipX, y) {
+    c.strokeStyle = threadColour(r, 0.9, 0);
+    c.lineWidth = r.head ? 1.4 : 2;
+    c.lineCap = "round";
+    c.beginPath();
+    c.moveTo(tipX, y + ROW_HEIGHT / 2);
+    c.quadraticCurveTo(tipX + r.dir * 9, y + ROW_HEIGHT * 1.2, tipX + r.dir * 3, y + ROW_HEIGHT * 2.6);
+    c.stroke();
+  }
+
+  // One weft row, interlaced with the warp (plain weave).
+  // The weft floats over one warp thread and dips under the next. Where it passes under,
+  // the warp lies on top (indigo) with a small shadow on the weft; where it rides over,
+  // a soft highlight shows the bump of the thread. wave = looseness before the row is beaten in.
+  // Returns the x of the thread's tip.
+  function drawWeft(c, r, index, y, p, geo, wave) {
     const len = (geo.lastX - geo.firstX + 6) * p;
-    const startX = r.dir === 1 ? geo.firstX - 3 : geo.lastX + 3 - len;
-    const tipX = r.dir === 1 ? startX + len : startX;
-    const alpha = mode === "unravelling" ? 0.75 : 1;
+    const x0 = r.dir === 1 ? geo.firstX - 3 : geo.lastX + 3 - len;
+    const x1 = x0 + len;
+    const tipX = r.dir === 1 ? x1 : x0;
+    if (len <= 0.5) return tipX;
 
-    c.fillStyle = lilac(r.tone, alpha);
-    c.fillRect(startX, y + 1, len, ROW_HEIGHT - 2);
+    const cy = y + ROW_HEIGHT / 2;
+    const thick = r.head ? 3.6 : 6.3 + rand2(index, 7) * 1.9;   // yarn thickness varies per row
+    const amp = wave + (r.wob | 0) * 0.55;                     // hesitations make a row uneven
 
-    // warp threads that lie on top of this row (plain weave: every other one)
-    c.fillStyle = COLOURS.indigo;
-    for (let i = 0; i < geo.cols; i++) {
-      if ((i + index) % 2 !== 0) continue;
-      const x = geo.firstX + i * WARP_GAP;
-      if (x >= startX && x <= startX + len) c.fillRect(x - 1.5, y, 3, ROW_HEIGHT);
+    // where the warp lies on top of this row
+    const over = [];
+    for (let i = 0; i < geo.cols; i++) if ((i + index) % 2 === 0) over.push(i);
+    const bounds = [geo.firstX - 3];
+    for (const i of over) bounds.push(geo.xs[i]);
+    bounds.push(geo.lastX + 3);
+
+    // 1. the floats of weft between crossings
+    const floats = [];
+    c.fillStyle = threadColour(r, 1, 0);
+    c.beginPath();
+    for (let k = 0; k < bounds.length - 1; k++) {
+      const a = Math.max(bounds[k], x0), b = Math.min(bounds[k + 1], x1);
+      if (b - a < 0.3) continue;
+      const tv = thick * (0.9 + rand2(index * 97 + k, 11) * 0.2);
+      const yOff = amp * Math.sin(k * 1.7 + index * 0.9) + (rand2(index, k + 40) - 0.5) * 0.7;
+      pill(c, a - 0.6, cy - tv / 2 + yOff, b - a + 1.2, tv);
+      floats.push([a, b, tv, yOff]);
     }
+    c.fill();
 
-    if (p <= 0 || p >= 1) return;
-
-    if (mode === "weaving") {
-      // the shuttle
-      c.fillStyle = COLOURS.ink;
+    // 2. highlight where the weft rides over a warp thread (the bump of the yarn)
+    if (!r.head) {
+      c.fillStyle = threadColour(r, 0.55, 10);
       c.beginPath();
-      c.ellipse(tipX + r.dir * 5, y + ROW_HEIGHT / 2, 7, 3, 0, 0, Math.PI * 2);
+      for (const f of floats) {
+        const w = (f[1] - f[0]) * 0.42;
+        if (w < 1) continue;
+        pill(c, (f[0] + f[1]) / 2 - w / 2, cy - f[2] * 0.36 + f[3], w, f[2] * 0.3);
+      }
       c.fill();
-    } else if (mode === "unravelling") {
-      // a loose thread end hanging down
-      c.strokeStyle = lilac(r.tone, 0.9);
-      c.lineWidth = 2;
-      c.lineCap = "round";
-      c.beginPath();
-      c.moveTo(tipX, y + ROW_HEIGHT / 2);
-      c.quadraticCurveTo(tipX + r.dir * 8, y + ROW_HEIGHT, tipX + r.dir * 4, y + ROW_HEIGHT * 2.2);
-      c.stroke();
     }
+
+    // 3. shadow on the weft beside each warp that lies on top, then the warp itself
+    c.fillStyle = threadColour(r, 0.6, -14);
+    c.beginPath();
+    for (const i of over) {
+      const x = geo.xs[i];
+      if (x < x0 || x > x1) continue;
+      const hw = geo.ws[i] / 2 + 0.6;
+      c.rect(x - hw - 1.1, cy - thick / 2, 1.1, thick);
+      c.rect(x + hw, cy - thick / 2, 1.1, thick);
+    }
+    c.fill();
+
+    c.fillStyle = COLOURS.indigo;
+    c.beginPath();
+    for (const i of over) {
+      const x = geo.xs[i];
+      if (x < x0 || x > x1) continue;
+      const w = geo.ws[i] + 1.2;
+      pill(c, x - w / 2, y - 0.3, w, ROW_HEIGHT + 0.6);
+    }
+    c.fill();
+
+    return tipX;
   }
 
-  // Warp threads from y=top to y=bottom
-  function drawWarp(c, geo, top, bottom, alpha) {
+  // Straight warp threads behind the woven cloth.
+  function drawWarpStraight(c, geo, top, bottom, alpha) {
+    if (bottom <= top) return;
     c.strokeStyle = COLOURS.indigo;
-    c.lineWidth = 1.5;
     c.globalAlpha = alpha;
+    c.lineWidth = 1.5;
     c.beginPath();
     for (let i = 0; i < geo.cols; i++) {
-      const x = geo.firstX + i * WARP_GAP;
-      c.moveTo(x, top);
-      c.lineTo(x, bottom);
+      c.moveTo(geo.xs[i], top);
+      c.lineTo(geo.xs[i], bottom);
     }
     c.stroke();
     c.globalAlpha = 1;
   }
 
-  function draw(mode) {
+  // Draw the finished cloth into the hidden canvas, only when something changed.
+  let clothKey = "";
+  function renderCloth(geo, top) {
+    const key = clothVersion + "|" + top + "|" + W + "|" + H + "|" + dpr;
+    if (key === clothKey || W < 1 || H < 1) return;
+    clothKey = key;
+    const ch = H + ROW_HEIGHT * 4;
+    clothCanvas.width = Math.round(W * dpr);
+    clothCanvas.height = Math.round(ch * dpr);
+    const c = cctx;
+    c.setTransform(dpr, 0, 0, dpr, 0, 0);
+    c.clearRect(0, 0, W, ch);
+    const bottom = Math.min(ch, (rows.length - top) * ROW_HEIGHT);
+    drawWarpStraight(c, geo, 0, bottom, 0.5);
+    const end = Math.min(rows.length, top + Math.ceil(ch / ROW_HEIGHT) + 1);
+    for (let i = Math.max(0, top - 1); i < end; i++) {
+      const y = (i - top) * ROW_HEIGHT;
+      const tip = drawWeft(c, rows[i], i, y, rows[i].p, geo, 0);
+      if (rows[i].loose) looseEnd(c, rows[i], tip, y);
+    }
+  }
+
+  // ---------- 7. Free warp: tension, trembling and light ----------
+  // The free warp hangs between the cloth (top) and the warp beam (bottom of the screen).
+  // Like real yarn, it is fixed at both ends and moves most in the middle.
+  function lightAt(i, geo) {
+    const f = i / (geo.cols - 1);
+    const d = Math.min(f, 1 - f) * 2;              // 0 at the edges, 1 in the centre
+    const front = clamp01((join * 1.2 - d) / 0.2); // the light front moving inwards
+    let L = front * (0.45 + 0.4 * shared + 0.25 * pulse);
+    // a faint gathering of light at the edge of a single hand
+    L = Math.max(L, 0.32 * pullL * clamp01(1 - f / 0.07), 0.32 * pullR * clamp01(1 - (1 - f) / 0.07));
+    return L;
+  }
+
+  function offsetAt(i, y, geo, top, bottom) {
+    const f = i / (geo.cols - 1);
+    const s = clamp01((y - top) / (bottom - top));
+    const env = Math.pow(Math.sin(Math.PI * s), 0.8);  // fixed at both ends
+    let dx = 0;
+    if (pullL > 0.01) {
+      const fall = Math.pow(1 - f, 2.2), bell = Math.exp(-Math.pow((y - yL) / 150, 2));
+      dx -= pullL * fall * (9 * bell + 1.1 * Math.sin(clock * 0.008 + y * 0.045 + i * 0.9));
+    }
+    if (pullR > 0.01) {
+      const fall = Math.pow(f, 2.2), bell = Math.exp(-Math.pow((y - yR) / 150, 2));
+      dx += pullR * fall * (9 * bell + 1.1 * Math.sin(clock * 0.008 + y * 0.045 + i * 1.3));
+    }
+    if (pulse > 0.02 && join > 0.5) dx += pulse * 0.8 * Math.sin(y * 0.07 + clock * 0.03 + i); // the beat runs through taut threads
+    return dx * env;
+  }
+
+  function drawFreeWarp(c, geo, top, bottom) {
+    if (bottom - top < 2) return;
+    const moving = pullL > 0.01 || pullR > 0.01 || (pulse > 0.02 && join > 0.5);
+    // group threads by brightness, so each group is drawn in one stroke
+    const groups = [[], [], [], [], []];
+    for (let i = 0; i < geo.cols; i++) {
+      const L = lightAt(i, geo);
+      groups[L < 0.04 ? 0 : Math.min(4, 1 + Math.floor(L * 3.2))].push(i);
+    }
+    for (let g = 0; g < groups.length; g++) {
+      if (!groups[g].length) continue;
+      const L = g === 0 ? 0 : g / 3.6;
+      // indigo → a luminous violet, with a soft lilac halo: light inside the thread
+      const rr = Math.round(38 + 82 * L), gg = Math.round(48 + 60 * L), bb = Math.round(127 + 93 * L);
+      c.strokeStyle = "rgb(" + rr + "," + gg + "," + bb + ")";
+      c.globalAlpha = g === 0 ? 0.5 + 0.15 * pulse : 0.7 + 0.3 * L;
+      c.lineWidth = 1.5 + 0.5 * L;
+      c.shadowColor = "rgba(179, 173, 216, 0.7)";
+      c.shadowBlur = g === 0 ? 0 : 2 + 4 * L;
+      c.beginPath();
+      for (const i of groups[g]) {
+        const x0 = geo.xs[i];
+        if (!moving) { c.moveTo(x0, top); c.lineTo(x0, bottom); continue; }
+        for (let y = top; ; y += 10) {
+          const yy = Math.min(y, bottom);
+          const x = x0 + offsetAt(i, yy, geo, top, bottom);
+          if (y === top) c.moveTo(x, yy); else c.lineTo(x, yy);
+          if (yy >= bottom) break;
+        }
+      }
+      c.stroke();
+    }
+    c.shadowBlur = 0;
+    c.globalAlpha = 1;
+  }
+
+  // ---------- 8. The frame drawing ----------
+  function draw(mode, dt) {
+    if (W < 1 || H < 1) return; // not laid out yet (e.g. hidden tab)
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.fillStyle = COLOURS.paper;
     ctx.fillRect(0, 0, W, H);
 
     const geo = geometry(W);
-    drawWarp(ctx, geo, 0, H, 0.5 + 0.25 * pulse);
+    const top = Math.max(0, Math.floor(viewTop));
+    renderCloth(geo, top);
+    const shift = (viewTop - top) * ROW_HEIGHT;
+    if (clothCanvas.width > 0 && clothCanvas.height > 0) {
+      ctx.drawImage(clothCanvas, 0, -shift, W, clothCanvas.height / dpr);
+    }
 
-    for (let i = 0; i < rows.length; i++) drawRow(ctx, rows[i], i, 1, geo, "done");
-    if (current) drawRow(ctx, current, rows.length, current.p, geo, mode);
+    const fellY = (rows.length - viewTop) * ROW_HEIGHT;   // where the newest row will go
+    drawFreeWarp(ctx, geo, fellY, H);
 
-    // the "beater" line flashing under the newest row at each beat
-    if (pulse > 0.01 && rows.length > 0) {
-      ctx.globalAlpha = pulse * 0.8;
-      ctx.fillStyle = COLOURS.indigo;
-      ctx.fillRect(geo.firstX - 6, rows.length * ROW_HEIGHT, geo.lastX - geo.firstX + 12, 1.5);
+    // a soft light gathering at the weaving line while two people weave together
+    const glow = 0.1 * shared + 0.08 * pulse * shared;
+    if (glow > 0.005) {
+      const g = ctx.createLinearGradient(0, fellY - 36, 0, fellY + 36);
+      g.addColorStop(0, "rgba(179,173,216,0)");
+      g.addColorStop(0.5, "rgba(179,173,216," + glow.toFixed(3) + ")");
+      g.addColorStop(1, "rgba(179,173,216,0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(geo.firstX - 10, fellY - 36, geo.lastX - geo.firstX + 20, 72);
+    }
+
+    // the row on the loom now: a little loose while it is being woven
+    if (current) {
+      if (mode === "unravelling") ctx.globalAlpha = 0.75;
+      const tip = drawWeft(ctx, current, rows.length, fellY, current.p, geo, mode === "weaving" ? 1 : 0.6);
       ctx.globalAlpha = 1;
+      if (mode === "weaving" && current.p < 1) {
+        ctx.fillStyle = COLOURS.ink;                      // the shuttle
+        ctx.beginPath();
+        ctx.ellipse(tip + current.dir * 5, fellY + ROW_HEIGHT / 2, 7, 2.6, 0, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (mode === "unravelling") {
+        looseEnd(ctx, current, tip, fellY);
+      }
+    }
+
+    // after each beat, a light runs along the new thread from where the shuttle started
+    if (rowLight) {
+      rowLight.t += dt;
+      const k = rowLight.t / 650;
+      const r = rows[rowLight.index];
+      if (k >= 1 || !r) rowLight = null;
+      else {
+        const y = (rowLight.index - viewTop) * ROW_HEIGHT;
+        const span = geo.lastX - geo.firstX;
+        const x = r.dir === 1 ? geo.firstX + span * k : geo.lastX - span * k;
+        const g = ctx.createLinearGradient(x - 22, 0, x + 22, 0);
+        const a = (0.8 * (1 - k)).toFixed(3);
+        g.addColorStop(0, "rgba(255,255,255,0)");
+        g.addColorStop(0.5, "rgba(255,255,255," + a + ")");
+        g.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = g;
+        ctx.fillRect(x - 22, y + 1.5, 44, ROW_HEIGHT - 3);
+      }
     }
   }
 
-  // ---------- 6. The saved image ----------
-  function todayText() {
-    return new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  // ---------- 9. The saved image ----------
+  function dateText(iso) {
+    const d = iso ? new Date(iso + "T12:00:00") : new Date();
+    return d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
   }
-
   function rowsText(n) { return n + (n === 1 ? " row" : " rows"); }
+  function encountersText(n) { return n + (n === 1 ? " encounter" : " encounters"); }
 
-  // Makes a PNG of the finished rows on clean paper, with a small caption.
-  function makeImage() {
+  function makeImage(list, title, subtitle) {
     const margin = 36, fringe = 22, captionH = 58;
     const geo = geometry(W);
-    const weaveH = rows.length * ROW_HEIGHT;
+    const weaveH = list.length * ROW_HEIGHT;
     const outW = Math.round(W + margin * 2);
     const outH = Math.round(margin + fringe + weaveH + fringe + captionH + margin * 0.6);
 
+    // very long cloths are saved a little less sharp, so tablets can handle them
+    const scale = Math.max(0.5, Math.min(EXPORT_SCALE,
+      Math.sqrt(16e6 / (outW * outH)), 16000 / outH));
+
     const out = document.createElement("canvas");
-    out.width = outW * EXPORT_SCALE;
-    out.height = outH * EXPORT_SCALE;
+    out.width = Math.round(outW * scale);
+    out.height = Math.round(outH * scale);
     const c = out.getContext("2d");
-    c.scale(EXPORT_SCALE, EXPORT_SCALE);
+    c.scale(scale, scale);
 
     c.fillStyle = COLOURS.paper;
     c.fillRect(0, 0, outW, outH);
 
-    // the weave, with loose warp ends (fringe) above and below
     c.save();
     c.translate(margin, margin + fringe);
-    drawWarp(c, geo, -fringe, weaveH + fringe, 0.55);
-    for (let i = 0; i < rows.length; i++) drawRow(c, rows[i], i, 1, geo, "done");
+    drawWarpStraight(c, geo, -fringe, weaveH + fringe, 0.55);
+    for (let i = 0; i < list.length; i++) {
+      const y = i * ROW_HEIGHT;
+      const tip = drawWeft(c, list[i], i, y, list[i].p, geo, 0);
+      if (list[i].loose) looseEnd(c, list[i], tip, y);
+    }
     c.restore();
 
-    // caption
     const capY = margin + fringe * 2 + weaveH + 26;
     c.textAlign = "center";
     c.fillStyle = COLOURS.indigo;
     c.font = "500 15px Literata, Georgia, serif";
-    c.fillText("The Two-Hand Loom", outW / 2, capY);
+    c.fillText(title, outW / 2, capY);
     c.fillStyle = COLOURS.ink;
     c.globalAlpha = 0.6;
     c.font = "11px 'Atkinson Hyperlegible Next', system-ui, sans-serif";
-    c.fillText("woven by two hands · " + rowsText(rows.length) + " · " + todayText(), outW / 2, capY + 18);
+    c.fillText(subtitle, outW / 2, capY + 18);
     c.globalAlpha = 1;
 
     return new Promise(function (resolve) { out.toBlob(resolve, "image/png"); });
@@ -374,28 +816,24 @@
   function fileName() {
     const d = new Date();
     const pad = function (n) { return String(n).padStart(2, "0"); };
-    return "two-hand-loom-" + d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) +
-      "-" + pad(d.getHours()) + pad(d.getMinutes()) + ".png";
+    const stamp = d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) +
+      "-" + pad(d.getHours()) + pad(d.getMinutes());
+    return (EXHIBITION ? "loom-that-waits-" : "two-hand-loom-") + stamp + ".png";
   }
 
   async function saveImage() {
     if (!savedBlob) return;
     const name = fileName();
-
-    // On phones, the share sheet is the friendliest way to "Save Image" to Photos.
-    // It stays on the device unless the people choose to send it somewhere.
     const file = new File([savedBlob], name, { type: "image/png" });
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
     if (isTouch && navigator.canShare && navigator.canShare({ files: [file] })) {
       try {
-        await navigator.share({ files: [file], title: "Our weave" });
+        await navigator.share({ files: [file], title: EXHIBITION ? "The day's cloth" : "Our weave" });
         return;
       } catch (err) {
-        if (err && err.name === "AbortError") return; // they closed the sheet
-        // otherwise fall through to a normal download
+        if (err && err.name === "AbortError") return;
       }
     }
-
     const a = document.createElement("a");
     a.href = savedUrl;
     a.download = name;
@@ -404,13 +842,20 @@
     a.remove();
   }
 
-  // ---------- 7. Screens ----------
+  // ---------- 10. Screens ----------
   function show(name) {
+    if (EXHIBITION && name !== "loom" && !parted) part();
+    if (!EXHIBITION && name !== "loom") current = null;
     screen = name;
     startScreen.hidden = name !== "start";
     endScreen.hidden = name !== "end";
-    forgetAll();          // nobody is "holding" across a screen change
-    current = (name === "loom") ? current : null; // drop any half-woven row
+    artistMenu.hidden = name !== "menu";
+    forgetAll();
+    if (name === "menu") {
+      menuInfo.textContent = "Cloth of " + dateText(day) + " · " + rowsText(rows.length) +
+        " · " + encountersText(encounters) + ". Kept only on this device.";
+      menuSave.disabled = rows.length === 0;
+    }
   }
 
   async function openEnd() {
@@ -418,7 +863,6 @@
     saveBtn.disabled = true;
     saveBtn.textContent = "Preparing…";
 
-    // make sure the fonts are ready before drawing the caption
     try {
       await Promise.all([
         document.fonts.load("500 15px Literata"),
@@ -426,12 +870,29 @@
       ]);
     } catch (e) { /* fallback fonts are fine */ }
 
-    savedBlob = await makeImage();
+    const title = EXHIBITION ? "The Loom That Waits" : "The Two-Hand Loom";
+    const subtitle = EXHIBITION
+      ? "the cloth of " + dateText(day) + " · " + rowsText(rows.length) + " · " + encountersText(encounters)
+      : "woven by two hands · " + rowsText(rows.length) + " · " + dateText();
+
+    savedBlob = await makeImage(rows.slice(), title, subtitle);
     if (savedUrl) URL.revokeObjectURL(savedUrl);
     savedUrl = savedBlob ? URL.createObjectURL(savedBlob) : null;
     weaveImg.src = savedUrl || "";
     saveBtn.disabled = !savedBlob;
-    saveBtn.textContent = "Save our weave";
+    saveBtn.textContent = EXHIBITION ? "Save the day's cloth" : "Save our weave";
+  }
+
+  function confirmNewDay() {
+    const ok = window.confirm(
+      "Start a new day?\n\nToday's cloth will be cleared from this device. Save it first if you want to keep it.");
+    if (ok) newDay();
+    return ok;
+  }
+
+  if (EXHIBITION) {
+    endTitle.textContent = "The day's cloth";
+    againBtn.textContent = "Start a new day";
   }
 
   beginBtn.addEventListener("click", function () { show("loom"); });
@@ -439,25 +900,34 @@
   saveBtn.addEventListener("click", saveImage);
   backBtn.addEventListener("click", function () { show("loom"); });
   againBtn.addEventListener("click", function () {
+    if (EXHIBITION) {
+      if (confirmNewDay()) show("loom");
+      return;
+    }
     rows.length = 0;
     current = null;
     lostThisTime = 0;
     apartMs = 0;
     endShownForFull = false;
+    clothVersion++;
     show("loom");
   });
+  menuSave.addEventListener("click", function () { if (rows.length > 0) openEnd(); });
+  menuBack.addEventListener("click", function () { show("loom"); });
+  menuNewDay.addEventListener("click", function () { if (confirmNewDay()) show("loom"); });
 
-  // ---------- 8. Status text and zone glow ----------
+  // ---------- 11. Status text (classic mode only) ----------
   function updateStatus(t, mode) {
     zoneLeft.classList.toggle("active", t.left);
     zoneRight.classList.toggle("active", t.right);
     stage.style.setProperty("--pulse", pulse.toFixed(3));
-    finishBtn.disabled = rows.length === 0;
+    if (EXHIBITION) return; // no words on screen in exhibition mode
 
+    finishBtn.disabled = rows.length === 0;
     const count = rowsText(rows.length);
     let text;
     if (mode === "full") text = "The loom is full · " + count;
-    else if (mode === "weaving") text = "Weaving together · " + count;
+    else if (mode === "weaving" || mode === "joining") text = "Weaving together · " + count;
     else if (mode === "unravelling") text = "Unravelling…";
     else if (t.left || t.right) text = "Waiting for a second hand";
     else if (mode === "holding") text = "The weave holds · " + count;
@@ -470,17 +940,36 @@
     }
   }
 
-  // ---------- 9. The heartbeat: runs every frame ----------
+  // ---------- 12. The heartbeat: runs every frame ----------
   function frame(now) {
     const dt = Math.min(now - lastFrame, 100);
     lastFrame = now;
+    clock += dt;
 
     const t = whoIsTouching();
+    const together = t.left && t.right;
+
+    // light travels in when both touch, and withdraws slowly when they part
+    join = together ? Math.min(1, join + dt / JOIN_MS) : Math.max(0, join - dt / LIGHT_FADE_MS);
+
     const mode = step(dt, t);
     pulse = Math.max(0, pulse - dt / 450);
+    shared = mode === "weaving" || mode === "full"
+      ? Math.min(1, shared + dt / SHARED_RISE_MS)
+      : Math.max(0, shared - dt / 2000);
 
-    // A full loom ends the weaving by itself (once), after a short moment.
-    if (rows.length >= maxRows && screen === "loom" && !endShownForFull) {
+    // a single hand pulls the threads towards it; with two hands they go taut
+    const ease = Math.min(1, dt / 300);
+    pullL += ((t.left && !t.right ? 1 : 0) - pullL) * ease;
+    pullR += ((t.right && !t.left ? 1 : 0) - pullR) * ease;
+    if (t.left) yL += (t.yL - yL) * ease;
+    if (t.right) yR += (t.yR - yR) * ease;
+
+    if (EXHIBITION) {
+      // the woven cloth rolls up, like onto a cloth beam, so free warp always waits below
+      const target = Math.max(0, rows.length + 1 - Math.floor(maxRows * FELL_AT));
+      viewTop += (target - viewTop) * Math.min(1, dt / 400);
+    } else if (rows.length >= maxRows && screen === "loom" && !endShownForFull) {
       fullMs += dt;
       if (fullMs >= FULL_WAIT_MS) { endShownForFull = true; fullMs = 0; openEnd(); }
     } else {
@@ -489,17 +978,23 @@
 
     if (screen === "loom") {
       updateStatus(t, mode);
-      draw(mode);
+      draw(mode, dt);
     }
     requestAnimationFrame(frame);
   }
 
+  if (EXHIBITION) {
+    loadDay();
+    show("loom");
+    keepAwake();
+  }
   resize();
-  draw("idle");
+  yL = yR = H * 0.75;
+  if (EXHIBITION) viewTop = Math.max(0, rows.length + 1 - Math.floor(maxRows * FELL_AT));
+  draw("idle", 0);
   requestAnimationFrame(frame);
 
-  // ---------- 10. Offline support ----------
-  // Keeps a copy of the app on the device so it opens without internet.
+  // ---------- 13. Offline support ----------
   if ("serviceWorker" in navigator && location.protocol !== "file:") {
     navigator.serviceWorker.register("sw.js").catch(function () { /* fine without it */ });
   }

@@ -23,6 +23,11 @@
   --font-text: "Atkinson Hyperlegible Next", system-ui, sans-serif;
   --zone-width: 22%;
 }
+/* Landscape tablets: narrower hand zones, so the textile stays dominant
+   (each zone is still well over a thumb's width). Must match zoneShare() in loom.js. */
+@media (orientation: landscape) {
+  :root { --zone-width: 16%; }
+}
 
 * { box-sizing: border-box; }
 
@@ -215,3 +220,17 @@ h1 { font-family: var(--font-head); font-weight: 500; color: var(--indigo); }
   pointer-events: auto;
 }
 .caption { margin: 0; text-align: center; font-size: 0.9rem; opacity: 0.75; }
+
+.quiet-link { color: var(--indigo); text-decoration: underline; text-underline-offset: 0.2em; }
+
+/* ---------- Exhibition mode: "The Loom That Waits" ----------
+   No instructions on screen: no status text, no buttons, no labels.
+   The context lives on the wall label, not in the interface. */
+body.exhibition #status,
+body.exhibition #controls,
+body.exhibition .zone-label { display: none; }
+body.exhibition #zone-left  { border-right-color: rgba(38, 48, 127, 0.06); }
+body.exhibition #zone-right { border-left-color:  rgba(38, 48, 127, 0.06); }
+body.exhibition #loom-wrap  { padding-bottom: 1.25rem; }
+/* No glowing rectangles: in exhibition mode all feedback lives in the threads themselves. */
+body.exhibition .zone.active { background-color: transparent; }

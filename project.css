@@ -1,0 +1,251 @@
+/* The Loom That Waits — project page (editorial, two-column) */
+
+@font-face {
+  font-family: "Literata";
+  src: url("fonts/Literata.woff2") format("woff2");
+  font-weight: 200 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible Next";
+  src: url("fonts/AtkinsonHyperlegibleNext.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+:root {
+  --paper: #fbfaf8;
+  --ink: #141418;
+  --ink-soft: #4a4a55;
+  --indigo: #26307f;
+  --lilac: #b3add8;
+  --rule: rgba(38, 48, 127, 0.18);
+  --head: "Literata", Georgia, serif;
+  --text: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--text);
+  font-size: 1rem;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+a { color: var(--indigo); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible { outline: 2px solid var(--indigo); outline-offset: 3px; }
+
+img, svg, video, iframe { display: block; max-width: 100%; }
+
+/* ---------- Top bar ---------- */
+.top {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 24px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 0.9rem;
+}
+.top a { text-decoration: none; }
+.top a:hover { text-decoration: underline; }
+
+/* ---------- Layout: narrow text column | wide media column ---------- */
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+.section {
+  display: grid;
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  gap: 72px;
+  padding: 88px 0;
+}
+.section + .section { border-top: 1px solid var(--rule); }
+
+.text { max-width: 36rem; }
+.text p { margin: 0 0 1.1em; }
+.text p:last-child { margin-bottom: 0; }
+
+.label {
+  margin: 0 0 1.2em;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.meta { margin: 0; font-size: 0.92rem; color: var(--ink-soft); }
+.meta dt { font-weight: 700; color: var(--ink); }
+.meta dd { margin: 0 0 0.8em; }
+
+h1 {
+  font-family: var(--head);
+  font-weight: 500;
+  font-size: clamp(2.2rem, 4vw, 3.1rem);
+  line-height: 1.1;
+  color: var(--indigo);
+  margin: 0 0 0.35em;
+}
+.subtitle {
+  font-family: var(--head);
+  font-size: 1.2rem;
+  line-height: 1.45;
+  margin: 0 0 1.6em;
+}
+
+/* textile detail: a short strip of warp threads with one lilac pick */
+.thread {
+  height: 18px;
+  width: 132px;
+  margin: 0 0 1.8em;
+  background:
+    linear-gradient(var(--lilac), var(--lilac)) 0 7px / 100% 4px no-repeat,
+    repeating-linear-gradient(90deg, var(--indigo) 0 1.5px, transparent 1.5px 8px);
+  opacity: 0.8;
+}
+
+/* ---------- Media ---------- */
+figure { margin: 0; }
+figcaption {
+  margin-top: 0.8em;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.tag {
+  display: inline-block;
+  margin-right: 0.5em;
+  padding: 0 0.5em;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+}
+.tag.real { color: var(--indigo); }
+.tag.concept { color: #8a5a2b; }
+.tag.todo { color: var(--ink-soft); }
+
+.frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #fff;
+  border: 1px solid var(--rule);
+}
+.frame iframe { width: 100%; height: 100%; border: 0; }
+
+/* placeholders for documentation that does not exist yet */
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  aspect-ratio: 4 / 3;
+  border: 1px dashed rgba(20, 20, 24, 0.3);
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  background:
+    repeating-linear-gradient(90deg, rgba(38, 48, 127, 0.05) 0 1px, transparent 1px 10px);
+}
+.placeholder.wide { aspect-ratio: 16 / 9; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+/* ---------- Research question ---------- */
+.question {
+  padding: 104px 0;
+  border-top: 1px solid var(--rule);
+}
+.question p {
+  margin: 0;
+  max-width: 52rem;
+  font-family: var(--head);
+  font-size: clamp(1.45rem, 2.6vw, 2.1rem);
+  line-height: 1.35;
+  color: var(--indigo);
+}
+.question .label { font-family: var(--text); color: var(--ink); font-size: 0.95rem; }
+
+/* ---------- Concept: four relations ---------- */
+.relations { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+.relations li {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  gap: 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.relations b { font-family: var(--head); font-weight: 500; color: var(--indigo); font-size: 1.05rem; }
+
+/* ---------- Stages ---------- */
+.stage svg { width: 100%; height: auto; background: #fff; border: 1px solid var(--rule); }
+.stage h3 {
+  margin: 0.9em 0 0.3em;
+  font-family: var(--head);
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: var(--indigo);
+}
+.stage p { margin: 0; font-size: 0.93rem; color: var(--ink-soft); }
+.stage .num { font-family: var(--text); color: var(--ink); margin-right: 0.35em; }
+
+/* ---------- Critical questions ---------- */
+.questions { margin: 0; padding: 0; list-style: none; counter-reset: q; }
+.questions li {
+  counter-increment: q;
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 8px;
+  padding: 22px 0;
+  border-top: 1px solid var(--rule);
+  font-family: var(--head);
+  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+  line-height: 1.45;
+}
+.questions li::before {
+  content: counter(q, decimal-leading-zero);
+  font-family: var(--text);
+  font-size: 0.85rem;
+  color: var(--indigo);
+  padding-top: 0.35em;
+}
+
+/* ---------- Future directions ---------- */
+.direction + .direction { margin-top: 1.6em; }
+.direction h3 { margin: 0 0 0.3em; font-family: var(--head); font-weight: 500; font-size: 1.1rem; color: var(--indigo); }
+.direction p { margin: 0; }
+
+/* ---------- Footer ---------- */
+footer {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* ---------- Tablet and phone ---------- */
+@media (max-width: 960px) {
+  .section { grid-template-columns: 1fr; gap: 36px; padding: 64px 0; }
+  .question { padding: 72px 0; }
+  .text { max-width: 40rem; }
+}
+@media (max-width: 640px) {
+  .grid2, .grid3 { grid-template-columns: 1fr; }
+  .relations li { grid-template-columns: 1fr; gap: 4px; }
+  .questions li { grid-template-columns: 2.2rem 1fr; }
+  .top { padding-top: 20px; }
+}

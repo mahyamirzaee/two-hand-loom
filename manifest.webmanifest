@@ -1,0 +1,13 @@
+{
+  "name": "The Loom That Waits",
+  "short_name": "Loom",
+  "description": "A speculative loom that weaves only while two people touch it together.",
+  "start_url": "./?mode=exhibition",
+  "scope": "./",
+  "display": "fullscreen",
+  "background_color": "#fbfaf8",
+  "theme_color": "#fbfaf8",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

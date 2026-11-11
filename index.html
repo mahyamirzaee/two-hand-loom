@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
   <meta name="theme-color" content="#fbfaf8">
+  <!-- iPad/iPhone: "Add to Home Screen" opens it full screen, without browser bars -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Loom">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
   <title>The Two-Hand Loom</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -47,13 +53,29 @@
         Nothing you do here leaves this device.
       </p>
       <p class="fine hint-keys">On a laptop: hold the A and L keys together.</p>
+      <p class="fine"><a class="quiet-link" href="?mode=exhibition">Exhibition mode: The Loom That Waits →</a></p>
+    </div>
+  </section>
+
+  <!-- ===== Artist menu (exhibition mode only; open by holding the top centre for a moment, or key M) ===== -->
+  <section id="artist-menu" class="screen" hidden>
+    <div class="screen-inner">
+      <h2>The Loom That Waits</h2>
+      <p class="fine" id="menu-info"></p>
+      <button id="menu-save" class="primary" type="button">Save the day's cloth</button>
+      <button id="menu-sound" class="secondary" type="button">Sound: off</button>
+      <div class="row-buttons">
+        <button id="menu-back" class="secondary" type="button">Back to the loom</button>
+        <button id="menu-new-day" class="secondary" type="button">Start a new day</button>
+      </div>
+      <p class="fine"><a class="quiet-link" href="./">Leave exhibition mode</a></p>
     </div>
   </section>
 
   <!-- ===== End screen ===== -->
   <section id="end-screen" class="screen" hidden>
     <div class="screen-inner">
-      <h2>Your weave</h2>
+      <h2 id="end-title">Your weave</h2>
       <img id="weave-image" alt="The weave you made together">
       <button id="save" class="primary" type="button">Save our weave</button>
       <div class="row-buttons">

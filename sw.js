@@ -5,7 +5,7 @@
 // How updates work: the phone shows the saved copy at once, and quietly
 // fetches the newest version in the background for next time.
 
-const CACHE = "two-hand-loom-v1";
+const CACHE = "two-hand-loom-v3";
 const FILES = [
   "./",
   "./index.html",
@@ -13,6 +13,8 @@ const FILES = [
   "./loom.js",
   "./fonts/Literata.woff2",
   "./fonts/AtkinsonHyperlegibleNext.woff2",
+  "./manifest.webmanifest",
+  "./icon.svg",
 ];
 
 self.addEventListener("install", function (event) {
