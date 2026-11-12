@@ -4,210 +4,165 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Loom That Waits · Mahya Mirzaee</title>
-  <meta name="description" content="A speculative exploration of co-presence through textile interaction. A digital loom that weaves only when two people touch it together.">
+  <meta name="description" content="A digital loom that weaves only while two people touch it together. A speculative exploration of co-presence through textile interaction.">
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="project.css">
 </head>
 <body>
+<div class="page">
 
   <nav class="top" aria-label="Site">
-    <a href="https://mahyamirzaee.github.io/">← Mahya Mirzaee</a>
-    <a href="./?mode=exhibition">Open the prototype ↗</a>
+    <a href="https://mahyamirzaee.github.io/">‹ back</a>
+    <a href="./?mode=exhibition">open the prototype ↗</a>
   </nav>
 
-  <main class="wrap">
+  <!-- ===== Screen 1: the work ===== -->
+  <main>
+  <section class="sheet" aria-labelledby="title">
+    <div class="col">
+      <h1 id="title">The Loom That Waits</h1>
+      <p class="sub">Speculative HCI · Research through Design · 2026</p>
+      <div class="thread" aria-hidden="true"></div>
 
-    <!-- A. Introduction -->
-    <section class="section" aria-labelledby="title">
-      <div class="text">
-        <h1 id="title">The Loom That Waits</h1>
-        <p class="subtitle">A speculative exploration of co-presence through textile interaction.</p>
-        <div class="thread" aria-hidden="true"></div>
-        <p>A digital loom that weaves only when two people touch it together.</p>
-        <p>The project explores how shared touch and textile-inspired interaction might create opportunities for interpersonal coordination, without explicitly directing participants' behaviour.</p>
-        <dl class="meta">
-          <dt>Project type</dt><dd>Speculative HCI · Research through Design</dd>
-          <dt>Status</dt><dd>Functional digital prototype (tablet, web)</dd>
-          <dt>Year</dt><dd>2026</dd>
-          <dt>Design and development</dt><dd>Mahya Mirzaee</dd>
-        </dl>
-      </div>
-      <figure>
-        <div class="frame">
-          <iframe src="./?mode=exhibition&amp;demo=1" title="The Loom That Waits, live prototype" loading="lazy"></iframe>
-        </div>
-        <figcaption>
-          <span class="tag real">Prototype</span>The live prototype. On a touch screen, two people each touch one side edge.
-          With a keyboard, click into the frame and hold <kbd>A</kbd> and <kbd>L</kbd> together. Nothing woven here is stored.
-        </figcaption>
-      </figure>
-    </section>
+      <p>A digital loom that weaves only while two people touch it together.</p>
+      <p>Mechanical looms made weaving possible without weavers. This one reverses that logic: it depends on two people being present at the same time. Each encounter leaves a trace in one shared, evolving cloth.</p>
 
-    <!-- B. Research question -->
-    <section class="question" aria-labelledby="rq">
-      <h2 class="label" id="rq">Research question</h2>
-      <p>How can an interactive artefact make interpersonal coordination and co-presence perceptible through shared touch and textile materiality, without explicitly directing participants' behaviour?</p>
-    </section>
+      <h2>Research question</h2>
+      <p class="rq">How can an interactive artefact make interpersonal coordination and co-presence perceptible through shared touch and textile materiality, without explicitly directing participants' behaviour?</p>
 
-    <!-- C. Concept -->
-    <section class="section" aria-labelledby="concept">
-      <div class="text">
-        <h2 class="label" id="concept">Design concept</h2>
-        <p>The project reimagines the logic of an automated loom. Mechanical looms made weaving possible without weavers. This digital loom does the opposite: it depends on the simultaneous participation of two people.</p>
-        <p>One person's touch creates subtle movements in the threads. When a second person joins, the weaving begins. When they release their touch, the woven structure remains as a trace of their encounter.</p>
-        <p>Over time, the accumulated interactions form a shared textile.</p>
-      </div>
-      <ul class="relations">
-        <li><b>Textile materiality</b><span>Warp and weft, tension and interlacing are the visual language of the interaction, not a decoration on top of it.</span></li>
-        <li><b>Touch</b><span>A touch is answered as tension in the yarn: the threads lean towards the hand and tremble.</span></li>
-        <li><b>Shared participation</b><span>Weaving is possible only while two people are present at once. Neither can weave alone.</span></li>
-        <li><b>Memory and traces</b><span>Each encounter leaves an abstract mark in one evolving cloth: a shade, a starting pick, a loose end. No one is identified.</span></li>
-      </ul>
-    </section>
-
-    <!-- D. How it works -->
-    <section class="section" aria-labelledby="how">
-      <div class="text">
-        <h2 class="label" id="how">How it works</h2>
-        <p>The interface gives no instructions. Its states are communicated only through the behaviour of the threads and a light that moves through them, so the beat stays visible even without sound.</p>
-        <p>The diagrams show the three states; documentation of the prototype in use follows below.</p>
-      </div>
-      <div class="grid3">
-        <div class="stage">
-          <svg viewBox="0 0 240 180" role="img" aria-label="Diagram: one hand on the left edge; threads lean towards it">
-            <g stroke="#26307f" stroke-width="1.3" opacity="0.6" fill="none">
-              <path d="M58 22 C50 90 46 110 58 158"/><path d="M70 22 C63 90 60 110 70 158"/><path d="M82 22 C77 90 75 110 82 158"/>
-              <path d="M94 22 C91 90 90 110 94 158"/><path d="M106 22 V158"/><path d="M118 22 V158"/><path d="M130 22 V158"/>
-              <path d="M142 22 V158"/><path d="M154 22 V158"/><path d="M166 22 V158"/><path d="M178 22 V158"/>
-            </g>
-            <ellipse cx="30" cy="100" rx="16" ry="24" fill="none" stroke="#141418" stroke-dasharray="4 3"/>
-            <path d="M58 70 v40" stroke="#b3add8" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
-          </svg>
-          <h3><span class="num">1</span>Individual presence</h3>
-          <p>One person touches the screen. The threads respond, but weaving does not begin.</p>
-        </div>
-        <div class="stage">
-          <svg viewBox="0 0 240 180" role="img" aria-label="Diagram: two hands on both edges; rows are woven and light runs along the newest one">
-            <g stroke="#26307f" stroke-width="1.3" opacity="0.6">
-              <line x1="58" y1="22" x2="58" y2="158"/><line x1="70" y1="22" x2="70" y2="158"/><line x1="82" y1="22" x2="82" y2="158"/>
-              <line x1="94" y1="22" x2="94" y2="158"/><line x1="106" y1="22" x2="106" y2="158"/><line x1="118" y1="22" x2="118" y2="158"/>
-              <line x1="130" y1="22" x2="130" y2="158"/><line x1="142" y1="22" x2="142" y2="158"/><line x1="154" y1="22" x2="154" y2="158"/>
-              <line x1="166" y1="22" x2="166" y2="158"/><line x1="178" y1="22" x2="178" y2="158"/>
-            </g>
-            <g fill="#b3add8"><rect x="54" y="26" width="128" height="7" rx="3.5"/><rect x="54" y="36" width="128" height="7" rx="3.5"/><rect x="54" y="46" width="128" height="7" rx="3.5"/><rect x="54" y="56" width="80" height="7" rx="3.5"/></g>
-            <rect x="96" y="56" width="26" height="7" rx="3.5" fill="#fff" opacity="0.8"/>
-            <ellipse cx="141" cy="59.5" rx="7" ry="2.6" fill="#141418"/>
-            <ellipse cx="30" cy="100" rx="16" ry="24" fill="none" stroke="#141418" stroke-dasharray="4 3"/>
-            <ellipse cx="210" cy="100" rx="16" ry="24" fill="none" stroke="#141418" stroke-dasharray="4 3"/>
-          </svg>
-          <h3><span class="num">2</span>Shared interaction</h3>
-          <p>A second person joins. Light travels inwards from both edges, and the threads begin weaving with subtle light feedback.</p>
-        </div>
-        <div class="stage">
-          <svg viewBox="0 0 240 180" role="img" aria-label="Diagram: no hands; the woven rows remain with a loose thread end">
-            <g stroke="#26307f" stroke-width="1.3" opacity="0.6">
-              <line x1="58" y1="22" x2="58" y2="158"/><line x1="70" y1="22" x2="70" y2="158"/><line x1="82" y1="22" x2="82" y2="158"/>
-              <line x1="94" y1="22" x2="94" y2="158"/><line x1="106" y1="22" x2="106" y2="158"/><line x1="118" y1="22" x2="118" y2="158"/>
-              <line x1="130" y1="22" x2="130" y2="158"/><line x1="142" y1="22" x2="142" y2="158"/><line x1="154" y1="22" x2="154" y2="158"/>
-              <line x1="166" y1="22" x2="166" y2="158"/><line x1="178" y1="22" x2="178" y2="158"/>
-            </g>
-            <rect x="54" y="20" width="128" height="4" rx="2" fill="#26307f"/>
-            <g fill="#b3add8"><rect x="54" y="26" width="128" height="7" rx="3.5"/><rect x="54" y="36" width="128" height="7" rx="3.5"/><rect x="54" y="46" width="128" height="7" rx="3.5"/><rect x="54" y="56" width="80" height="7" rx="3.5"/></g>
-            <path d="M134 59.5 q9 3 3 18" fill="none" stroke="#b3add8" stroke-width="2.4" stroke-linecap="round"/>
-          </svg>
-          <h3><span class="num">3</span>A trace remains</h3>
-          <p>The participants release the screen. The textile remains, and becomes part of the accumulated shared surface.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- E. Critical design questions -->
-    <section class="section" aria-labelledby="critical">
-      <div class="text">
-        <h2 class="label" id="critical">Critical design questions</h2>
-        <p>The prototype does not answer these questions. It is built to make them concrete enough to discuss.</p>
-      </div>
-      <ol class="questions">
-        <li>Does simultaneous touch actually create interpersonal coordination, or does it only satisfy a technical condition?</li>
-        <li>How can digital interaction communicate the material qualities of physical textiles?</li>
-        <li>Can an artefact invite togetherness without creating social pressure to participate?</li>
-        <li>What does it mean for a digital system to retain traces of shared encounters?</li>
-        <li>How can a system remember an interaction without recording individual identities?</li>
-        <li>What forms of participation are excluded when interaction requires two simultaneous physical touches?</li>
+      <h2>How it behaves</h2>
+      <ol class="steps">
+        <li>One touch: the threads respond. Nothing is woven.</li>
+        <li>Two touches: light travels in, and weaving begins.</li>
+        <li>Release: the cloth remains, with a loose end.</li>
       </ol>
-    </section>
 
-    <!-- F. Reflection -->
-    <section class="section" aria-labelledby="reflection">
-      <div class="text">
-        <h2 class="label" id="reflection">Design reflection</h2>
-      </div>
-      <div class="text">
-        <p>The Loom That Waits is an exploratory design artefact, not a validated solution. It has not been evaluated in a study, and the documentation shown here is staged.</p>
-        <p>The project does not claim to produce belonging or meaningful social relationships. Instead, it uses interaction design to explore tensions between individual and shared action, presence and absence, and participation and autonomy.</p>
-        <p>Its limits are part of the inquiry. The loom cannot tell two people from one person using both hands; it trusts touch, not identity. And by requiring two simultaneous touches, it excludes anyone who is alone or cannot hold the screen's edges. This raises questions about whose togetherness such a design imagines.</p>
-      </div>
-    </section>
+      <p class="small" style="margin-top:1.4em">Functional digital prototype for tablet. No instructions on screen; no data about people is kept.</p>
+    </div>
 
-    <!-- G. Future directions -->
-    <section class="section" aria-labelledby="future">
-      <div class="text">
-        <h2 class="label" id="future">Future directions</h2>
-        <div class="direction">
-          <h3>Physical textile interaction</h3>
-          <p>Exploring a physical loom with real threads and touch sensors woven into its edges, connected to the tablet that renders the digital cloth.</p>
-        </div>
-        <div class="direction">
-          <h3>Collective textile installation</h3>
-          <p>Exploring how many encounters in an exhibition space could contribute to one evolving textile over a day.</p>
-        </div>
-      </div>
+    <div class="cluster">
       <figure>
-        <img src="future-physical-loom.svg" alt="Concept diagram: a woven panel with touch sensors in both edges, wired to a microcontroller, which sends two touch states to a tablet showing the digital cloth." loading="lazy" width="1400" height="1000">
-        <figcaption><span class="tag concept">Speculative concept</span>A possible physical version. Not built, not tested; the hardware and connections are open questions.</figcaption>
-      </figure>
-    </section>
-
-    <!-- H. Documentation -->
-    <section class="section" aria-labelledby="docs">
-      <div class="text">
-        <h2 class="label" id="docs">Documentation</h2>
-        <p>Staged demonstrations with friends on a tablet. Photographs and video show the prototype in use; they are not study data.</p>
-        <p>Marked as <span class="tag real">Prototype</span>documentation of the working prototype, and <span class="tag concept">Speculative concept</span>future visualisations.</p>
-      </div>
-      <div>
-        <figure>
-          <div class="placeholder wide">Video, about 60 s: two pairs of hands weaving on the tablet<br>(to be added)</div>
-          <figcaption><span class="tag todo">To be added</span>Prototype demonstration.</figcaption>
-        </figure>
-        <div class="grid2" style="margin-top:24px">
-          <figure>
-            <div class="placeholder">Photograph: two people touching the tablet's edges<br>(to be added)</div>
-            <figcaption><span class="tag todo">To be added</span>Shared interaction, staged.</figcaption>
-          </figure>
-          <figure>
-            <div class="placeholder">Close-up: the digital textile after several encounters<br>(to be added)</div>
-            <figcaption><span class="tag todo">To be added</span>Detail of the accumulated cloth.</figcaption>
-          </figure>
-          <figure>
-            <div class="placeholder">Photograph: one hand alone, threads responding<br>(to be added)</div>
-            <figcaption><span class="tag todo">To be added</span>Individual presence.</figcaption>
-          </figure>
-          <figure>
-            <div class="placeholder">Design sketches and iterations<br>(to be added)</div>
-            <figcaption><span class="tag todo">To be added</span>Process.</figcaption>
-          </figure>
+        <div class="frame r43 slides" id="slides" aria-roledescription="slideshow" aria-label="Screen captures of the prototype">
+          <img class="slide on" src="img/loom-1-presence.webp" alt="Warp threads leaning towards the left edge where one hand touches; nothing is woven." data-caption="One hand. The free threads lean towards the touch; nothing is woven.">
+          <img class="slide" src="img/loom-2-joining.webp" alt="Warp threads lit from both edges towards the centre as a second hand joins." data-caption="A second hand. Light travels in from both edges before weaving begins." loading="lazy">
+          <img class="slide" src="img/loom-3-weaving.webp" alt="Lilac weft interlaced with indigo warp; a dark shuttle carries the newest row." data-caption="Weaving together. A shuttle carries the weft; each row is a shared beat." loading="lazy">
+          <img class="slide" src="img/loom-4-trace.webp" alt="The woven cloth remains after release; the last row stops part-way with a loose thread end." data-caption="Letting go. The row stays where it stopped, with a loose thread end." loading="lazy">
         </div>
-      </div>
-    </section>
+        <div class="slidebar">
+          <figcaption><span class="note">Screen capture</span><span id="slide-caption" aria-live="polite">One hand. The free threads lean towards the touch; nothing is woven.</span></figcaption>
+          <div class="controls">
+            <button type="button" id="slide-pause" aria-label="Pause slideshow">II</button>
+            <button type="button" id="slide-prev" aria-label="Previous image">‹</button>
+            <span class="count" id="slide-count">1/4</span>
+            <button type="button" id="slide-next" aria-label="Next image">›</button>
+          </div>
+        </div>
+      </figure>
 
+      <div class="pair">
+        <figure>
+          <div class="frame r43">
+            <iframe src="./?mode=exhibition&amp;demo=1" title="The Loom That Waits, live prototype" loading="lazy"></iframe>
+          </div>
+          <figcaption><span class="note">Live prototype</span>Two people: touch both side edges. Keyboard: click in, hold A + L. Nothing is stored.</figcaption>
+        </figure>
+        <figure>
+          <div class="frame r43 detail">
+            <img src="img/loom-3-weaving.webp" alt="Close-up of the interlaced digital weave." loading="lazy">
+          </div>
+          <figcaption><span class="note">Detail</span>Plain weave: the weft floats over one warp, under the next.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Screen 2: questions and future ===== -->
+  <section class="sheet" aria-labelledby="questions">
+    <div class="col">
+      <h2 id="questions">Questions it raises</h2>
+      <ul class="qs">
+        <li>Does simultaneous touch create coordination, or only satisfy a technical condition?</li>
+        <li>Can digital threads carry the material qualities of textiles?</li>
+        <li>Can an artefact invite togetherness without social pressure?</li>
+        <li>What does it mean for a system to keep traces of shared encounters?</li>
+        <li>How can it remember an interaction without recording identities?</li>
+        <li>Who is excluded when interaction needs two simultaneous touches?</li>
+      </ul>
+
+      <h2>Reflection</h2>
+      <p>An exploratory artefact, not a validated solution. It makes no claim to create belonging. It opens tensions between individual and shared action, presence and absence, participation and autonomy. It trusts touch, not identity: one person with two hands can weave alone.</p>
+
+      <h2>Next</h2>
+      <p>A physical loom with sensors woven into real yarn. A collective installation in which a day of encounters forms one cloth.</p>
+    </div>
+
+    <div class="cluster">
+      <figure>
+        <div class="frame r75">
+          <img src="future-physical-loom.svg" alt="Concept diagram: a woven panel with touch sensors in both edges, wired to a microcontroller that sends two touch states to a tablet showing the digital cloth." loading="lazy" style="object-fit:contain">
+        </div>
+        <figcaption><span class="note concept">Speculative concept</span>A possible physical version. Not built, not tested.</figcaption>
+      </figure>
+      <div class="pair">
+        <figure>
+          <div class="frame r43 placeholder">Photograph: two people at the tablet, staged</div>
+          <figcaption><span class="note todo">To be added</span>Staged demonstration with friends.</figcaption>
+        </figure>
+        <figure>
+          <div class="frame r43 placeholder">Sketches and textile samples</div>
+          <figcaption><span class="note todo">To be added</span>Process.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
   </main>
 
-  <footer>
-    <span>The Loom That Waits · Mahya Mirzaee, 2026 · speculative design prototype</span>
-    <span>No tracking, no cookies. Fonts: Literata and Atkinson Hyperlegible Next (SIL OFL).</span>
+  <footer class="foot">
+    <span>Mahya Mirzaee, 2026 · speculative design prototype · documentation is staged, not study data</span>
+    <span>No tracking, no cookies</span>
   </footer>
+</div>
 
+<script>
+  // Slideshow: a new screen capture every 6 seconds, woven in from the top.
+  // It pauses on hover, on keyboard focus, and with the II button.
+  (function () {
+    var box = document.getElementById("slides");
+    var slides = box.querySelectorAll(".slide");
+    var caption = document.getElementById("slide-caption");
+    var count = document.getElementById("slide-count");
+    var pauseBtn = document.getElementById("slide-pause");
+    var i = 0, timer = null, paused = false, hovering = false;
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function go(n) {
+      slides.forEach(function (s) { s.classList.remove("was"); });
+      slides[i].classList.remove("on");
+      slides[i].classList.add("was");
+      i = (n + slides.length) % slides.length;
+      void slides[i].offsetWidth;          // restart the weave-in animation
+      slides[i].classList.add("on");
+      caption.textContent = slides[i].getAttribute("data-caption");
+      count.textContent = (i + 1) + "/" + slides.length;
+    }
+    function schedule() {
+      clearInterval(timer);
+      if (!paused && !hovering && !reduce) timer = setInterval(function () { go(i + 1); }, 6000);
+    }
+    document.getElementById("slide-next").onclick = function () { go(i + 1); schedule(); };
+    document.getElementById("slide-prev").onclick = function () { go(i - 1); schedule(); };
+    pauseBtn.onclick = function () {
+      paused = !paused;
+      pauseBtn.textContent = paused ? "▶" : "II";
+      pauseBtn.setAttribute("aria-label", paused ? "Play slideshow" : "Pause slideshow");
+      schedule();
+    };
+    box.addEventListener("mouseenter", function () { hovering = true; schedule(); });
+    box.addEventListener("mouseleave", function () { hovering = false; schedule(); });
+    if (reduce) { paused = true; pauseBtn.textContent = "▶"; }
+    schedule();
+  })();
+</script>
 </body>
 </html>

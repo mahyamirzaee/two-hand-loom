@@ -1,4 +1,6 @@
-/* The Loom That Waits — project page (editorial, two-column) */
+/* The Loom That Waits — project page
+   Compact editorial layout: a narrow text column beside clusters of frames.
+   Two "screens": (1) the work, (2) its questions and its future. */
 
 @font-face {
   font-family: "Literata";
@@ -16,236 +18,174 @@
 :root {
   --paper: #fbfaf8;
   --ink: #141418;
-  --ink-soft: #4a4a55;
+  --soft: #55555f;
   --indigo: #26307f;
   --lilac: #b3add8;
-  --rule: rgba(38, 48, 127, 0.18);
+  --rule: rgba(38, 48, 127, 0.16);
   --head: "Literata", Georgia, serif;
   --text: "Atkinson Hyperlegible Next", system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; }
-
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--text);
-  font-size: 1rem;
-  line-height: 1.7;
-  letter-spacing: 0.01em;
+  font-size: 12.5px;
+  line-height: 1.62;
+  letter-spacing: 0.015em;
 }
+a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--indigo); outline-offset: 2px; }
+img, iframe { display: block; max-width: 100%; }
+p { margin: 0 0 1.1em; }
 
-a { color: var(--indigo); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
-a:hover { text-decoration-thickness: 2px; }
-a:focus-visible { outline: 2px solid var(--indigo); outline-offset: 3px; }
+/* ---------- Page frame ---------- */
+.page { max-width: 880px; margin: 0 auto; padding: 40px 28px 56px; }
 
-img, svg, video, iframe { display: block; max-width: 100%; }
-
-/* ---------- Top bar ---------- */
-.top {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 28px 24px 0;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  font-size: 0.9rem;
-}
+.top { display: flex; justify-content: space-between; margin-bottom: 48px; font-size: 11.5px; }
 .top a { text-decoration: none; }
 .top a:hover { text-decoration: underline; }
 
-/* ---------- Layout: narrow text column | wide media column ---------- */
-.wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
-
-.section {
+/* one "screen": text column + cluster of frames */
+.sheet {
   display: grid;
-  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
-  gap: 72px;
-  padding: 88px 0;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 44px;
+  align-items: start;
 }
-.section + .section { border-top: 1px solid var(--rule); }
+.sheet + .sheet { margin-top: 80px; }
 
-.text { max-width: 36rem; }
-.text p { margin: 0 0 1.1em; }
-.text p:last-child { margin-bottom: 0; }
-
-.label {
-  margin: 0 0 1.2em;
-  font-size: 0.95rem;
+.col h1, .col h2 {
+  margin: 0;
+  font-family: var(--text);
+  font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.03em;
 }
-.meta { margin: 0; font-size: 0.92rem; color: var(--ink-soft); }
-.meta dt { font-weight: 700; color: var(--ink); }
-.meta dd { margin: 0 0 0.8em; }
+.col .sub { margin: 0 0 1.6em; color: var(--soft); }
+.col h2 { margin-top: 1.9em; }
+.col h2:first-child { margin-top: 0; }
+.col h2 + p, .col h2 + ol { margin-top: 0.35em; }
 
-h1 {
+.rq {
   font-family: var(--head);
-  font-weight: 500;
-  font-size: clamp(2.2rem, 4vw, 3.1rem);
-  line-height: 1.1;
+  font-style: italic;
+  font-size: 13.5px;
+  line-height: 1.5;
   color: var(--indigo);
-  margin: 0 0 0.35em;
 }
-.subtitle {
-  font-family: var(--head);
-  font-size: 1.2rem;
-  line-height: 1.45;
-  margin: 0 0 1.6em;
-}
+.steps, .qs { margin: 0; padding-left: 1.3em; }
+.steps li, .qs li { margin-bottom: 0.25em; }
+.qs { list-style: none; padding: 0; }
+.qs li { padding-left: 0.9em; text-indent: -0.9em; }
+.qs li::before { content: "— "; color: var(--indigo); }
+.small { font-size: 11.5px; color: var(--soft); }
 
-/* textile detail: a short strip of warp threads with one lilac pick */
+/* the woven strip: a few warp threads with one lilac pick */
 .thread {
-  height: 18px;
-  width: 132px;
-  margin: 0 0 1.8em;
+  width: 92px;
+  height: 12px;
+  margin: 0 0 1.4em;
   background:
-    linear-gradient(var(--lilac), var(--lilac)) 0 7px / 100% 4px no-repeat,
-    repeating-linear-gradient(90deg, var(--indigo) 0 1.5px, transparent 1.5px 8px);
-  opacity: 0.8;
+    linear-gradient(var(--lilac), var(--lilac)) 0 4.5px / 100% 3px no-repeat,
+    repeating-linear-gradient(90deg, var(--indigo) 0 1.2px, transparent 1.2px 6px);
+  opacity: 0.85;
 }
 
-/* ---------- Media ---------- */
+/* ---------- Clusters of frames ---------- */
+.cluster { display: grid; gap: 14px; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.pair.wide-left { grid-template-columns: 1.35fr 1fr; }
+
 figure { margin: 0; }
-figcaption {
-  margin-top: 0.8em;
-  font-size: 0.9rem;
-  line-height: 1.55;
-  color: var(--ink-soft);
-}
-.tag {
-  display: inline-block;
-  margin-right: 0.5em;
-  padding: 0 0.5em;
-  border: 1px solid currentColor;
-  border-radius: 3px;
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
+figcaption { margin-top: 6px; font-size: 11px; line-height: 1.5; color: var(--soft); }
+.note {
+  margin-right: 0.45em;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  vertical-align: 1px;
+  color: var(--indigo);
 }
-.tag.real { color: var(--indigo); }
-.tag.concept { color: #8a5a2b; }
-.tag.todo { color: var(--ink-soft); }
+.note.concept { color: #8a5a2b; }
+.note.todo { color: var(--soft); }
 
 .frame {
   position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3;
+  overflow: hidden;
   background: #fff;
-  border: 1px solid var(--rule);
+  outline: 1px solid var(--rule);
+  outline-offset: -1px;
 }
+.frame img { width: 100%; height: 100%; object-fit: cover; }
+.r43 { aspect-ratio: 4 / 3; }
+.r11 { aspect-ratio: 1 / 1; }
+.r75 { aspect-ratio: 7 / 5; }
 .frame iframe { width: 100%; height: 100%; border: 0; }
+.detail img { object-position: 0 0; transform: scale(2.1); transform-origin: 0 0; image-rendering: auto; }
 
-/* placeholders for documentation that does not exist yet */
 .placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 14px;
   text-align: center;
-  padding: 24px;
-  aspect-ratio: 4 / 3;
-  border: 1px dashed rgba(20, 20, 24, 0.3);
-  color: var(--ink-soft);
-  font-size: 0.9rem;
-  line-height: 1.5;
-  background:
-    repeating-linear-gradient(90deg, rgba(38, 48, 127, 0.05) 0 1px, transparent 1px 10px);
-}
-.placeholder.wide { aspect-ratio: 16 / 9; }
-
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-
-/* ---------- Research question ---------- */
-.question {
-  padding: 104px 0;
-  border-top: 1px solid var(--rule);
-}
-.question p {
-  margin: 0;
-  max-width: 52rem;
-  font-family: var(--head);
-  font-size: clamp(1.45rem, 2.6vw, 2.1rem);
-  line-height: 1.35;
-  color: var(--indigo);
-}
-.question .label { font-family: var(--text); color: var(--ink); font-size: 0.95rem; }
-
-/* ---------- Concept: four relations ---------- */
-.relations { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
-.relations li {
-  display: grid;
-  grid-template-columns: 11rem 1fr;
-  gap: 24px;
-  padding: 18px 0;
-  border-bottom: 1px solid var(--rule);
-}
-.relations b { font-family: var(--head); font-weight: 500; color: var(--indigo); font-size: 1.05rem; }
-
-/* ---------- Stages ---------- */
-.stage svg { width: 100%; height: auto; background: #fff; border: 1px solid var(--rule); }
-.stage h3 {
-  margin: 0.9em 0 0.3em;
-  font-family: var(--head);
-  font-weight: 500;
-  font-size: 1.1rem;
-  color: var(--indigo);
-}
-.stage p { margin: 0; font-size: 0.93rem; color: var(--ink-soft); }
-.stage .num { font-family: var(--text); color: var(--ink); margin-right: 0.35em; }
-
-/* ---------- Critical questions ---------- */
-.questions { margin: 0; padding: 0; list-style: none; counter-reset: q; }
-.questions li {
-  counter-increment: q;
-  display: grid;
-  grid-template-columns: 3rem 1fr;
-  gap: 8px;
-  padding: 22px 0;
-  border-top: 1px solid var(--rule);
-  font-family: var(--head);
-  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
-  line-height: 1.45;
-}
-.questions li::before {
-  content: counter(q, decimal-leading-zero);
-  font-family: var(--text);
-  font-size: 0.85rem;
-  color: var(--indigo);
-  padding-top: 0.35em;
+  font-size: 11px;
+  color: var(--soft);
+  background: repeating-linear-gradient(90deg, rgba(38, 48, 127, 0.05) 0 1px, transparent 1px 8px);
+  outline: 1px dashed rgba(20, 20, 24, 0.28);
+  outline-offset: -1px;
 }
 
-/* ---------- Future directions ---------- */
-.direction + .direction { margin-top: 1.6em; }
-.direction h3 { margin: 0 0 0.3em; font-family: var(--head); font-weight: 500; font-size: 1.1rem; color: var(--indigo); }
-.direction p { margin: 0; }
+/* ---------- The slideshow: each new image is woven in, row by row, from the top ---------- */
+.slides { position: relative; }
+.slides .slide { position: absolute; inset: 0; opacity: 0; }
+.slides .slide.on { opacity: 1; z-index: 1; animation: weave-in 1100ms steps(14, end) both; }
+.slides .slide.was { opacity: 1; z-index: 0; }
+@keyframes weave-in {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .slides .slide.on { animation: none; }
+}
+
+.slidebar { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: 6px; }
+.slidebar figcaption { margin: 0; }
+.controls { display: flex; align-items: center; gap: 4px; flex-shrink: 0; font-size: 11px; }
+.controls button {
+  border: 0;
+  background: none;
+  padding: 2px 5px;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+}
+.controls .count { min-width: 2.6em; text-align: center; font-variant-numeric: tabular-nums; }
 
 /* ---------- Footer ---------- */
-footer {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 48px 24px 64px;
+.foot {
+  margin-top: 64px;
+  padding-top: 16px;
   border-top: 1px solid var(--rule);
-  font-size: 0.85rem;
-  color: var(--ink-soft);
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--soft);
 }
 
 /* ---------- Tablet and phone ---------- */
-@media (max-width: 960px) {
-  .section { grid-template-columns: 1fr; gap: 36px; padding: 64px 0; }
-  .question { padding: 72px 0; }
-  .text { max-width: 40rem; }
+@media (max-width: 760px) {
+  body { font-size: 13.5px; }
+  .sheet { grid-template-columns: 1fr; gap: 28px; }
+  .sheet + .sheet { margin-top: 72px; }
+  .top { margin-bottom: 40px; }
 }
-@media (max-width: 640px) {
-  .grid2, .grid3 { grid-template-columns: 1fr; }
-  .relations li { grid-template-columns: 1fr; gap: 4px; }
-  .questions li { grid-template-columns: 2.2rem 1fr; }
-  .top { padding-top: 20px; }
+@media (max-width: 480px) {
+  .pair, .pair.wide-left { grid-template-columns: 1fr; }
+  .page { padding: 28px 18px 40px; }
 }
