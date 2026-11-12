@@ -279,14 +279,8 @@ figcaption { margin-top: 8px; font-size: 13.5px; line-height: 1.5; color: var(--
 .in-use .placeholder { font-size: 12px; padding: 10px; }
 .sheet > .cluster { gap: 16px; }
 
-/* Large screens: show the whole page at 75%, as if the browser were zoomed out */
+/* Large screens: show the whole page a little smaller than 100% (82.5%) */
 @media (min-width: 1000px) {
-  .page { zoom: 0.75; }
+  .page { zoom: 0.825; }
 }
 
-/* Large screens: screen 1 fills the first view; the second scroll holds only
-   the questions, reflection and future direction. (Zoom 0.75 -> divide by 0.75.) */
-@media (min-width: 1000px) {
-  .sheet:first-of-type { min-height: calc(100vh / 0.75 - 92px); }
-  .sheet + .sheet { min-height: calc(100vh / 0.75 - 140px); }
-}
