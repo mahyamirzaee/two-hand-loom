@@ -6,7 +6,7 @@
 //   Start screen → weave while both touch → letting go unravels the newest rows
 //   → "Finish" → save the weave as a PNG.
 //
-// EXHIBITION MODE: "The Loom That Waits"  (link ending in ?mode=exhibition)
+// EXHIBITION MODE: "TACT"  (link ending in ?mode=exhibition)
 //   The loom waits, responds and remembers. It does not ask, reward or judge.
 //   • No instructions on screen. Hidden artist menu: hold the top centre for a
 //     moment (or press M on a laptop) to save the cloth or start a new day.
@@ -85,7 +85,7 @@
 
   if (EXHIBITION) {
     document.body.classList.add("exhibition");
-    document.title = "The Loom That Waits";
+    document.title = "TACT";
     if (DEMO) {
       // the shared demo link: quiet edge marks A and B, and one line of guidance
       document.body.classList.add("demo");
@@ -835,7 +835,7 @@
     const pad = function (n) { return String(n).padStart(2, "0"); };
     const stamp = d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) +
       "-" + pad(d.getHours()) + pad(d.getMinutes());
-    return (EXHIBITION ? "loom-that-waits-" : "two-hand-loom-") + stamp + ".png";
+    return (EXHIBITION ? "tact-" : "two-hand-loom-") + stamp + ".png";
   }
 
   async function saveImage() {
@@ -887,7 +887,7 @@
       ]);
     } catch (e) { /* fallback fonts are fine */ }
 
-    const title = EXHIBITION ? "The Loom That Waits" : "The Two-Hand Loom";
+    const title = EXHIBITION ? "TACT" : "The Two-Hand Loom";
     const subtitle = EXHIBITION
       ? "the cloth of " + dateText(day) + " · " + rowsText(rows.length) + " · " + encountersText(encounters)
       : "woven by two hands · " + rowsText(rows.length) + " · " + dateText();

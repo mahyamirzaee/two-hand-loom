@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1000" width="1400" height="1000" role="img" aria-labelledby="t d">
-  <title id="t">The Loom That Waits: speculative physical version (concept diagram)</title>
+  <title id="t">TACT: speculative physical version (concept diagram)</title>
   <desc id="d">A textile panel with touch sensors woven into its left and right edges, wired to a microcontroller, which sends data to a tablet that shows the evolving digital cloth. A speculative concept, not built or tested.</desc>
 
   <defs>
@@ -42,7 +42,7 @@
   <rect width="1400" height="1000" fill="#fbfaf8"/>
 
   <!-- Header -->
-  <text class="h" x="60" y="70" font-size="34" font-weight="500">The Loom That Waits: a possible physical version</text>
+  <text class="h" x="60" y="70" font-size="34" font-weight="500">TACT: a possible physical version</text>
   <text class="s" x="60" y="102" font-size="17">Conceptual system diagram for a future prototype. Components and connections are proposals for investigation.</text>
   <g>
     <rect x="1010" y="44" width="330" height="62" rx="8" fill="none" stroke="#26307f" stroke-width="1.5"/>

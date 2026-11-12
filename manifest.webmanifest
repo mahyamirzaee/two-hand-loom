@@ -1,6 +1,6 @@
 {
-  "name": "The Loom That Waits",
-  "short_name": "Loom",
+  "name": "TACT",
+  "short_name": "TACT",
   "description": "A speculative loom that weaves only while two people touch it together.",
   "start_url": "./?mode=exhibition",
   "scope": "./",

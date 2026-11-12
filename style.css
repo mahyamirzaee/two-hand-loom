@@ -223,7 +223,7 @@ h1 { font-family: var(--font-head); font-weight: 500; color: var(--indigo); }
 
 .quiet-link { color: var(--indigo); text-decoration: underline; text-underline-offset: 0.2em; }
 
-/* ---------- Exhibition mode: "The Loom That Waits" ----------
+/* ---------- Exhibition mode: "TACT" ----------
    No instructions on screen: no status text, no buttons, no labels.
    The context lives on the wall label, not in the interface. */
 body.exhibition #status,
