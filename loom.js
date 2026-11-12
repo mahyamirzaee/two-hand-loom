@@ -86,6 +86,15 @@
   if (EXHIBITION) {
     document.body.classList.add("exhibition");
     document.title = "The Loom That Waits";
+    if (DEMO) {
+      // the shared demo link: quiet edge marks A and B, and one line of guidance
+      document.body.classList.add("demo");
+      const labels = document.querySelectorAll(".zone-label");
+      if (labels[0]) labels[0].textContent = "A";
+      if (labels[1]) labels[1].textContent = "B";
+      document.getElementById("status").textContent =
+        "Touch or click both edges, A and B, to weave. One side alone only moves the threads.";
+    }
     if (!DEMO) {
       // lets the tablet add the exhibition as a full-screen home-screen app
       const link = document.createElement("link");
@@ -99,6 +108,7 @@
   let screen = EXHIBITION ? "loom" : "start";   // "start", "loom", "end" or "menu"
   const fingers = new Map();                     // finger id -> { zone, y }
   const keys = { left: false, right: false };    // laptop test keys
+  const sticky = { left: false, right: false, yL: 0, yR: 0 }; // demo: sides held by a mouse click
   const rows = [];      // woven rows: { dir, hue, tone, p, loose, head, wob, wasFinished }
   let current = null;   // the row on the loom right now
   let clothVersion = 0; // goes up whenever the finished cloth changes (redraw needed)
@@ -154,9 +164,14 @@
     keepAwake();
     if (screen !== "loom") return;
     const zone = zoneAt(e.clientX);
-    if (zone) {
+    if (zone && DEMO && e.pointerType === "mouse") {
+      // demo on a laptop: one mouse can't hold two edges, so a click keeps a side "held"
+      // until it is clicked again
+      sticky[zone] = !sticky[zone];
+      sticky[zone === "left" ? "yL" : "yR"] = e.clientY;
+    } else if (zone) {
       fingers.set(e.pointerId, { zone: zone, y: e.clientY }); // keeps the zone where it landed
-    } else if (EXHIBITION && e.clientY < window.innerHeight * 0.3) {
+    } else if (EXHIBITION && !DEMO && e.clientY < window.innerHeight * 0.3) {
       cancelMenuHold();
       menuPointer = e.pointerId;
       menuStart = { x: e.clientX, y: e.clientY };
@@ -220,8 +235,10 @@
     for (const f of fingers.values()) {
       if (f.zone === "left") { nL++; sL += f.y; } else { nR++; sR += f.y; }
     }
-    t.left = keys.left || nL > 0;
-    t.right = keys.right || nR > 0;
+    t.left = keys.left || nL > 0 || sticky.left;
+    t.right = keys.right || nR > 0 || sticky.right;
+    if (!nL && sticky.left) t.yL = sticky.yL - canvasTop;
+    if (!nR && sticky.right) t.yR = sticky.yR - canvasTop;
     if (nL) t.yL = sL / nL - canvasTop;
     if (nR) t.yR = sR / nR - canvasTop;
     return t;

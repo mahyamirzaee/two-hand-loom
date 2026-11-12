@@ -14,11 +14,11 @@
 
   <nav class="top" aria-label="Site">
     <a href="https://mahyamirzaee.github.io/">‹ back</a>
-    <a href="./?mode=exhibition">open the prototype ↗</a>
+    <a class="try small-try" href="./?mode=exhibition&amp;demo=1" target="_blank" rel="noopener">Try the live prototype ↗</a>
   </nav>
 
   <main>
-  <!-- ===== 1–3: concept, research question, digital prototype ===== -->
+  <!-- ===== Screen 1: concept, research question, digital prototype ===== -->
   <section class="sheet" aria-labelledby="title">
     <div class="col">
       <h1 id="title">The Loom That Waits</h1>
@@ -33,11 +33,18 @@
 
       <h2>Research question</h2>
       <p class="rq">How can shared touch and textile-based interaction make co-presence perceptible without prescribing social behaviour?</p>
+
+      <h2>How it works</h2>
+      <ol class="numbered">
+        <li><b>01 Individual touch.</b> Threads respond to a single touch through subtle movements and changes in tension.</li>
+        <li><b>02 Shared touch.</b> A second touch activates the weaving process. Light travels through the threads as the textile gradually develops.</li>
+        <li><b>03 A lasting trace.</b> When participants release the screen, the woven structure remains, becoming part of a shared textile.</li>
+      </ol>
     </div>
 
     <div class="cluster">
       <figure>
-        <div class="frame r43 slides" id="slides" aria-roledescription="slideshow" aria-label="Screen captures of the digital prototype">
+        <div class="frame r32 slides" id="slides" aria-roledescription="slideshow" aria-label="Screen captures of the digital prototype">
           <img class="slide on" src="img/loom-1-presence.webp" alt="Warp threads leaning towards the left edge where one hand touches; nothing is woven." data-caption="01 · One touch: the threads lean towards it. Nothing is woven.">
           <img class="slide" src="img/loom-2-joining.webp" alt="Warp threads lit from both edges towards the centre as a second touch joins." data-caption="02 · A second touch: light travels in from both edges." loading="lazy">
           <img class="slide" src="img/loom-3-weaving.webp" alt="Lilac weft interlaced with indigo warp; a dark shuttle carries the newest row." data-caption="02 · Weaving together: each row is a shared beat." loading="lazy">
@@ -54,27 +61,17 @@
         </div>
       </figure>
 
-      <figure>
-        <div class="frame r21">
-          <iframe src="./?mode=exhibition&amp;demo=1" title="The Loom That Waits, live prototype" loading="lazy"></iframe>
-        </div>
-        <figcaption><span class="note">Live prototype</span>Try it: two people touch both side edges (keyboard: click in, hold A + L). Nothing is stored.</figcaption>
-      </figure>
+      <div class="try-row">
+        <a class="try" href="./?mode=exhibition&amp;demo=1" target="_blank" rel="noopener">Try the live prototype ↗</a>
+        <span class="small">Touch or click both edges, A and B. Works on tablet, phone and laptop. Nothing is stored.</span>
+      </div>
     </div>
   </section>
 
-  <!-- ===== 3–5 + 7: how it works, questions, reflection, prototype in use ===== -->
-  <section class="sheet" aria-labelledby="how">
+  <!-- ===== Screen 2: questions, reflection, future direction, prototype in use ===== -->
+  <section class="sheet" aria-labelledby="questions">
     <div class="col">
-      <h2 id="how">How it works</h2>
-      <ol class="steps numbered">
-        <li><b>01 Individual touch.</b> Threads respond to a single touch through subtle movements and changes in tension.</li>
-        <li><b>02 Shared touch.</b> A second touch activates the weaving process. Light travels through the threads as the textile gradually develops.</li>
-        <li><b>03 A lasting trace.</b> When participants release the screen, the woven structure remains, becoming part of a shared textile.</li>
-      </ol>
-      <p class="small">Functional digital prototype, designed for tablet interaction. No personal identities are collected.</p>
-
-      <h2>Questions it explores</h2>
+      <h2 id="questions">Questions it explores</h2>
       <ul class="qs">
         <li>How can the tactile qualities of physical textiles inform digital interaction?</li>
         <li>Can shared material experiences invite interaction without creating social pressure?</li>
@@ -83,43 +80,10 @@
 
       <h2>Reflection</h2>
       <p>An exploratory design artefact, not a validated solution. Rather than claiming to create social connection, it explores the relationship between touch, shared action and material expression.</p>
-    </div>
 
-    <div class="cluster">
-      <h2 class="cluster-title">Prototype in use</h2>
-      <div class="pair">
-        <figure>
-          <div class="frame r43 placeholder">Photograph: two people at the tablet</div>
-          <figcaption><span class="note todo">To be added</span>Staged interaction with two participants.</figcaption>
-        </figure>
-        <figure>
-          <div class="frame r43 detail">
-            <img src="img/loom-3-weaving.webp" alt="Close-up of the interlaced digital textile." loading="lazy">
-          </div>
-          <figcaption><span class="note">Close-up</span>The digital textile: plain weave, warp and weft.</figcaption>
-        </figure>
-      </div>
-      <div class="pair">
-        <figure>
-          <div class="frame r43 placeholder">Short demonstration video</div>
-          <figcaption><span class="note todo">To be added</span>About 60 seconds, hands only.</figcaption>
-        </figure>
-        <figure>
-          <div class="frame r43 placeholder">Sketches: from textile design to digital interaction</div>
-          <figcaption><span class="note todo">To be added</span>Design process.</figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 6: future physical direction ===== -->
-  <section class="sheet" aria-labelledby="future">
-    <div class="col">
-      <h2 id="future">Future direction: from screen to shared furniture</h2>
-      <p>A physical iteration could integrate a soft, sensor-enabled textile surface into a shared seating arrangement.</p>
-      <p>Two adjacent seats would be connected by a small table, with a continuous, accessible textile surface extending along their inner sides. Without requiring participants to deliberately reach towards each other, the arrangement would allow their hands to naturally rest on or encounter the shared material.</p>
-      <p>Simultaneous touch could activate a digital weaving process displayed on a nearby tablet. A future exploration could also investigate subtle warmth as an additional tactile quality.</p>
-      <p>This scenario opens questions about incidental interaction, tactile comfort and shared experiences in public waiting environments, such as immigration service offices.</p>
+      <h2>Future direction: from screen to shared furniture</h2>
+      <p>A physical iteration could integrate a soft, sensor-enabled textile surface into a shared seating arrangement. Two adjacent seats would be connected by a small table, with a continuous, accessible textile surface extending along their inner sides. Without requiring participants to deliberately reach towards each other, the arrangement would allow their hands to naturally rest on or encounter the shared material.</p>
+      <p>Simultaneous touch could activate a digital weaving process displayed on a nearby tablet. A future exploration could also investigate subtle warmth as an additional tactile quality. This scenario opens questions about incidental interaction, tactile comfort and shared experiences in public waiting environments, such as immigration service offices.</p>
     </div>
 
     <div class="cluster">
@@ -129,6 +93,28 @@
         </div>
         <figcaption><span class="note concept">Speculative concept</span>A proposed future research direction. Not built or tested.</figcaption>
       </figure>
+
+      <div>
+        <h2 class="cluster-title">Prototype in use</h2>
+        <div class="row4">
+          <figure>
+            <div class="frame r43 placeholder">Two people at the tablet</div>
+            <figcaption><span class="note todo">To be added</span>Staged interaction</figcaption>
+          </figure>
+          <figure>
+            <div class="frame r43 detail"><img src="img/loom-3-weaving.webp" alt="Close-up of the interlaced digital textile." loading="lazy"></div>
+            <figcaption><span class="note">Close-up</span>Digital textile</figcaption>
+          </figure>
+          <figure>
+            <div class="frame r43 placeholder">Short video</div>
+            <figcaption><span class="note todo">To be added</span>About 60 s</figcaption>
+          </figure>
+          <figure>
+            <div class="frame r43 placeholder">Sketches</div>
+            <figcaption><span class="note todo">To be added</span>Textile to digital</figcaption>
+          </figure>
+        </div>
+      </div>
     </div>
   </section>
   </main>

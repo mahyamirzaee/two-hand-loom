@@ -1,4 +1,4 @@
-/* The Loom That Waits — project page
+/* The Loom That Waits: project page
    Compact editorial layout: a narrow text column beside clusters of frames.
    Two "screens": (1) the work, (2) its questions and its future. */
 
@@ -43,20 +43,20 @@ img, iframe { display: block; max-width: 100%; }
 p { margin: 0 0 1.1em; }
 
 /* ---------- Page frame ---------- */
-.page { max-width: 1180px; margin: 0 auto; padding: 48px 40px 64px; }
+.page { max-width: 1560px; margin: 0 auto; padding: 28px 56px 24px; }
 
-.top { display: flex; justify-content: space-between; margin-bottom: 56px; font-size: 14px; }
+.top { display: flex; justify-content: space-between; margin-bottom: 40px; font-size: 14px; align-items: center; }
 .top a { text-decoration: none; }
 .top a:hover { text-decoration: underline; }
 
 /* one "screen": text column + cluster of frames */
 .sheet {
   display: grid;
-  grid-template-columns: 300px minmax(0, 1fr);
-  gap: 64px;
+  grid-template-columns: minmax(0, 440px) minmax(0, 1fr);
+  gap: clamp(48px, 7vw, 120px);
   align-items: start;
 }
-.sheet + .sheet { margin-top: 104px; }
+.sheet + .sheet { margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--rule); }
 
 .col h1, .col h2 {
   margin: 0;
@@ -66,7 +66,7 @@ p { margin: 0 0 1.1em; }
   letter-spacing: 0.03em;
 }
 .col .sub { margin: 0 0 1.6em; color: var(--soft); }
-.col h2 { margin-top: 1.9em; }
+.col h2 { margin-top: 1.6em; }
 .col h2:first-child { margin-top: 0; }
 .col h2 + p, .col h2 + ol { margin-top: 0.35em; }
 
@@ -80,8 +80,7 @@ p { margin: 0 0 1.1em; }
 .steps, .qs { margin: 0; padding-left: 1.3em; }
 .steps li, .qs li { margin-bottom: 0.25em; }
 .qs { list-style: none; padding: 0; }
-.qs li { padding-left: 0.9em; text-indent: -0.9em; }
-.qs li::before { content: "— "; color: var(--indigo); }
+.qs li { margin-bottom: 0.6em; }
 .small { font-size: 14px; color: var(--soft); }
 
 /* the woven strip: a few warp threads with one lilac pick */
@@ -121,6 +120,7 @@ figcaption { margin-top: 8px; font-size: 13.5px; line-height: 1.5; color: var(--
 }
 .frame img { width: 100%; height: 100%; object-fit: cover; }
 .r43 { aspect-ratio: 4 / 3; }
+.r32 { aspect-ratio: 3 / 2; max-height: calc(100vh - 230px); width: 100%; }
 .r34 { aspect-ratio: 3 / 4; }
 .r21 { aspect-ratio: 2 / 1; }
 .r149 { aspect-ratio: 14 / 9; }
@@ -174,8 +174,8 @@ figcaption { margin-top: 8px; font-size: 13.5px; line-height: 1.5; color: var(--
 
 /* ---------- Footer ---------- */
 .foot {
-  margin-top: 64px;
-  padding-top: 16px;
+  margin-top: 28px;
+  padding-top: 14px;
   border-top: 1px solid var(--rule);
   display: flex;
   justify-content: space-between;
@@ -197,3 +197,27 @@ figcaption { margin-top: 8px; font-size: 13.5px; line-height: 1.5; color: var(--
   .page { padding: 28px 18px 40px; }
   body { font-size: 16px; }
 }
+
+/* ---------- The way in: a clear button to the live prototype ---------- */
+.try-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.try {
+  display: inline-block;
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: var(--indigo);
+  color: var(--paper);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.try:hover { background: #1c2463; text-decoration: none; }
+.top .try.small-try { padding: 7px 14px; font-size: 13px; }
+.top .try.small-try:hover { text-decoration: none; }
+.try-row .small { margin: 0; flex: 1; min-width: 14rem; }
+
+/* ---------- Prototype in use: four small frames in one row ---------- */
+.row4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 12px; }
+.row4 figcaption { font-size: 12.5px; }
+@media (max-width: 1100px) { .row4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 900px) { .r32 { max-height: none; } .page { padding: 32px 24px 44px; } }

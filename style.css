@@ -234,3 +234,24 @@ body.exhibition #zone-right { border-left-color:  rgba(38, 48, 127, 0.06); }
 body.exhibition #loom-wrap  { padding-bottom: 1.25rem; }
 /* No glowing rectangles: in exhibition mode all feedback lives in the threads themselves. */
 body.exhibition .zone.active { background-color: transparent; }
+
+/* ---------- Demo link (?mode=exhibition&demo=1), e.g. from the project page ----------
+   Minimal guidance: two edge marks like selvedges (A, B), a soft glow on a held side,
+   and one line of text. */
+body.exhibition.demo .zone-label {
+  display: block;
+  writing-mode: horizontal-tb;
+  transform: none;
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: 0.6;
+}
+body.exhibition.demo #zone-left  { border-right: 2px solid rgba(179, 173, 216, 0.9); }
+body.exhibition.demo #zone-right { border-left:  2px solid rgba(179, 173, 216, 0.9); }
+body.exhibition.demo .zone { cursor: pointer; }
+body.exhibition.demo .zone.active { background-color: rgba(179, 173, 216, 0.16); }
+body.exhibition.demo .zone.active .zone-label { opacity: 1; }
+body.exhibition.demo #status { display: block; font-size: 0.85rem; padding: 0 1rem; }
+body.exhibition.demo #loom-wrap { padding-bottom: 3rem; }
