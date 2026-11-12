@@ -204,18 +204,17 @@ figcaption { margin-top: 8px; font-size: 13.5px; line-height: 1.5; color: var(--
 .try-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
 .try {
   display: inline-block;
-  padding: 9px 18px;
-  border: 1px solid var(--indigo);
-  border-radius: 999px;
-  background: transparent;
+  padding: 4px 0;
+  border: 0;
+  background: none;
   color: var(--indigo);
   text-decoration: none;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.02em;
   white-space: nowrap;
 }
-.try:hover { background: rgba(179, 173, 216, 0.25); text-decoration: none; }
+.try:hover { text-decoration: underline; text-underline-offset: 0.25em; }
 .try-row .small { margin: 0; flex: 1; min-width: 14rem; }
 
 /* ---------- Prototype in use: four small frames in one row ---------- */
@@ -271,3 +270,16 @@ figcaption { margin-top: 8px; font-size: 13.5px; line-height: 1.5; color: var(--
 .sheet > .cluster { justify-self: end; width: 100%; max-width: 680px; }
 .r32, .row3, .slidebar, .try-row { max-width: none; }
 @media (max-width: 900px) { .sheet > .cluster { justify-self: stretch; max-width: none; } }
+
+/* Prototype in use sits directly under the slideshow, visible at first glance */
+.in-use { margin-top: -4px; }
+.in-use .cluster-title { margin: 0 0 6px; font-size: 13px; }
+.in-use .row3 { margin-top: 0; gap: 14px; }
+.in-use .row3 figcaption { font-size: 12px; margin-top: 5px; }
+.in-use .placeholder { font-size: 12px; padding: 10px; }
+.sheet > .cluster { gap: 16px; }
+
+/* Large screens: show the whole page at 75%, as if the browser were zoomed out */
+@media (min-width: 1000px) {
+  .page { zoom: 0.75; }
+}
