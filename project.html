@@ -14,7 +14,6 @@
 
   <nav class="top" aria-label="Site">
     <a href="https://mahyamirzaee.github.io/">‹ back</a>
-    <a class="try small-try" href="./?mode=exhibition&amp;demo=1" target="_blank" rel="noopener">Try the live prototype ↗</a>
   </nav>
 
   <main>
@@ -44,11 +43,14 @@
 
     <div class="cluster">
       <figure>
-        <div class="frame r32 slides" id="slides" aria-roledescription="slideshow" aria-label="Screen captures of the digital prototype">
+        <div class="frame r32 slides" id="slides" data-slide="0" aria-roledescription="slideshow" aria-label="Screen captures of the digital prototype">
           <img class="slide on" src="img/loom-1-presence.webp" alt="Warp threads leaning towards the left edge where one hand touches; nothing is woven." data-caption="01 · One touch: the threads lean towards it. Nothing is woven.">
           <img class="slide" src="img/loom-2-joining.webp" alt="Warp threads lit from both edges towards the centre as a second touch joins." data-caption="02 · A second touch: light travels in from both edges." loading="lazy">
           <img class="slide" src="img/loom-3-weaving.webp" alt="Lilac weft interlaced with indigo warp; a dark shuttle carries the newest row." data-caption="02 · Weaving together: each row is a shared beat." loading="lazy">
           <img class="slide" src="img/loom-4-trace.webp" alt="The woven cloth remains after release; the last row stops part-way with a loose thread end." data-caption="03 · Release: the row stays where it stopped, with a loose end." loading="lazy">
+          <!-- gentle invitation on the first slide: a quiet touch mark at each edge -->
+          <span class="invite left" aria-hidden="true"><i></i><b>A</b></span>
+          <span class="invite right" aria-hidden="true"><i></i><b>B</b></span>
         </div>
         <div class="slidebar">
           <figcaption><span class="note">Digital prototype · screen capture</span><span id="slide-caption" aria-live="polite">01 · One touch: the threads lean towards it. Nothing is woven.</span></figcaption>
@@ -63,7 +65,25 @@
 
       <div class="try-row">
         <a class="try" href="./?mode=exhibition&amp;demo=1" target="_blank" rel="noopener">Try the live prototype ↗</a>
-        <span class="small">Touch or click both edges, A and B. Works on tablet, phone and laptop. Nothing is stored.</span>
+        <span class="small">Touch or click both edges, A and B. Nothing is stored.</span>
+      </div>
+
+      <div>
+        <h2 class="cluster-title">Prototype in use</h2>
+        <div class="row3">
+          <figure>
+            <div class="frame r43 placeholder">Two people at the tablet</div>
+            <figcaption><span class="note todo">To be added</span>Staged interaction</figcaption>
+          </figure>
+          <figure>
+            <div class="frame r43 detail"><img src="img/loom-3-weaving.webp" alt="Close-up of the interlaced digital textile." loading="lazy"></div>
+            <figcaption><span class="note">Close-up</span>Digital textile</figcaption>
+          </figure>
+          <figure>
+            <div class="frame r43 placeholder">Short video</div>
+            <figcaption><span class="note todo">To be added</span>About 60 s, hands only</figcaption>
+          </figure>
+        </div>
       </div>
     </div>
   </section>
@@ -91,30 +111,8 @@
         <div class="frame r1410">
           <img src="future-shared-furniture.svg" alt="Concept drawing, front view and plan: a row of waiting-room chairs in which the third seat is replaced by a low module with bent-wood sides and a soft woven top. Its two ends, A and B, sit beside the neighbouring chairs; a screen in the middle shows the digital weaving while both ends are touched." loading="lazy" style="object-fit:contain">
         </div>
-        <figcaption><span class="note concept">Speculative concept</span>A proposed future research direction. Not built or tested.</figcaption>
+        <figcaption><span class="note concept">Speculative concept</span>Future research direction: a loom module in a row of waiting-room chairs. Not built or tested.</figcaption>
       </figure>
-
-      <div>
-        <h2 class="cluster-title">Prototype in use</h2>
-        <div class="row4">
-          <figure>
-            <div class="frame r43 placeholder">Two people at the tablet</div>
-            <figcaption><span class="note todo">To be added</span>Staged interaction</figcaption>
-          </figure>
-          <figure>
-            <div class="frame r43 detail"><img src="img/loom-3-weaving.webp" alt="Close-up of the interlaced digital textile." loading="lazy"></div>
-            <figcaption><span class="note">Close-up</span>Digital textile</figcaption>
-          </figure>
-          <figure>
-            <div class="frame r43 placeholder">Short video</div>
-            <figcaption><span class="note todo">To be added</span>About 60 s</figcaption>
-          </figure>
-          <figure>
-            <div class="frame r43 placeholder">Sketches</div>
-            <figcaption><span class="note todo">To be added</span>Textile to digital</figcaption>
-          </figure>
-        </div>
-      </div>
     </div>
   </section>
   </main>
@@ -145,6 +143,7 @@
       void slides[i].offsetWidth;
       slides[i].classList.add("on");
       caption.textContent = slides[i].getAttribute("data-caption");
+      box.setAttribute("data-slide", i);   // the touch marks show on the first slide only
       count.textContent = (i + 1) + "/" + slides.length;
     }
     function schedule() {
