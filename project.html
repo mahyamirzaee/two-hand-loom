@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Loom That Waits · Mahya Mirzaee</title>
-  <meta name="description" content="A digital loom that weaves only while two people touch it together. A speculative exploration of co-presence through textile interaction.">
+  <meta name="description" content="What if a digital loom could only weave through shared human touch? An interactive textile-inspired artefact exploring touch, materiality and co-presence.">
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="project.css">
@@ -17,40 +17,34 @@
     <a href="./?mode=exhibition">open the prototype ↗</a>
   </nav>
 
-  <!-- ===== Screen 1: the work ===== -->
   <main>
+  <!-- ===== 1–3: concept, research question, digital prototype ===== -->
   <section class="sheet" aria-labelledby="title">
     <div class="col">
       <h1 id="title">The Loom That Waits</h1>
       <p class="sub">Speculative HCI · Research through Design · 2026</p>
       <div class="thread" aria-hidden="true"></div>
 
-      <p>A digital loom that weaves only while two people touch it together.</p>
-      <p>Mechanical looms made weaving possible without weavers. This one reverses that logic: it depends on two people being present at the same time. Each encounter leaves a trace in one shared, evolving cloth.</p>
+      <p class="lead">What if a digital loom could only weave through shared human touch?</p>
+      <p>The Loom That Waits is an interactive textile-inspired artefact exploring how touch, materiality and shared action can shape experiences of co-presence.</p>
+
+      <h2>Concept</h2>
+      <p>Drawing on my background in textile design, the project reimagines the digital loom as an artefact that responds to individual touch but only begins weaving when two touch points are active simultaneously. When the interaction ends, the woven structure remains as a trace of the encounter.</p>
 
       <h2>Research question</h2>
-      <p class="rq">How can an interactive artefact make interpersonal coordination and co-presence perceptible through shared touch and textile materiality, without explicitly directing participants' behaviour?</p>
-
-      <h2>How it behaves</h2>
-      <ol class="steps">
-        <li>One touch: the threads respond. Nothing is woven.</li>
-        <li>Two touches: light travels in, and weaving begins.</li>
-        <li>Release: the cloth remains, with a loose end.</li>
-      </ol>
-
-      <p class="small" style="margin-top:1.4em">Functional digital prototype for tablet. No instructions on screen; no data about people is kept.</p>
+      <p class="rq">How can shared touch and textile-based interaction make co-presence perceptible without prescribing social behaviour?</p>
     </div>
 
     <div class="cluster">
       <figure>
-        <div class="frame r43 slides" id="slides" aria-roledescription="slideshow" aria-label="Screen captures of the prototype">
-          <img class="slide on" src="img/loom-1-presence.webp" alt="Warp threads leaning towards the left edge where one hand touches; nothing is woven." data-caption="One hand. The free threads lean towards the touch; nothing is woven.">
-          <img class="slide" src="img/loom-2-joining.webp" alt="Warp threads lit from both edges towards the centre as a second hand joins." data-caption="A second hand. Light travels in from both edges before weaving begins." loading="lazy">
-          <img class="slide" src="img/loom-3-weaving.webp" alt="Lilac weft interlaced with indigo warp; a dark shuttle carries the newest row." data-caption="Weaving together. A shuttle carries the weft; each row is a shared beat." loading="lazy">
-          <img class="slide" src="img/loom-4-trace.webp" alt="The woven cloth remains after release; the last row stops part-way with a loose thread end." data-caption="Letting go. The row stays where it stopped, with a loose thread end." loading="lazy">
+        <div class="frame r43 slides" id="slides" aria-roledescription="slideshow" aria-label="Screen captures of the digital prototype">
+          <img class="slide on" src="img/loom-1-presence.webp" alt="Warp threads leaning towards the left edge where one hand touches; nothing is woven." data-caption="01 · One touch: the threads lean towards it. Nothing is woven.">
+          <img class="slide" src="img/loom-2-joining.webp" alt="Warp threads lit from both edges towards the centre as a second touch joins." data-caption="02 · A second touch: light travels in from both edges." loading="lazy">
+          <img class="slide" src="img/loom-3-weaving.webp" alt="Lilac weft interlaced with indigo warp; a dark shuttle carries the newest row." data-caption="02 · Weaving together: each row is a shared beat." loading="lazy">
+          <img class="slide" src="img/loom-4-trace.webp" alt="The woven cloth remains after release; the last row stops part-way with a loose thread end." data-caption="03 · Release: the row stays where it stopped, with a loose end." loading="lazy">
         </div>
         <div class="slidebar">
-          <figcaption><span class="note">Screen capture</span><span id="slide-caption" aria-live="polite">One hand. The free threads lean towards the touch; nothing is woven.</span></figcaption>
+          <figcaption><span class="note">Digital prototype · screen capture</span><span id="slide-caption" aria-live="polite">01 · One touch: the threads lean towards it. Nothing is woven.</span></figcaption>
           <div class="controls">
             <button type="button" id="slide-pause" aria-label="Pause slideshow">II</button>
             <button type="button" id="slide-prev" aria-label="Previous image">‹</button>
@@ -60,73 +54,94 @@
         </div>
       </figure>
 
+      <figure>
+        <div class="frame r21">
+          <iframe src="./?mode=exhibition&amp;demo=1" title="The Loom That Waits, live prototype" loading="lazy"></iframe>
+        </div>
+        <figcaption><span class="note">Live prototype</span>Try it: two people touch both side edges (keyboard: click in, hold A + L). Nothing is stored.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== 3–5 + 7: how it works, questions, reflection, prototype in use ===== -->
+  <section class="sheet" aria-labelledby="how">
+    <div class="col">
+      <h2 id="how">How it works</h2>
+      <ol class="steps numbered">
+        <li><b>01 Individual touch.</b> Threads respond to a single touch through subtle movements and changes in tension.</li>
+        <li><b>02 Shared touch.</b> A second touch activates the weaving process. Light travels through the threads as the textile gradually develops.</li>
+        <li><b>03 A lasting trace.</b> When participants release the screen, the woven structure remains, becoming part of a shared textile.</li>
+      </ol>
+      <p class="small">Functional digital prototype, designed for tablet interaction. No personal identities are collected.</p>
+
+      <h2>Questions it explores</h2>
+      <ul class="qs">
+        <li>How can the tactile qualities of physical textiles inform digital interaction?</li>
+        <li>Can shared material experiences invite interaction without creating social pressure?</li>
+        <li>What role can incidental touch play in creating opportunities for interpersonal coordination?</li>
+      </ul>
+
+      <h2>Reflection</h2>
+      <p>An exploratory design artefact, not a validated solution. Rather than claiming to create social connection, it explores the relationship between touch, shared action and material expression.</p>
+    </div>
+
+    <div class="cluster">
+      <h2 class="cluster-title">Prototype in use</h2>
       <div class="pair">
         <figure>
-          <div class="frame r43">
-            <iframe src="./?mode=exhibition&amp;demo=1" title="The Loom That Waits, live prototype" loading="lazy"></iframe>
-          </div>
-          <figcaption><span class="note">Live prototype</span>Two people: touch both side edges. Keyboard: click in, hold A + L. Nothing is stored.</figcaption>
+          <div class="frame r43 placeholder">Photograph: two people at the tablet</div>
+          <figcaption><span class="note todo">To be added</span>Staged interaction with two participants.</figcaption>
         </figure>
         <figure>
           <div class="frame r43 detail">
-            <img src="img/loom-3-weaving.webp" alt="Close-up of the interlaced digital weave." loading="lazy">
+            <img src="img/loom-3-weaving.webp" alt="Close-up of the interlaced digital textile." loading="lazy">
           </div>
-          <figcaption><span class="note">Detail</span>Plain weave: the weft floats over one warp, under the next.</figcaption>
+          <figcaption><span class="note">Close-up</span>The digital textile: plain weave, warp and weft.</figcaption>
+        </figure>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="frame r43 placeholder">Short demonstration video</div>
+          <figcaption><span class="note todo">To be added</span>About 60 seconds, hands only.</figcaption>
+        </figure>
+        <figure>
+          <div class="frame r43 placeholder">Sketches: from textile design to digital interaction</div>
+          <figcaption><span class="note todo">To be added</span>Design process.</figcaption>
         </figure>
       </div>
     </div>
   </section>
 
-  <!-- ===== Screen 2: questions and future ===== -->
-  <section class="sheet" aria-labelledby="questions">
+  <!-- ===== 6: future physical direction ===== -->
+  <section class="sheet" aria-labelledby="future">
     <div class="col">
-      <h2 id="questions">Questions it raises</h2>
-      <ul class="qs">
-        <li>Does simultaneous touch create coordination, or only satisfy a technical condition?</li>
-        <li>Can digital threads carry the material qualities of textiles?</li>
-        <li>Can an artefact invite togetherness without social pressure?</li>
-        <li>What does it mean for a system to keep traces of shared encounters?</li>
-        <li>How can it remember an interaction without recording identities?</li>
-        <li>Who is excluded when interaction needs two simultaneous touches?</li>
-      </ul>
-
-      <h2>Reflection</h2>
-      <p>An exploratory artefact, not a validated solution. It makes no claim to create belonging. It opens tensions between individual and shared action, presence and absence, participation and autonomy. It trusts touch, not identity: one person with two hands can weave alone.</p>
-
-      <h2>Next</h2>
-      <p>A physical loom with sensors woven into real yarn. A collective installation in which a day of encounters forms one cloth.</p>
+      <h2 id="future">Future direction: from screen to shared furniture</h2>
+      <p>A physical iteration could integrate a soft, sensor-enabled textile surface into a shared seating arrangement.</p>
+      <p>Two adjacent seats would be connected by a small table, with a continuous, accessible textile surface extending along their inner sides. Without requiring participants to deliberately reach towards each other, the arrangement would allow their hands to naturally rest on or encounter the shared material.</p>
+      <p>Simultaneous touch could activate a digital weaving process displayed on a nearby tablet. A future exploration could also investigate subtle warmth as an additional tactile quality.</p>
+      <p>This scenario opens questions about incidental interaction, tactile comfort and shared experiences in public waiting environments, such as immigration service offices.</p>
     </div>
 
     <div class="cluster">
       <figure>
-        <div class="frame r75">
-          <img src="future-physical-loom.svg" alt="Concept diagram: a woven panel with touch sensors in both edges, wired to a microcontroller that sends two touch states to a tablet showing the digital cloth." loading="lazy" style="object-fit:contain">
+        <div class="frame r149">
+          <img src="future-shared-furniture.svg" alt="Concept drawing: two seats joined by a small table; a continuous woven band runs over both inner armrests and the table where two hands may rest; a module under the table sends two touch states to a nearby tablet showing the digital weaving." loading="lazy" style="object-fit:contain">
         </div>
-        <figcaption><span class="note concept">Speculative concept</span>A possible physical version. Not built, not tested.</figcaption>
+        <figcaption><span class="note concept">Speculative concept</span>A proposed future research direction. Not built or tested.</figcaption>
       </figure>
-      <div class="pair">
-        <figure>
-          <div class="frame r43 placeholder">Photograph: two people at the tablet, staged</div>
-          <figcaption><span class="note todo">To be added</span>Staged demonstration with friends.</figcaption>
-        </figure>
-        <figure>
-          <div class="frame r43 placeholder">Sketches and textile samples</div>
-          <figcaption><span class="note todo">To be added</span>Process.</figcaption>
-        </figure>
-      </div>
     </div>
   </section>
   </main>
 
   <footer class="foot">
-    <span>Mahya Mirzaee, 2026 · speculative design prototype · documentation is staged, not study data</span>
-    <span>No tracking, no cookies</span>
+    <span>The digital prototype is the current design contribution. The furniture installation is a proposed future direction. Documentation shows staged interaction, not a formal observational study.</span>
+    <span>Mahya Mirzaee, 2026 · no tracking, no cookies</span>
   </footer>
 </div>
 
 <script>
   // Slideshow: a new screen capture every 6 seconds, woven in from the top.
-  // It pauses on hover, on keyboard focus, and with the II button.
+  // It pauses on hover and with the II button, and stays still for visitors who reduce motion.
   (function () {
     var box = document.getElementById("slides");
     var slides = box.querySelectorAll(".slide");
@@ -141,7 +156,7 @@
       slides[i].classList.remove("on");
       slides[i].classList.add("was");
       i = (n + slides.length) % slides.length;
-      void slides[i].offsetWidth;          // restart the weave-in animation
+      void slides[i].offsetWidth;
       slides[i].classList.add("on");
       caption.textContent = slides[i].getAttribute("data-caption");
       count.textContent = (i + 1) + "/" + slides.length;
