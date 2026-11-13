@@ -7,7 +7,7 @@
   <meta name="description" content="TACT: a speculative HCI artefact. A digital textile that only takes shape when two touches meet, questioning how shared, voluntary and embodied experience might find room in institutional public spaces.">
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="project.css?v=18">
+  <link rel="stylesheet" href="project.css?v=20">
 </head>
 <body>
 <div class="page">
@@ -69,20 +69,14 @@
 
       <div class="in-use">
         <h2 class="cluster-title">Prototype in use</h2>
-        <div class="row3">
-          <figure>
-            <div class="frame r43 clip"><video src="video/in-use-1.mp4" poster="video/poster-1.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on waiting-room chairs touch the tablet placed on a chair between them."></video></div>
-            <figcaption><span class="note">Staged</span>Between two chairs</figcaption>
-          </figure>
-          <figure>
-            <div class="frame r43 clip"><video src="video/in-use-2.mp4" poster="video/poster-2.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two hands, one from each side, touching the edges of the tablet on a table."></video></div>
-            <figcaption><span class="note">Staged</span>Two hands at a table</figcaption>
-          </figure>
-          <figure>
-            <div class="frame r43 clip"><video src="video/in-use-3.mp4" poster="video/poster-3.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on a sofa rest a hand on the tablet lying between them."></video></div>
-            <figcaption><span class="note">Staged</span>On a shared sofa</figcaption>
-          </figure>
+        <div class="mosaic">
+          <div class="tile zoomable t-textile"><img src="img/photo-textile.webp" alt="The tablet running TACT lies on a handwoven indigo and lilac textile with fringed ends; on screen, the digital weave and the A and B finger spots." loading="lazy"></div>
+          <div class="tile zoomable t-start"><img src="img/photo-start.webp" alt="The TACT start screen: a digital textile that only takes shape when two touches meet." loading="lazy"></div>
+          <div class="tile zoomable t-hands"><video src="video/in-use-2.mp4" poster="video/poster-2.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two hands, one from each side, touching the edges of the tablet on a table."></video></div>
+          <div class="tile zoomable t-chairs"><video src="video/in-use-1.mp4" poster="video/poster-1.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on waiting-room chairs touch the tablet placed on a chair between them."></video></div>
+          <div class="tile zoomable t-sofa"><video src="video/in-use-3.mp4" poster="video/poster-3.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on a sofa rest a hand on the tablet lying between them."></video></div>
         </div>
+        <p class="mosaic-caption"><span class="note">Staged</span>The prototype on a handwoven textile, its start screen, and three short demonstrations: two hands at a table, between two chairs, on a shared sofa.</p>
       </div>
     </div>
   </section>
@@ -118,7 +112,7 @@
         <p class="intention"><span>Design intention</span>Could a shared textile surface make room for voluntary, non-verbal interaction without requiring conversation or social engagement?</p>
       </div>
       <figure>
-        <div class="frame r1410">
+        <div class="frame r1410 zoomable">
           <img src="future-shared-furniture.svg?v=7" alt="Concept drawing, front view and plan: two mirrored benches with soft seats and bent-wood frames, whose wooden ends meet as one small shared table. A woven surface on it has a touch area A on one side and B on the other; a screen in the middle shows the digital weaving while both are touched." loading="lazy" style="object-fit:contain">
         </div>
         <figcaption><span class="note concept">Speculative concept</span>Design proposal. Not built or tested.</figcaption>
@@ -180,6 +174,68 @@
     box.addEventListener("mouseleave", function () { hovering = false; schedule(); });
     if (reduce) { paused = true; pauseBtn.textContent = "▶"; }
     schedule();
+  })();
+</script>
+
+<script>
+  // Large view: click (or Enter) on a picture or video opens it big.
+  // Close with a click anywhere, the × button, or Esc.
+  (function () {
+    var lb = document.createElement("div");
+    lb.className = "lightbox";
+    lb.hidden = true;
+    lb.setAttribute("role", "dialog");
+    lb.setAttribute("aria-modal", "true");
+    lb.setAttribute("aria-label", "Large view");
+    lb.innerHTML = '<button class="lb-close" type="button" aria-label="Close large view">×</button>' +
+                   '<div class="lb-inner"></div><p class="lb-cap"></p>';
+    document.body.appendChild(lb);
+    var inner = lb.querySelector(".lb-inner");
+    var cap = lb.querySelector(".lb-cap");
+    var closeBtn = lb.querySelector(".lb-close");
+    var opener = null;
+
+    function open(tile) {
+      var m = tile.querySelector("img, video");
+      if (!m) return;
+      var big;
+      if (m.tagName === "VIDEO") {
+        big = document.createElement("video");
+        big.src = m.getAttribute("src");
+        big.muted = true; big.loop = true; big.autoplay = true; big.playsInline = true; big.controls = true;
+      } else {
+        big = document.createElement("img");
+        big.src = m.getAttribute("src");
+        big.alt = m.getAttribute("alt") || "";
+      }
+      big.addEventListener("click", function (e) { e.stopPropagation(); });
+      inner.replaceChildren(big);
+      cap.textContent = m.getAttribute("alt") || m.getAttribute("aria-label") || "";
+      opener = tile;
+      lb.hidden = false;
+      document.documentElement.style.overflow = "hidden";
+      closeBtn.focus();
+    }
+    function close() {
+      if (lb.hidden) return;
+      lb.hidden = true;
+      inner.replaceChildren();
+      document.documentElement.style.overflow = "";
+      if (opener) opener.focus();
+    }
+
+    document.querySelectorAll(".zoomable").forEach(function (tile) {
+      tile.tabIndex = 0;
+      tile.setAttribute("role", "button");
+      tile.setAttribute("aria-label", "Open large view");
+      tile.addEventListener("click", function () { open(tile); });
+      tile.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(tile); }
+      });
+    });
+    lb.addEventListener("click", close);
+    closeBtn.addEventListener("click", function (e) { e.stopPropagation(); close(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
   })();
 </script>
 </body>
