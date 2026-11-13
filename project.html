@@ -7,7 +7,7 @@
   <meta name="description" content="TACT: a speculative HCI artefact. A digital textile that only takes shape when two touches meet, questioning how shared, voluntary and embodied experience might find room in institutional public spaces.">
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="project.css?v=21">
+  <link rel="stylesheet" href="project.css?v=22">
 </head>
 <body>
 <div class="page">
@@ -48,7 +48,7 @@
     <div class="cluster">
       <figure>
         <div class="frame r32 slides" id="slides" data-slide="0" data-invite="1" aria-roledescription="slideshow" aria-label="Screen captures of the digital prototype">
-          <img class="slide on" src="img/photo-textile.webp" alt="The tablet running TACT on the handwoven fabric made for the prototype." data-caption="The prototype on its handwoven fabric.">
+          <img class="slide on" src="img/photo-start.webp" alt="The TACT start screen: a digital textile that only takes shape when two touches meet." data-caption="The TACT start screen.">
           <img class="slide" src="img/loom-1-presence.webp" alt="Warp threads leaning towards the left edge where one touch is placed; nothing is woven." data-caption="01 · One touch: the threads lean towards it. Nothing is woven.">
           <img class="slide" src="img/loom-2-joining.webp" alt="Warp threads lit from both edges towards the centre as a second touch joins." data-caption="02 · A second touch: light travels in from both edges." loading="lazy">
           <img class="slide" src="img/loom-3-weaving.webp" alt="Lilac weft interlaced with indigo warp; a dark shuttle carries the newest row." data-caption="02 · Weaving: each row is one shared beat." loading="lazy">
@@ -71,13 +71,15 @@
       <div class="in-use">
         <h2 class="cluster-title">Prototype in use</h2>
         <div class="mosaic">
-          <div class="tile zoomable t-textile"><video src="video/in-use-2.mp4" poster="video/poster-2.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two hands, one from each side, touching the edges of the tablet on a table."></video></div>
-          <div class="tile zoomable t-start"><img src="img/photo-start.webp" alt="The TACT start screen: a digital textile that only takes shape when two touches meet." loading="lazy"></div>
-          <div class="tile zoomable t-hands"><img src="img/photo-textile.webp" alt="The tablet running TACT on the handwoven prototype fabric: indigo and lilac stripes with fringed ends." loading="lazy"><span class="tile-label">Handwoven prototype fabric</span></div>
+          <div class="tile zoomable t-swap" id="swap">
+            <img class="swap-item on" src="img/photo-textile.webp" alt="The tablet running TACT on the handwoven prototype fabric: indigo and lilac stripes with fringed ends." loading="lazy">
+            <video class="swap-item" src="video/in-use-2.mp4" poster="video/poster-2.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two hands, one from each side, touching the edges of the tablet on a table."></video>
+            <span class="tile-label" id="swap-label">Handwoven prototype fabric</span>
+          </div>
           <div class="tile zoomable t-chairs"><video src="video/in-use-1.mp4" poster="video/poster-1.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on waiting-room chairs touch the tablet placed on a chair between them."></video></div>
           <div class="tile zoomable t-sofa"><video src="video/in-use-3.mp4" poster="video/poster-3.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on a sofa rest a hand on the tablet lying between them."></video></div>
         </div>
-        <p class="mosaic-caption"><span class="note">Staged</span>Two hands at a table; the handwoven prototype fabric under the tablet; the start screen; between two chairs; on a shared sofa.</p>
+        <p class="mosaic-caption"><span class="note">Staged</span>The handwoven prototype fabric under the tablet, alternating with two hands trying the prototype; beside them, between two chairs and on a shared sofa.</p>
       </div>
     </div>
   </section>
@@ -179,6 +181,27 @@
 </script>
 
 <script>
+  // The large tile: the fabric photo and the two-hands video take turns, fading into each other.
+  (function () {
+    var tile = document.getElementById("swap");
+    if (!tile) return;
+    var items = tile.querySelectorAll(".swap-item");
+    var label = document.getElementById("swap-label");
+    var i = 0, hovering = false;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    tile.addEventListener("mouseenter", function () { hovering = true; });
+    tile.addEventListener("mouseleave", function () { hovering = false; });
+    setInterval(function () {
+      if (hovering) return;
+      items[i].classList.remove("on");
+      i = (i + 1) % items.length;
+      items[i].classList.add("on");
+      label.style.opacity = items[i].tagName === "IMG" ? "1" : "0";
+    }, 7000);
+  })();
+</script>
+
+<script>
   // Large view: click (or Enter) on a picture or video opens it big.
   // Close with a click anywhere, the × button, or Esc.
   (function () {
@@ -197,7 +220,7 @@
     var opener = null;
 
     function open(tile) {
-      var m = tile.querySelector("img, video");
+      var m = tile.querySelector(".swap-item.on") || tile.querySelector("img, video");
       if (!m) return;
       var big;
       if (m.tagName === "VIDEO") {
