@@ -7,7 +7,7 @@
   <meta name="description" content="TACT: a speculative HCI artefact. A digital textile that only takes shape when two touches meet, questioning how shared, voluntary and embodied experience might find room in institutional public spaces.">
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="project.css?v=32">
+  <link rel="stylesheet" href="project.css?v=30">
 </head>
 <body>
 <div class="page">
@@ -21,7 +21,7 @@
   <section class="sheet" aria-labelledby="title">
     <div class="col">
       <h1 id="title">TACT</h1>
-      <p class="sub">Speculative HCI · Research through Design · 2026</p>
+      <p class="sub">Research through Design · 2026</p>
       <div class="thread" aria-hidden="true"></div>
 
       <p class="lead">A digital textile that only takes shape when two touches meet.</p>
@@ -45,8 +45,8 @@
       <p class="small">A working prototype for tablets. It senses touch points, not people: it cannot tell whether two touches come from two different people or from one person using both hands.</p>
     </div>
 
-    <div class="cluster hang">
-      <figure class="h-slides">
+    <div class="cluster">
+      <figure>
         <div class="frame r32 slides" id="slides" data-slide="0" aria-roledescription="slideshow" aria-label="Screen captures of the digital prototype">
           <img class="slide on" src="img/loom-1-presence.webp" alt="Warp threads leaning towards the left edge where one touch is placed; nothing is woven." data-caption="01 · One touch: the threads lean towards it. Nothing is woven.">
           <img class="slide" src="img/loom-2-joining.webp" alt="Warp threads lit from both edges towards the centre as a second touch joins." data-caption="02 · A second touch: light travels in from both edges." loading="lazy">
@@ -67,7 +67,7 @@
         </div>
       </figure>
 
-      <figure class="h-scenario">
+      <figure>
         <div class="frame r21 zoomable scenario" id="scenario" data-cap="Speculative scenario">
           <img class="swap-item on" src="img/scenario-1.webp" alt="Comic panel 1: two figures sit on chairs on either side of a small table covered with a woven textile and a screen; they ignore each other." loading="lazy" data-cap="Waiting">
           <img class="swap-item" src="img/scenario-2.webp" alt="Comic panel 2: one figure curiously touches the textile; a soft light appears under the finger; the other still looks away." loading="lazy" data-cap="One touch">
@@ -77,23 +77,19 @@
         <figcaption><span class="note concept">Speculative scenario</span></figcaption>
       </figure>
 
-      <figure class="h-swap">
-        <div class="tile zoomable t-swap frame r43" id="swap" data-cap-img="Handwoven prototype fabric" data-cap-video="Two hands">
+      <div class="in-use">
+        <h2 class="cluster-title">Prototype in use</h2>
+        <div class="mosaic">
+          <div class="tile zoomable t-swap" id="swap" data-cap-img="Handwoven prototype fabric" data-cap-video="Two hands">
             <img class="swap-item on" src="img/photo-textile-v2.webp" alt="The tablet running TACT on the handwoven prototype fabric: indigo and lilac stripes with fringed ends." loading="lazy">
             <video class="swap-item" src="video/in-use-2.mp4" poster="video/poster-2.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two hands, one from each side, touching the edges of the tablet on a table."></video>
             <span class="tile-label" id="swap-label">Handwoven</span>
           </div>
-        <figcaption><span class="note">Prototype in use</span></figcaption>
-      </figure>
-
-      <figure class="h-chairs">
-        <div class="tile zoomable t-chairs frame r43" data-cap="Between two chairs"><video src="video/in-use-1.mp4" poster="video/poster-1.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on waiting-room chairs touch the tablet placed on a chair between them."></video></div>
-      </figure>
-
-      <figure class="h-sofa">
-        <div class="tile zoomable t-sofa frame r43" data-cap="On a shared sofa"><video src="video/in-use-3.mp4" poster="video/poster-3.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on a sofa rest a hand on the tablet lying between them."></video></div>
-        <figcaption><span class="note">Staged</span></figcaption>
-      </figure>
+          <div class="tile zoomable t-chairs" data-cap="Between two chairs"><video src="video/in-use-1.mp4" poster="video/poster-1.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on waiting-room chairs touch the tablet placed on a chair between them."></video></div>
+          <div class="tile zoomable t-sofa" data-cap="On a shared sofa"><video src="video/in-use-3.mp4" poster="video/poster-3.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on a sofa rest a hand on the tablet lying between them."></video></div>
+        </div>
+        <p class="mosaic-caption"><span class="note">Staged</span></p>
+      </div>
     </div>
   </section>
 
