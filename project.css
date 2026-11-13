@@ -468,12 +468,12 @@ ol.qs li { margin-bottom: 0.7em; padding-left: 0.2em; }
 .tile { position: relative; }
 
 /* mosaic v2: one large swapping tile, two videos beside it */
-.t-swap   { grid-column: 1 / 5; grid-row: 1 / 7; }
+.t-swap   { grid-column: 1 / 5; grid-row: 1 / 6; }
 .t-swap .swap-item { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1200ms ease; }
 .t-swap .swap-item.on { opacity: 1; }
 .t-swap .tile-label { z-index: 1; transition: opacity 600ms ease; }
-.mosaic .t-chairs { grid-column: 5 / 7; grid-row: 1 / 4; }
-.mosaic .t-sofa   { grid-column: 5 / 7; grid-row: 4 / 7; }
+.mosaic .t-chairs { grid-column: 5 / 7; grid-row: 1 / 3; }
+.mosaic .t-sofa   { grid-column: 5 / 7; grid-row: 3 / 6; }
 
 /* related work: linked titles */
 .related li { font-size: 13.5px; line-height: 1.45; border-bottom-style: solid; border-bottom-color: var(--rule); }
@@ -525,5 +525,3 @@ ol.qs li { margin-bottom: 0.7em; padding-left: 0.2em; }
 .future-pair .drawing img { object-fit: contain; }
 @media (max-width: 480px) { .future-pair { grid-template-columns: 1fr; } }
 
-/* speculative scenario: a bit larger, matching the comic panels (no side bars) */
-.scenario.r21 { aspect-ratio: 15 / 8; }
