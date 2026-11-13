@@ -524,3 +524,35 @@ ol.qs li { margin-bottom: 0.7em; padding-left: 0.2em; }
 .future-pair .drawing { background: #fff; }
 .future-pair .drawing img { object-fit: contain; }
 @media (max-width: 480px) { .future-pair { grid-template-columns: 1fr; } }
+
+/* ---------- Screen 1: a loose, salon-style hang ----------
+   Frames of different sizes, staggered, deliberately not lined up. */
+.hang {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 20px 22px;
+}
+.hang figure { margin: 0; }
+.hang .h-slides   { width: 60%; }
+.hang .h-scenario { width: calc(40% - 22px); margin-top: 58px; }
+.hang .h-swap     { width: 41%; margin-top: 6px; margin-left: 4%; }
+.hang .h-chairs   { width: 22%; margin-top: 44px; }
+.hang .h-sofa     { width: calc(33% - 44px - 4%); margin-top: 14px; }
+.hang .tile.frame { position: relative; overflow: hidden; }
+.hang .t-swap, .hang .t-chairs, .hang .t-sofa { grid-column: auto; grid-row: auto; }
+.hang .tile video, .hang .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hang figcaption { margin-top: 6px; }
+/* small screens: a simple column */
+@media (max-width: 900px) {
+  .hang .h-slides, .hang .h-scenario, .hang .h-swap, .hang .h-chairs, .hang .h-sofa { width: 100%; margin: 0; }
+  .hang .h-chairs, .hang .h-sofa { width: calc(50% - 11px); }
+}
+
+/* hang: use the full column and match the text height */
+.sheet > .cluster.hang { max-width: none; }
+.hang .h-slides   { width: 64%; }
+.hang .h-scenario { width: calc(36% - 22px); margin-top: 72px; }
+.hang .h-swap     { width: 46%; margin-top: 4px; margin-left: 3%; }
+.hang .h-chairs   { width: 24%; margin-top: 52px; }
+.hang .h-sofa     { width: calc(27% - 44px); margin-top: 18px; }
