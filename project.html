@@ -7,7 +7,7 @@
   <meta name="description" content="TACT: a speculative HCI artefact. A digital textile that only takes shape when two touches meet, questioning how shared, voluntary and embodied experience might find room in institutional public spaces.">
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="project.css?v=23">
+  <link rel="stylesheet" href="project.css?v=24">
 </head>
 <body>
 <div class="page">
@@ -71,15 +71,15 @@
       <div class="in-use">
         <h2 class="cluster-title">Prototype in use</h2>
         <div class="mosaic">
-          <div class="tile zoomable t-swap" id="swap">
+          <div class="tile zoomable t-swap" id="swap" data-cap-img="Handwoven prototype fabric" data-cap-video="Two hands">
             <img class="swap-item on" src="img/photo-textile.webp" alt="The tablet running TACT on the handwoven prototype fabric: indigo and lilac stripes with fringed ends." loading="lazy">
             <video class="swap-item" src="video/in-use-2.mp4" poster="video/poster-2.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two hands, one from each side, touching the edges of the tablet on a table."></video>
-            <span class="tile-label" id="swap-label">Handwoven prototype fabric</span>
+            <span class="tile-label" id="swap-label">Handwoven</span>
           </div>
-          <div class="tile zoomable t-chairs"><video src="video/in-use-1.mp4" poster="video/poster-1.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on waiting-room chairs touch the tablet placed on a chair between them."></video></div>
-          <div class="tile zoomable t-sofa"><video src="video/in-use-3.mp4" poster="video/poster-3.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on a sofa rest a hand on the tablet lying between them."></video></div>
+          <div class="tile zoomable t-chairs" data-cap="Between two chairs"><video src="video/in-use-1.mp4" poster="video/poster-1.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on waiting-room chairs touch the tablet placed on a chair between them."></video></div>
+          <div class="tile zoomable t-sofa" data-cap="On a shared sofa"><video src="video/in-use-3.mp4" poster="video/poster-3.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on a sofa rest a hand on the tablet lying between them."></video></div>
         </div>
-        <p class="mosaic-caption"><span class="note">Staged</span>The handwoven prototype fabric under the tablet, alternating with two hands trying the prototype; beside them, between two chairs and on a shared sofa.</p>
+        <p class="mosaic-caption"><span class="note">Staged</span></p>
       </div>
     </div>
   </section>
@@ -115,10 +115,10 @@
         <p class="intention"><span>Design intention</span>Could a shared textile surface make room for voluntary, non-verbal interaction without requiring conversation or social engagement?</p>
       </div>
       <figure>
-        <div class="frame r1410 zoomable">
+        <div class="frame r1410 zoomable" data-cap="From screen to shared furniture">
           <img src="future-shared-furniture.svg?v=7" alt="Concept drawing, front view and plan: two mirrored benches with soft seats and bent-wood frames, whose wooden ends meet as one small shared table. A woven surface on it has a touch area A on one side and B on the other; a screen in the middle shows the digital weaving while both are touched." loading="lazy" style="object-fit:contain">
         </div>
-        <figcaption><span class="note concept">Speculative concept</span>Design proposal. Not built or tested.</figcaption>
+        <figcaption><span class="note concept">Speculative</span></figcaption>
       </figure>
 
       <div class="related">
@@ -235,7 +235,8 @@
       }
       big.addEventListener("click", function (e) { e.stopPropagation(); });
       inner.replaceChildren(big);
-      cap.textContent = m.getAttribute("alt") || m.getAttribute("aria-label") || "";
+      cap.textContent = tile.getAttribute("data-cap") ||
+        tile.getAttribute(m.tagName === "VIDEO" ? "data-cap-video" : "data-cap-img") || "";
       opener = tile;
       lb.hidden = false;
       document.documentElement.style.overflow = "hidden";
