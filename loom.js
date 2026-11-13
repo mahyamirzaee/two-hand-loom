@@ -93,7 +93,8 @@
       if (labels[0]) labels[0].textContent = "A";
       if (labels[1]) labels[1].textContent = "B";
       document.getElementById("status").textContent =
-        "Touch or click both edges, A and B, to weave. One side alone only moves the threads.";
+        "Touch or click the spots on both edges, A and B, to weave. More fingers, other patterns. " +
+        "Keyboard: A S D and J K L.";
     }
     if (!DEMO) {
       // lets the tablet add the exhibition as a full-screen home-screen app
@@ -107,8 +108,15 @@
   // ---------- State ----------
   let screen = EXHIBITION ? "loom" : "start";   // "start", "loom", "end" or "menu"
   const fingers = new Map();                     // finger id -> { zone, y }
-  const keys = { left: false, right: false };    // laptop test keys
-  const sticky = { left: false, right: false, yL: 0, yR: 0 }; // demo: sides held by a mouse click
+  const keys = { left: false, right: false };    // laptop test keys (any key of that side held)
+  // Finger spots (exhibition): three on each side, like the treadles of a loom.
+  // Keyboard: A S D = left spots, J K L = right spots. Mouse: a click keeps a spot held.
+  const SPOT_KEYS = { a: ["left", 0], s: ["left", 1], d: ["left", 2], j: ["right", 0], k: ["right", 1], l: ["right", 2] };
+  const keySpots = { left: new Set(), right: new Set() };
+  const sticky = { left: new Set(), right: new Set() };
+  const spotEls = { left: [], right: [] };
+  let fingersNow = 0;   // how many fingers/spots take part right now (chooses the pattern)
+  let hintMs = 0, hintGone = false;
   const rows = [];      // woven rows: { dir, hue, tone, p, loose, head, wob, wasFinished }
   let current = null;   // the row on the loom right now
   let clothVersion = 0; // goes up whenever the finished cloth changes (redraw needed)
@@ -164,11 +172,11 @@
     keepAwake();
     if (screen !== "loom") return;
     const zone = zoneAt(e.clientX);
-    if (zone && DEMO && e.pointerType === "mouse") {
-      // demo on a laptop: one mouse can't hold two edges, so a click keeps a side "held"
-      // until it is clicked again
-      sticky[zone] = !sticky[zone];
-      sticky[zone === "left" ? "yL" : "yR"] = e.clientY;
+    if (zone && EXHIBITION && e.pointerType === "mouse") {
+      // on a laptop one mouse can't hold two edges, so a click keeps the nearest
+      // finger spot "held" until it is clicked again
+      const i = spotNear(zone, e.clientY);
+      if (sticky[zone].has(i)) sticky[zone].delete(i); else sticky[zone].add(i);
     } else if (zone) {
       fingers.set(e.pointerId, { zone: zone, y: e.clientY }); // keeps the zone where it landed
     } else if (EXHIBITION && !DEMO && e.clientY < window.innerHeight * 0.3) {
@@ -199,6 +207,8 @@
   function forgetAll() {
     fingers.clear();
     keys.left = keys.right = false;
+    keySpots.left.clear();
+    keySpots.right.clear();
     cancelMenuHold();
   }
   window.addEventListener("blur", forgetAll);
@@ -206,18 +216,73 @@
     if (document.hidden) forgetAll(); else keepAwake();
   });
 
-  // Laptop testing: hold A (left person) and L (right person) together. M = artist menu.
+  // Keyboard: hold A S D (left person) and J K L (right person). More keys = more fingers.
+  // M = artist menu (exhibition, not in the demo).
   window.addEventListener("keydown", function (e) {
     const k = e.key.toLowerCase();
-    if (k === "a") keys.left = true;
-    if (k === "l") keys.right = true;
-    if (k === "m" && EXHIBITION && !e.repeat) show(screen === "menu" ? "loom" : "menu");
+    const s = SPOT_KEYS[k];
+    if (s) { keySpots[s[0]].add(s[1]); keys[s[0]] = true; }
+    if (k === "m" && EXHIBITION && !DEMO && !e.repeat) show(screen === "menu" ? "loom" : "menu");
   });
   window.addEventListener("keyup", function (e) {
     const k = e.key.toLowerCase();
-    if (k === "a") keys.left = false;
-    if (k === "l") keys.right = false;
+    const s = SPOT_KEYS[k];
+    if (s) { keySpots[s[0]].delete(s[1]); keys[s[0]] = keySpots[s[0]].size > 0; }
   });
+
+  // The finger spots: three small circles inside each hand zone (exhibition only).
+  if (EXHIBITION) {
+    ["left", "right"].forEach(function (side) {
+      const zone = side === "left" ? zoneLeft : zoneRight;
+      const box = document.createElement("div");
+      box.className = "spots";
+      for (let i = 0; i < 3; i++) {
+        const s = document.createElement("span");
+        s.className = "spot";
+        box.appendChild(s);
+        spotEls[side].push(s);
+      }
+      zone.appendChild(box);
+    });
+  }
+  function spotY(side, i) {
+    const el = spotEls[side][i];
+    if (!el) return window.innerHeight / 2;
+    const r = el.getBoundingClientRect();
+    return r.top + r.height / 2;
+  }
+  function spotNear(side, y) {
+    let best = 0, bestD = Infinity;
+    for (let i = 0; i < 3; i++) {
+      const d = Math.abs(spotY(side, i) - y);
+      if (d < bestD) { bestD = d; best = i; }
+    }
+    return best;
+  }
+  let litKey = "";
+  function lightSpots(lit) {
+    const key = [...lit.left].sort().join() + "|" + [...lit.right].sort().join();
+    if (key === litKey) return;
+    litKey = key;
+    ["left", "right"].forEach(function (side) {
+      spotEls[side].forEach(function (el, i) { el.classList.toggle("on", lit[side].has(i)); });
+    });
+  }
+
+  // Which weave structure a row gets, from how many fingers take part (2 to 6).
+  // 2 = plain weave, 3 = twill, 4 = basket weave, 5–6 = diamond (point twill).
+  function patternFor(n) {
+    if (n <= 2) return 0;
+    if (n === 3) return 1;
+    if (n === 4) return 2;
+    return 3;
+  }
+  function warpOnTop(pat, i, row) {
+    if (pat === 1) return (i + row) % 4 < 2;                                   // twill: diagonals
+    if (pat === 2) return (Math.floor(i / 2) + Math.floor(row / 2)) % 2 === 0; // basket: 2 × 2
+    if (pat === 3) return (Math.abs((i % 8) - 4) + row) % 4 < 2;               // diamond: zigzag
+    return (i + row) % 2 === 0;                                                // plain weave
+  }
 
   // iPhone/iPad guards: no pinch-zoom, no page bounce, no long-press menu
   // (except on the finished image, so it can be saved with a long press).
@@ -232,15 +297,30 @@
     const t = { left: false, right: false, yL: H * 0.75, yR: H * 0.75 };
     if (screen !== "loom") return t;
     let nL = 0, nR = 0, sL = 0, sR = 0;
+    const lit = { left: new Set(), right: new Set() };
     for (const f of fingers.values()) {
       if (f.zone === "left") { nL++; sL += f.y; } else { nR++; sR += f.y; }
+      if (EXHIBITION) {
+        // each finger lights its nearest free spot
+        let i = spotNear(f.zone, f.y);
+        for (let k = 0; k < 3 && lit[f.zone].has(i); k++) i = (i + 1) % 3;
+        lit[f.zone].add(i);
+      }
     }
-    t.left = keys.left || nL > 0 || sticky.left;
-    t.right = keys.right || nR > 0 || sticky.right;
-    if (!nL && sticky.left) t.yL = sticky.yL - canvasTop;
-    if (!nR && sticky.right) t.yR = sticky.yR - canvasTop;
+    ["left", "right"].forEach(function (side) {
+      keySpots[side].forEach(function (i) { lit[side].add(i); });
+      sticky[side].forEach(function (i) { lit[side].add(i); });
+    });
+    t.left = nL > 0 || keys.left || lit.left.size > 0;
+    t.right = nR > 0 || keys.right || lit.right.size > 0;
+    if (EXHIBITION) {
+      lightSpots(lit);
+      if (!nL && lit.left.size) t.yL = spotY("left", [...lit.left][0]) - canvasTop;
+      if (!nR && lit.right.size) t.yR = spotY("right", [...lit.right][0]) - canvasTop;
+    }
     if (nL) t.yL = sL / nL - canvasTop;
     if (nR) t.yR = sR / nR - canvasTop;
+    fingersNow = Math.min(3, Math.max(nL, lit.left.size)) + Math.min(3, Math.max(nR, lit.right.size));
     return t;
   }
 
@@ -312,7 +392,7 @@
         v: 2, day: day, encounters: encounters,
         rows: rows.map(function (r) {
           return [r.dir, +r.hue.toFixed(1), +r.tone.toFixed(1), +r.p.toFixed(3),
-            r.loose ? 1 : 0, r.head ? 1 : 0, r.wob | 0];
+            r.loose ? 1 : 0, r.head ? 1 : 0, r.wob | 0, r.pat | 0];
         }),
       }));
     } catch (e) { /* storage unavailable: the cloth simply isn't kept after reload */ }
@@ -335,6 +415,7 @@
           loose: !!a[4],
           head: !!a[5],
           wob: Math.min(3, a[6] | 0),
+          pat: Math.min(3, a[7] | 0),
           wasFinished: true,
         });
       }
@@ -385,6 +466,7 @@
       p: 0, loose: false, head: false, wob: 0, wasFinished: false,
     };
     if (EXHIBITION && headNext) { r.head = true; headNext = false; }
+    r.pat = EXHIBITION ? patternFor(fingersNow) : 0;   // more fingers, another weave structure
     return r;
   }
 
@@ -554,7 +636,7 @@
 
     // where the warp lies on top of this row
     const over = [];
-    for (let i = 0; i < geo.cols; i++) if ((i + index) % 2 === 0) over.push(i);
+    for (let i = 0; i < geo.cols; i++) if (warpOnTop(r.pat | 0, i, index)) over.push(i);
     const bounds = [geo.firstX - 3];
     for (const i of over) bounds.push(geo.xs[i]);
     bounds.push(geo.lastX + 3);
@@ -994,6 +1076,11 @@
     }
 
     if (screen === "loom") {
+      // demo: the one-line hint is only for the first glance; it fades once people weave
+      if (DEMO && mode === "weaving" && !hintGone) {
+        hintMs += dt;
+        if (hintMs > 4000) { hintGone = true; statusEl.classList.add("faded"); }
+      }
       updateStatus(t, mode);
       draw(mode, dt);
     }

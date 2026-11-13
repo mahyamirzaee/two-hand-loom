@@ -248,10 +248,32 @@ body.exhibition.demo .zone-label {
   text-transform: none;
   opacity: 0.6;
 }
+body.exhibition.demo #zone-left .zone-label { transform: none; } /* upright "A", not rotated */
 body.exhibition.demo #zone-left  { border-right: 2px solid rgba(179, 173, 216, 0.9); }
 body.exhibition.demo #zone-right { border-left:  2px solid rgba(179, 173, 216, 0.9); }
 body.exhibition.demo .zone { cursor: pointer; }
 body.exhibition.demo .zone.active { background-color: rgba(179, 173, 216, 0.16); }
 body.exhibition.demo .zone.active .zone-label { opacity: 1; }
-body.exhibition.demo #status { display: block; font-size: 0.85rem; padding: 0 1rem; }
+body.exhibition.demo #status { display: block; font-size: 0.85rem; padding: 0 1rem; transition: opacity 1.6s ease; }
+body.exhibition.demo #status.faded { opacity: 0; }
 body.exhibition.demo #loom-wrap { padding-bottom: 3rem; }
+
+/* ---------- Finger spots (exhibition): three per side, like a loom's treadles ----------
+   Each finger, key (A S D / J K L) or mouse click lights one. More fingers, other patterns. */
+body.exhibition .zone { flex-direction: column; gap: 22px; }
+.spots { display: flex; flex-direction: column; gap: 26px; }
+.spot {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(38, 48, 127, 0.28);
+  background: radial-gradient(circle, rgba(179, 173, 216, 0.55) 0 3px, transparent 4px);
+  transition: background-color 300ms ease, border-color 300ms ease, transform 300ms ease;
+}
+.spot.on {
+  border-color: rgba(38, 48, 127, 0.7);
+  background-color: rgba(179, 173, 216, 0.55);
+  transform: scale(1.08);
+}
+@media (max-height: 420px) { .spots { gap: 12px; } .spot { width: 24px; height: 24px; } }
