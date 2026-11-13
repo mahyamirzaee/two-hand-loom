@@ -277,3 +277,21 @@ body.exhibition .zone { flex-direction: column; gap: 22px; }
   transform: scale(1.08);
 }
 @media (max-height: 420px) { .spots { gap: 12px; } .spot { width: 24px; height: 24px; } }
+
+/* demo: the name of a new weave structure fades in briefly */
+#pattern-name {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(env(safe-area-inset-bottom) + 2.6rem);
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--indigo);
+  opacity: 0;
+  transition: opacity 700ms ease;
+  pointer-events: none;
+}
+#pattern-name.on { opacity: 0.85; }

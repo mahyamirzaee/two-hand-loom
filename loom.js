@@ -277,11 +277,36 @@
     if (n === 4) return 2;
     return 3;
   }
+  const PATTERN_NAMES = ["plain weave", "twill", "basket weave", "diamond"];
+  // Demo only: when the structure changes, its name fades in briefly at the bottom.
+  let patNameEl = null, patNameTimer = null, lastPatShown = 0;
+  function showPatternName(pat) {
+    if (!DEMO || pat === lastPatShown) return;
+    lastPatShown = pat;
+    if (!patNameEl) {
+      patNameEl = document.createElement("p");
+      patNameEl.id = "pattern-name";
+      patNameEl.setAttribute("aria-live", "polite");
+      document.body.appendChild(patNameEl);
+    }
+    patNameEl.textContent = PATTERN_NAMES[pat];
+    patNameEl.classList.add("on");
+    clearTimeout(patNameTimer);
+    patNameTimer = setTimeout(function () { patNameEl.classList.remove("on"); }, 2200);
+  }
   function warpOnTop(pat, i, row) {
     if (pat === 1) return (i + row) % 4 < 2;                                   // twill: diagonals
     if (pat === 2) return (Math.floor(i / 2) + Math.floor(row / 2)) % 2 === 0; // basket: 2 × 2
     if (pat === 3) return (Math.abs((i % 8) - 4) + row) % 4 < 2;               // diamond: zigzag
     return (i + row) % 2 === 0;                                                // plain weave
+  }
+  // Each structure also gets its own light/dark rhythm in the weft, so the
+  // difference is visible at a glance (lightness offset, in %).
+  function patternShade(pat, row) {
+    if (pat === 1) return -11;                                   // twill: deeper lilac, indigo diagonals
+    if (pat === 2) return Math.floor(row / 2) % 2 ? 17 : -6;     // basket: pale and mid checks
+    if (pat === 3) return row % 4 < 2 ? 15 : -12;                // diamond: bold light/dark bands
+    return 0;                                                    // plain weave
   }
 
   // iPhone/iPad guards: no pinch-zoom, no page bounce, no long-press menu
@@ -467,6 +492,7 @@
     };
     if (EXHIBITION && headNext) { r.head = true; headNext = false; }
     r.pat = EXHIBITION ? patternFor(fingersNow) : 0;   // more fingers, another weave structure
+    if (EXHIBITION) showPatternName(r.pat);
     return r;
   }
 
@@ -475,6 +501,10 @@
     const ramp = Math.min(1, weaveMs / RAMP_MS);
     const speed = 0.3 + 0.7 * ramp * ramp;        // slow first passes, then the rhythm
     if (!current) current = newRow();
+    if (EXHIBITION) {
+      const pat = patternFor(fingersNow);
+      if (pat !== current.pat) { current.pat = pat; showPatternName(pat); }
+    }
     current.p += (dt / ROW_MS) * speed;
     if (current.p >= 1) {
       current.p = 1;
@@ -633,6 +663,7 @@
     const cy = y + ROW_HEIGHT / 2;
     const thick = r.head ? 3.6 : 6.3 + rand2(index, 7) * 1.9;   // yarn thickness varies per row
     const amp = wave + (r.wob | 0) * 0.55;                     // hesitations make a row uneven
+    const shade = r.head ? 0 : patternShade(r.pat | 0, index);  // each pattern has its own light/dark rhythm
 
     // where the warp lies on top of this row
     const over = [];
@@ -643,7 +674,7 @@
 
     // 1. the floats of weft between crossings
     const floats = [];
-    c.fillStyle = threadColour(r, 1, 0);
+    c.fillStyle = threadColour(r, 1, shade);
     c.beginPath();
     for (let k = 0; k < bounds.length - 1; k++) {
       const a = Math.max(bounds[k], x0), b = Math.min(bounds[k + 1], x1);
@@ -657,7 +688,7 @@
 
     // 2. highlight where the weft rides over a warp thread (the bump of the yarn)
     if (!r.head) {
-      c.fillStyle = threadColour(r, 0.55, 10);
+      c.fillStyle = threadColour(r, 0.55, shade + 10);
       c.beginPath();
       for (const f of floats) {
         const w = (f[1] - f[0]) * 0.42;
@@ -668,7 +699,7 @@
     }
 
     // 3. shadow on the weft beside each warp that lies on top, then the warp itself
-    c.fillStyle = threadColour(r, 0.6, -14);
+    c.fillStyle = threadColour(r, 0.6, shade - 14);
     c.beginPath();
     for (const i of over) {
       const x = geo.xs[i];
