@@ -556,3 +556,24 @@ ol.qs li { margin-bottom: 0.7em; padding-left: 0.2em; }
 .hang .h-swap     { width: 46%; margin-top: 4px; margin-left: 3%; }
 .hang .h-chairs   { width: 24%; margin-top: 52px; }
 .hang .h-sofa     { width: calc(27% - 44px); margin-top: 18px; }
+
+/* Related work: full width, one paper per line, compact */
+.related-wide { margin-top: 28px; padding-top: 14px; }
+.related-wide .cluster-title { margin: 0 0 6px; }
+.related-wide ol { display: block; columns: auto; }
+.related-wide li {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 3px 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.related-wide li::before { display: inline; margin: 0; min-width: 1.2em; }
+.foot { margin-top: 24px; }
+
+/* hang on small screens (must come after the desktop sizes) */
+@media (max-width: 900px) {
+  .hang .h-slides, .hang .h-scenario, .hang .h-swap { width: 100%; margin: 0; }
+  .hang .h-chairs, .hang .h-sofa { width: calc(50% - 11px); margin: 0; }
+}
