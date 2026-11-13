@@ -994,7 +994,8 @@
     againBtn.textContent = "Start a new day";
   }
 
-  beginBtn.addEventListener("click", function () { show("loom"); });
+  // Begin opens the current prototype (finger spots, lasting traces), as shared on the project page
+  beginBtn.addEventListener("click", function () { location.href = "./?mode=exhibition&demo=1"; });
   finishBtn.addEventListener("click", function () { if (rows.length > 0) openEnd(); });
   saveBtn.addEventListener("click", saveImage);
   backBtn.addEventListener("click", function () { show("loom"); });
