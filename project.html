@@ -7,7 +7,7 @@
   <meta name="description" content="TACT: a speculative HCI artefact. A digital textile that only takes shape when two touches meet, questioning how shared, voluntary and embodied experience might find room in institutional public spaces.">
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="project.css?v=51">
+  <link rel="stylesheet" href="project.css?v=53">
 </head>
 <body>
 <div class="page">
@@ -48,7 +48,7 @@
 
     <div class="cluster">
       <figure>
-        <div class="frame r32 slides seq" id="slides" data-slide="0" aria-roledescription="slideshow" aria-label="Screen captures of the digital prototype">
+        <div class="frame r32 slides seq" id="slides" data-group="overview" data-slide="0" aria-roledescription="slideshow" aria-label="Screen captures of the digital prototype">
           <img class="slide on" src="img/loom-1-presence.webp" alt="Warp threads leaning towards the left edge where one touch is placed; nothing is woven." data-caption="01 · One touch: the threads lean towards it. Nothing is woven.">
           <img class="slide" src="img/loom-2-joining.webp" alt="Warp threads lit from both edges towards the centre as a second touch joins." data-caption="02 · A second touch: light travels in from both edges." loading="lazy">
           <img class="slide" src="img/loom-3-weaving.webp" alt="Lilac weft interlaced with indigo warp; a dark shuttle carries the newest row." data-caption="02 · Weaving: each row is one shared beat." loading="lazy">
@@ -69,7 +69,7 @@
       </figure>
 
       <h2 class="cluster-title">Prototype in use</h2>
-      <div class="mosaic">
+      <div class="mosaic" data-group="in-use">
           <div class="tile zoomable seq t-swap" id="swap" data-cap-img="Handwoven prototype fabric" data-cap-video="Two hands">
             <img class="swap-item on" src="img/photo-textile-v2.webp" alt="The tablet running TACT on the handwoven prototype fabric: indigo and lilac stripes with fringed ends." loading="lazy">
             <video class="swap-item" src="video/in-use-2.mp4" poster="video/poster-2.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two hands, one from each side, touching the edges of the tablet on a table."></video>
@@ -108,7 +108,7 @@
 
     <div class="cluster">
       <figure class="scenario-figure">
-      <div class="frame zoomable seq scenario" id="scenario" data-cap="Speculative scenario">
+      <div class="frame zoomable seq scenario" id="scenario" data-group="scenario" data-cap="Speculative scenario">
         <img class="swap-item on" src="img/scenario-1.webp" alt="Comic panel 1: two figures sit on chairs on either side of a small table covered with a woven textile and a screen; they ignore each other." loading="lazy" data-cap="Waiting">
         <img class="swap-item" src="img/scenario-2.webp" alt="Comic panel 2: one figure curiously touches the textile; a soft light appears under the finger; the other still looks away." loading="lazy" data-cap="One touch">
         <img class="swap-item" src="img/scenario-3.webp" alt="Comic panel 3: both figures rest a hand on the textile; it glows, the screen fills with weaving, and both smile." loading="lazy" data-cap="Two touches">
@@ -122,7 +122,6 @@
       <div class="col future">
         <h2>Future direction</h2>
         <p>A speculative physical iteration would move the interaction from glass to textile: a soft, sensor-enabled surface between two adjacent seats, integrated into a shared table, with a small screen on the table showing the digital weaving. It would explore whether softness, texture and gentle warmth change the willingness to touch, whether contact can stay incidental rather than requested, and how the surface can be easily declined.</p>
-        <p class="intention"><span>Design intention</span>Could a shared textile surface make room for voluntary, non-verbal interaction without requiring conversation or social engagement?</p>
       </div>
       <figure>
         <div class="frame sketch zoomable" data-cap="From screen to shared furniture">
@@ -168,7 +167,10 @@
       if (onBtn(e)) return;
       var dx = e.clientX - x0, dy = e.clientY - y0;
       if (Math.abs(dx) > 35 && Math.abs(dx) > Math.abs(dy)) { if (dx < 0) next(); else prev(); }
-      else if (!moved && Date.now() - t0 < 700) next();
+      else if (!moved && Date.now() - t0 < 700) {
+        el.dispatchEvent(new CustomEvent("tact-open", { bubbles: true }));
+        return;
+      }
       else return;
       if (onUse) onUse();
     });
@@ -208,7 +210,7 @@
     }
     function schedule() {
       clearInterval(timer);
-      if (!paused && !hovering && !reduce) timer = setInterval(function () { go(i + 1); }, 6000);
+      if (!paused && !hovering && !reduce) timer = setInterval(function () { go(i + 1); }, 3000);
     }
     document.getElementById("slide-next").onclick = function () { go(i + 1); schedule(); };
     document.getElementById("slide-prev").onclick = function () { go(i - 1); schedule(); };
@@ -239,7 +241,7 @@
     }
     function schedule() {
       clearInterval(timer);
-      if (!hovering && !reduce) timer = setInterval(function () { go(i + 1); }, 7000);
+      if (!hovering && !reduce) timer = setInterval(function () { go(i + 1); }, 3000);
     }
     tile.addEventListener("mouseenter", function () { hovering = true; schedule(); });
     tile.addEventListener("mouseleave", function () { hovering = false; schedule(); });
@@ -266,7 +268,7 @@
     }
     function schedule() {
       clearInterval(timer);
-      if (!hovering && !reduce) timer = setInterval(function () { go(i + 1); }, 4500);
+      if (!hovering && !reduce) timer = setInterval(function () { go(i + 1); }, 3000);
     }
     box.addEventListener("mouseenter", function () { hovering = true; schedule(); });
     box.addEventListener("mouseleave", function () { hovering = false; schedule(); });
@@ -297,9 +299,18 @@
     var nextBtn = lb.querySelector(".lb-next");
     var opener = null;
 
-    function render(tile) {
-      var m = tile.querySelector(".swap-item.on, .slide.on") || tile.querySelector("img, video");
-      if (!m) return;
+    var list = [], at = 0;
+
+    function mediaOf(el) { return el.querySelector(".on") || el.querySelector("img, video"); }
+    function capOf(m) {
+      var tile = m.closest("[data-cap], [data-cap-img]");
+      return m.getAttribute("data-cap") || m.getAttribute("data-caption") ||
+        (tile ? (tile.getAttribute("data-cap") ||
+          tile.getAttribute(m.tagName === "VIDEO" ? "data-cap-video" : "data-cap-img")) : "") || "";
+    }
+    function show(n) {
+      at = (n + list.length) % list.length;
+      var m = list[at];
       var big;
       if (m.tagName === "VIDEO") {
         big = document.createElement("video");
@@ -312,16 +323,17 @@
       }
       big.addEventListener("click", function (e) { e.stopPropagation(); });
       inner.replaceChildren(big);
-      cap.textContent = m.getAttribute("data-cap") || m.getAttribute("data-caption") ||
-        tile.getAttribute("data-cap") ||
-        tile.getAttribute(m.tagName === "VIDEO" ? "data-cap-video" : "data-cap-img") || "";
+      cap.textContent = capOf(m);
     }
-    function open(tile) {
-      opener = tile;
-      render(tile);
-      var stepping = typeof tile.tactNext === "function";
-      prevBtn.hidden = !stepping;
-      nextBtn.hidden = !stepping;
+    function open(el) {
+      var group = el.closest("[data-group]") || el;
+      list = [].slice.call(group.querySelectorAll("img, video"));
+      if (!list.length) return;
+      var vis = mediaOf(el);
+      var i = list.indexOf(vis);
+      opener = el;
+      show(i < 0 ? 0 : i);
+      prevBtn.hidden = nextBtn.hidden = list.length < 2;
       lb.hidden = false;
       document.documentElement.style.overflow = "hidden";
       closeBtn.focus();
@@ -334,17 +346,17 @@
       if (opener) opener.focus();
     }
 
-    // single pictures: a click opens them large
-    document.querySelectorAll(".zoomable:not(.seq)").forEach(function (tile) {
-      tile.tabIndex = 0;
-      tile.setAttribute("role", "button");
-      tile.setAttribute("aria-label", "Open large view");
-      tile.addEventListener("click", function () { open(tile); });
-      tile.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(tile); }
+    // every picture opens the large view in the same way
+    document.querySelectorAll(".zoomable, .seq").forEach(function (el) {
+      el.tabIndex = 0;
+      el.setAttribute("role", "button");
+      el.setAttribute("aria-label", "Open large view");
+      if (!el.classList.contains("seq")) el.addEventListener("click", function () { open(el); });
+      el.addEventListener("tact-open", function () { open(el); });
+      el.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(el); }
       });
     });
-    // sequences: the corner button opens whichever picture is on show
     document.querySelectorAll(".zoom-btn").forEach(function (btn) {
       btn.addEventListener("click", function (e) {
         e.stopPropagation();
@@ -352,15 +364,9 @@
         if (frame) open(frame);
       });
     });
-    function step(dir) {
-      if (!opener) return;
-      if (dir > 0 && opener.tactNext) opener.tactNext();
-      if (dir < 0 && opener.tactPrev) opener.tactPrev();
-      render(opener);
-    }
+    function step(dir) { if (list.length > 1) show(at + dir); }
     prevBtn.addEventListener("click", function (e) { e.stopPropagation(); step(-1); });
     nextBtn.addEventListener("click", function (e) { e.stopPropagation(); step(1); });
-    // swipe inside the large view as well
     var sx = 0, sy = 0, sid = null;
     lb.addEventListener("pointerdown", function (e) { sid = e.pointerId; sx = e.clientX; sy = e.clientY; });
     lb.addEventListener("pointerup", function (e) {
