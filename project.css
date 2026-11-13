@@ -670,3 +670,54 @@ ol.qs li { margin-bottom: 0.7em; padding-left: 0.2em; }
 .statement { padding: 46px 0 50px; margin-top: 38px; }
 .foot { margin-top: 26px; }
 
+
+/* ---------- Screen 1: clips loosely placed next to each other ---------- */
+.cluster .mosaic {
+  position: relative;
+  display: block;
+  aspect-ratio: 561 / 290;
+  margin-top: 8px;
+}
+.cluster .mosaic .tile { position: absolute; aspect-ratio: 16 / 9; }
+.cluster .mosaic .t-swap   { left: 0;   top: 0;    width: 46%; }
+.cluster .mosaic .t-chairs { right: 0;  top: 13%;  width: 32%; }
+.cluster .mosaic .t-sofa   { left: 14%; bottom: 0; width: 38%; }
+
+/* ---------- Screen 2: the scenario above the future direction ---------- */
+.scenario-figure { width: 75%; }
+.scenario-figure .slidebar { max-width: none; }
+.sketch { width: 100%; aspect-ratio: 1868 / 986; background: #fff; }
+
+.foot { justify-content: center; text-align: center; }
+
+@media (max-width: 760px) {
+  .cluster .mosaic { position: static; aspect-ratio: auto; }
+  .cluster .mosaic .tile { position: relative; left: auto; right: auto; top: auto; bottom: auto; }
+  .cluster .mosaic .t-swap   { width: 78%; margin: 0 0 13px 0; }
+  .cluster .mosaic .t-chairs { width: 54%; margin: 0 0 15px 41%; }
+  .cluster .mosaic .t-sofa   { width: 64%; margin: 0 0 0 11%; }
+  .cluster > figure.scenario-figure { width: 100%; }
+}
+
+/* ---------- Large view: step through a sequence with the side buttons ---------- */
+.lb-prev, .lb-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 64px;
+  height: 96px;
+  border: 0;
+  background: rgba(251, 250, 248, 0.5);
+  color: var(--indigo);
+  font-size: 34px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 250ms ease;
+}
+.lb-prev { left: 10px; }
+.lb-next { right: 10px; }
+.lb-prev:hover, .lb-next:hover { background: rgba(179, 173, 216, 0.45); }
+.lb-prev[hidden], .lb-next[hidden] { display: none; }
+.cluster > figure.scenario-figure { width: 75%; }
+.scenario { aspect-ratio: 15 / 8; }
+@media (max-width: 760px) { .cluster > figure.scenario-figure { width: 100%; } }

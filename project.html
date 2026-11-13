@@ -7,7 +7,7 @@
   <meta name="description" content="TACT: a speculative HCI artefact. A digital textile that only takes shape when two touches meet, questioning how shared, voluntary and embodied experience might find room in institutional public spaces.">
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="project.css?v=45">
+  <link rel="stylesheet" href="project.css?v=51">
 </head>
 <body>
 <div class="page">
@@ -59,53 +59,31 @@
           <button class="zoom-btn" type="button" aria-label="Open large view">⤢</button>
         </div>
         <div class="slidebar">
-          <a class="try" href="./?mode=exhibition&amp;demo=1" target="_blank" rel="noopener">Try the live prototype ↗</a>
+          <a class="try" href="./?mode=exhibition&amp;demo=1" target="_blank" rel="noopener">Prototype overview · try it live ↗</a>
           <div class="controls">
             <button type="button" id="slide-prev" aria-label="Previous image">‹</button>
             <span class="count" id="slide-count">1/4</span>
             <button type="button" id="slide-next" aria-label="Next image">›</button>
           </div>
         </div>
-        <figcaption class="over-cap"><span class="note">Digital prototype</span>One touch · two touches · release</figcaption>
       </figure>
 
-      <h2 class="cluster-title gallery-title">Scenario and prototype in use</h2>
-      <div class="gallery">
-        <figure class="g-item">
-        <div class="frame zoomable seq scenario" id="scenario" data-cap="Speculative scenario">
-          <img class="swap-item on" src="img/scenario-1.webp" alt="Comic panel 1: two figures sit on chairs on either side of a small table covered with a woven textile and a screen; they ignore each other." loading="lazy" data-cap="Waiting">
-          <img class="swap-item" src="img/scenario-2.webp" alt="Comic panel 2: one figure curiously touches the textile; a soft light appears under the finger; the other still looks away." loading="lazy" data-cap="One touch">
-          <img class="swap-item" src="img/scenario-3.webp" alt="Comic panel 3: both figures rest a hand on the textile; it glows, the screen fills with weaving, and both smile." loading="lazy" data-cap="Two touches">
-          <button class="zoom-btn" type="button" aria-label="Open large view">⤢</button>
-        </div>
-        <div class="slidebar">
-          <figcaption><span class="note concept">Speculative</span>Waiting · one touch · two touches</figcaption>
-          <div class="controls"><span class="count" id="scenario-count">1/3</span></div>
-        </div>
-        </figure>
-        <figure class="g-item">
+      <h2 class="cluster-title">Prototype in use</h2>
+      <div class="mosaic">
           <div class="tile zoomable seq t-swap" id="swap" data-cap-img="Handwoven prototype fabric" data-cap-video="Two hands">
             <img class="swap-item on" src="img/photo-textile-v2.webp" alt="The tablet running TACT on the handwoven prototype fabric: indigo and lilac stripes with fringed ends." loading="lazy">
             <video class="swap-item" src="video/in-use-2.mp4" poster="video/poster-2.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two hands, one from each side, touching the edges of the tablet on a table."></video>
+            <span class="tile-label" id="swap-label">Handwoven fabric</span>
             <button class="zoom-btn" type="button" aria-label="Open large view">⤢</button>
           </div>
-          <figcaption><span class="note">Staged</span>Handwoven fabric · two hands</figcaption>
-        </figure>
-        <figure class="g-item">
           <div class="tile zoomable t-chairs" data-cap="Between two chairs"><video src="video/in-use-1.mp4" poster="video/poster-1.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on waiting-room chairs touch the tablet placed on a chair between them."></video></div>
-          <figcaption><span class="note">Staged</span>Between two chairs</figcaption>
-        </figure>
-        <figure class="g-item">
           <div class="tile zoomable t-sofa" data-cap="On a shared sofa"><video src="video/in-use-3.mp4" poster="video/poster-3.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on a sofa rest a hand on the tablet lying between them."></video></div>
-          <figcaption><span class="note">Staged</span>On a shared sofa</figcaption>
-        </figure>
       </div>
     </div>
   </section>
 
   <!-- ===== The central statement ===== -->
   <section class="statement" aria-labelledby="statement-label">
-    <p class="statement-label" id="statement-label">Situated context</p>
     <blockquote>What if waiting together could mean more than being processed separately?</blockquote>
   </section>
 
@@ -129,14 +107,26 @@
     </div>
 
     <div class="cluster">
+      <figure class="scenario-figure">
+      <div class="frame zoomable seq scenario" id="scenario" data-cap="Speculative scenario">
+        <img class="swap-item on" src="img/scenario-1.webp" alt="Comic panel 1: two figures sit on chairs on either side of a small table covered with a woven textile and a screen; they ignore each other." loading="lazy" data-cap="Waiting">
+        <img class="swap-item" src="img/scenario-2.webp" alt="Comic panel 2: one figure curiously touches the textile; a soft light appears under the finger; the other still looks away." loading="lazy" data-cap="One touch">
+        <img class="swap-item" src="img/scenario-3.webp" alt="Comic panel 3: both figures rest a hand on the textile; it glows, the screen fills with weaving, and both smile." loading="lazy" data-cap="Two touches">
+        <button class="zoom-btn" type="button" aria-label="Open large view">⤢</button>
+      </div>
+      <div class="slidebar">
+        <figcaption><span class="note concept">Speculative scenario</span></figcaption>
+        <div class="controls"><span class="count" id="scenario-count">1/3</span></div>
+      </div>
+      </figure>
       <div class="col future">
-        <h2>Future direction · From screen to cloth</h2>
+        <h2>Future direction</h2>
         <p>A speculative physical iteration would move the interaction from glass to textile: a soft, sensor-enabled surface between two adjacent seats, integrated into a shared table, with a small screen on the table showing the digital weaving. It would explore whether softness, texture and gentle warmth change the willingness to touch, whether contact can stay incidental rather than requested, and how the surface can be easily declined.</p>
         <p class="intention"><span>Design intention</span>Could a shared textile surface make room for voluntary, non-verbal interaction without requiring conversation or social engagement?</p>
       </div>
       <figure>
-        <div class="frame r1410 zoomable" data-cap="From screen to shared furniture">
-          <img src="future-shared-furniture.svg?v=7" alt="Concept drawing, front view and plan: two mirrored benches with soft seats and bent-wood frames, whose wooden ends meet as one small shared table. A woven surface on it has a touch area A on one side and B on the other; a screen in the middle shows the digital weaving while both are touched." loading="lazy" style="object-fit:contain">
+        <div class="frame sketch zoomable" data-cap="From screen to shared furniture">
+          <img src="img/future-sketch.webp" alt="Hand-drawn concept: two benches whose inner ends meet as a small shared table, covered with a woven surface marked A and B; a small screen on the table shows the weaving. Below, a top view of Seat A, the woven centre and Seat B." loading="lazy">
         </div>
         <figcaption><span class="note concept">Speculative</span>A possible physical version · not built or tested</figcaption>
       </figure>
@@ -153,7 +143,6 @@
   </main>
 
   <footer class="foot">
-    <span>Implemented: digital tablet prototype. Proposed: textile furniture. Documentation: staged demonstrations, not a user study.</span>
     <span>Mahya Mirzaee, 2026</span>
   </footer>
 </div>
@@ -184,6 +173,8 @@
       if (onUse) onUse();
     });
     el.addEventListener("pointercancel", function () { id = null; });
+    el.tactNext = function () { next(); if (onUse) onUse(); };
+    el.tactPrev = function () { prev(); if (onUse) onUse(); };
     el.tabIndex = 0;
     el.addEventListener("keydown", function (e) {
       if (e.key === "ArrowRight") { e.preventDefault(); next(); if (onUse) onUse(); }
@@ -295,14 +286,18 @@
     lb.setAttribute("aria-modal", "true");
     lb.setAttribute("aria-label", "Large view");
     lb.innerHTML = '<button class="lb-close" type="button" aria-label="Close large view">×</button>' +
+                   '<button class="lb-prev" type="button" aria-label="Previous picture">‹</button>' +
+                   '<button class="lb-next" type="button" aria-label="Next picture">›</button>' +
                    '<div class="lb-inner"></div><p class="lb-cap"></p>';
     document.body.appendChild(lb);
     var inner = lb.querySelector(".lb-inner");
     var cap = lb.querySelector(".lb-cap");
     var closeBtn = lb.querySelector(".lb-close");
+    var prevBtn = lb.querySelector(".lb-prev");
+    var nextBtn = lb.querySelector(".lb-next");
     var opener = null;
 
-    function open(tile) {
+    function render(tile) {
       var m = tile.querySelector(".swap-item.on, .slide.on") || tile.querySelector("img, video");
       if (!m) return;
       var big;
@@ -320,7 +315,13 @@
       cap.textContent = m.getAttribute("data-cap") || m.getAttribute("data-caption") ||
         tile.getAttribute("data-cap") ||
         tile.getAttribute(m.tagName === "VIDEO" ? "data-cap-video" : "data-cap-img") || "";
+    }
+    function open(tile) {
       opener = tile;
+      render(tile);
+      var stepping = typeof tile.tactNext === "function";
+      prevBtn.hidden = !stepping;
+      nextBtn.hidden = !stepping;
       lb.hidden = false;
       document.documentElement.style.overflow = "hidden";
       closeBtn.focus();
@@ -351,9 +352,31 @@
         if (frame) open(frame);
       });
     });
+    function step(dir) {
+      if (!opener) return;
+      if (dir > 0 && opener.tactNext) opener.tactNext();
+      if (dir < 0 && opener.tactPrev) opener.tactPrev();
+      render(opener);
+    }
+    prevBtn.addEventListener("click", function (e) { e.stopPropagation(); step(-1); });
+    nextBtn.addEventListener("click", function (e) { e.stopPropagation(); step(1); });
+    // swipe inside the large view as well
+    var sx = 0, sy = 0, sid = null;
+    lb.addEventListener("pointerdown", function (e) { sid = e.pointerId; sx = e.clientX; sy = e.clientY; });
+    lb.addEventListener("pointerup", function (e) {
+      if (e.pointerId !== sid) return;
+      sid = null;
+      var dx = e.clientX - sx, dy = e.clientY - sy;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) { e.stopPropagation(); step(dx < 0 ? 1 : -1); }
+    });
     lb.addEventListener("click", close);
     closeBtn.addEventListener("click", function (e) { e.stopPropagation(); close(); });
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
+    document.addEventListener("keydown", function (e) {
+      if (lb.hidden) return;
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowRight") step(1);
+      if (e.key === "ArrowLeft") step(-1);
+    });
   })();
 </script>
 </body>
