@@ -641,3 +641,31 @@ ol.qs li { margin-bottom: 0.7em; padding-left: 0.2em; }
 }
 .in-use .cluster-title { margin-bottom: 8px; }
 .mosaic-caption { margin-top: 10px; }
+
+/* ---------- Neat captioned gallery: large frames side by side ---------- */
+.sheet > .cluster { grid-template-columns: 1fr; gap: 18px; align-items: start; }
+.cluster > figure:nth-of-type(1),
+.cluster > figure:nth-of-type(2) { grid-column: 1; width: 100%; margin: 0; }
+.gallery-title { margin: 2px 0 0; }
+.gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 16px; }
+.g-item { margin: 0; }
+.g-item .frame, .g-item .tile { width: 100%; aspect-ratio: 16 / 9; }
+.g-item figcaption, .over-cap {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--soft);
+}
+.g-item .slidebar { max-width: none; }
+.g-item .slidebar figcaption { margin-top: 8px; }
+/* the speculative label matches the other labels */
+.note.concept { color: var(--indigo); }
+@media (max-width: 760px) { .gallery { grid-template-columns: 1fr; } }
+
+/* keep the whole page within two screens */
+.sheet > .cluster { gap: 14px; }
+.gallery { gap: 16px 16px; }
+.cluster > figure:nth-of-type(1) .r32 { aspect-ratio: 5 / 3; }
+.statement { padding: 54px 0 58px; margin-top: 44px; }
+.statement { padding: 46px 0 50px; margin-top: 38px; }
+.foot { margin-top: 26px; }
