@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>TACT · Mahya Mirzaee</title>
-  <meta name="description" content="What if a digital loom could only weave through shared human touch? An interactive textile-inspired artefact exploring touch, materiality and co-presence.">
+  <meta name="description" content="TACT: a speculative HCI artefact. A digital textile that only takes shape when two touches meet, questioning how shared, voluntary and embodied experience might find room in institutional public spaces.">
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="project.css?v=13">
+  <link rel="stylesheet" href="project.css?v=14">
 </head>
 <body>
 <div class="page">
@@ -17,34 +17,43 @@
   </nav>
 
   <main>
-  <!-- ===== Screen 1: concept, research question, digital prototype ===== -->
+  <!-- ===== Screen 1: proposition, research question, the implemented prototype ===== -->
   <section class="sheet" aria-labelledby="title">
     <div class="col">
       <h1 id="title">TACT</h1>
       <p class="sub">Speculative HCI · Research through Design · 2026</p>
       <div class="thread" aria-hidden="true"></div>
 
-      <p class="lead">What if a digital textile could only emerge through shared touch?</p>
-      <p>TACT is an interactive design artefact exploring how textile materiality and shared touch might make human co-presence perceptible. Drawing on my background in textile design, it reimagines weaving as a form of interaction rather than individual production.</p>
+      <p class="lead">A digital textile that only takes shape when two touches meet.</p>
+      <p>TACT treats weaving as a shared, embodied act rather than individual production. Drawing on my practice in textile design, it translates the qualities of cloth (thread tension, interlacing, the slow accumulation of rows) into an interface that answers to touch.</p>
 
       <h2>Research question</h2>
-      <p class="rq">How can textile-inspired interaction make shared presence in public spaces perceptible through touch?</p>
+      <p class="rq">How might textile-based interaction open room for shared, voluntary and embodied presence in public spaces designed for administrative processing?</p>
 
       <h2>The interaction</h2>
-      <ol class="numbered">
-        <li><b>01 · Individual touch.</b> A single touch sets the digital threads in motion, responding through subtle movement and changes in tension.</li>
-        <li><b>02 · Shared touch.</b> A second simultaneous touch activates the weaving. Light travels through the threads as a textile gradually takes shape.</li>
-        <li><b>03 · Lasting traces.</b> When the touches are released, the woven structure remains as a trace of the interaction.</li>
+      <ol class="stages">
+        <li>
+          <span class="thumb"><img src="img/loom-1-presence.webp" alt="" loading="lazy"></span>
+          <span><b>01 · One touch.</b> The threads respond: they lean towards the touch and change tension. Nothing is woven.</span>
+        </li>
+        <li>
+          <span class="thumb"><img src="img/loom-3-weaving.webp" alt="" loading="lazy"></span>
+          <span><b>02 · Two touches.</b> When two touch points are active at the same time, light travels through the warp and a textile forms, row by row. More touch points produce other weave structures.</span>
+        </li>
+        <li>
+          <span class="thumb"><img src="img/loom-4-trace.webp" alt="" loading="lazy"></span>
+          <span><b>03 · Release.</b> The woven structure remains, with a loose thread where the touches ended.</span>
+        </li>
       </ol>
-      <p class="small">Functional digital prototype for tablet. The prototype does not request participant identities.</p>
+      <p class="small">Implemented as a functional tablet prototype. It responds to touch points, not to people: it does not identify who is touching and cannot tell two people from one person using both hands.</p>
     </div>
 
     <div class="cluster">
       <figure>
         <div class="frame r32 slides" id="slides" data-slide="0" aria-roledescription="slideshow" aria-label="Screen captures of the digital prototype">
-          <img class="slide on" src="img/loom-1-presence.webp" alt="Warp threads leaning towards the left edge where one hand touches; nothing is woven." data-caption="01 · One touch: the threads lean towards it. Nothing is woven.">
+          <img class="slide on" src="img/loom-1-presence.webp" alt="Warp threads leaning towards the left edge where one touch is placed; nothing is woven." data-caption="01 · One touch: the threads lean towards it. Nothing is woven.">
           <img class="slide" src="img/loom-2-joining.webp" alt="Warp threads lit from both edges towards the centre as a second touch joins." data-caption="02 · A second touch: light travels in from both edges." loading="lazy">
-          <img class="slide" src="img/loom-3-weaving.webp" alt="Lilac weft interlaced with indigo warp; a dark shuttle carries the newest row." data-caption="02 · Weaving together: each row is a shared beat." loading="lazy">
+          <img class="slide" src="img/loom-3-weaving.webp" alt="Lilac weft interlaced with indigo warp; a dark shuttle carries the newest row." data-caption="02 · Weaving: each row is one shared beat." loading="lazy">
           <img class="slide" src="img/loom-4-trace.webp" alt="The woven cloth remains after release; the last row stops part-way with a loose thread end." data-caption="03 · Release: the row stays where it stopped, with a loose end." loading="lazy">
           <!-- gentle invitation on the first slide: a quiet touch mark at each edge -->
           <span class="invite left" aria-hidden="true"><i></i><b>A</b></span>
@@ -65,15 +74,15 @@
         <h2 class="cluster-title">Prototype in use</h2>
         <div class="row3">
           <figure>
-            <div class="frame r43 placeholder">Two people at the tablet</div>
-            <figcaption><span class="note todo">To be added</span>Staged interaction</figcaption>
+            <div class="frame r43 placeholder">Photograph: two people at the tablet</div>
+            <figcaption><span class="note todo">To be added</span>Staged demonstration</figcaption>
           </figure>
           <figure>
             <div class="frame r43 detail"><img src="img/loom-3-weaving.webp" alt="Close-up of the interlaced digital textile." loading="lazy"></div>
             <figcaption><span class="note">Close-up</span>Digital textile</figcaption>
           </figure>
           <figure>
-            <div class="frame r43 placeholder">Short video</div>
+            <div class="frame r43 placeholder">Short interaction video</div>
             <figcaption><span class="note todo">To be added</span>About 60 s, hands only</figcaption>
           </figure>
         </div>
@@ -81,45 +90,45 @@
 
       <div class="try-row">
         <a class="try" href="./?mode=exhibition&amp;demo=1" target="_blank" rel="noopener">Try the live prototype ↗</a>
-        <span class="small">Touch or click the spots on both edges, A and B; more fingers make other patterns. Keyboard: A S D and J K L. Nothing is stored.</span>
-      </div>
-
-      <div class="context">
-        <h2 class="cluster-title">Situated context</h2>
-        <p class="context-sub">Waiting among strangers</p>
-        <p>TACT considers the waiting room of a public immigration office as a possible setting for shared interaction.</p>
-        <blockquote class="pull">People wait together, yet are often treated as separate administrative subjects.</blockquote>
-        <p>These spaces organize people through appointments, documents and individual cases. What forms of shared experience are possible in spaces designed primarily for processing individuals?</p>
-        <p>TACT proposes a speculative alternative: a shared textile interface that offers an opportunity for interaction without requiring conversation, disclosure or participation. It asks whether public technology can make room for forms of presence that are not defined by institutional procedures.</p>
+        <span class="small">Touch or click the spots on both edges, A and B. Keyboard: A S D and J K L. Nothing woven in this demo is saved.</span>
       </div>
     </div>
   </section>
 
-  <!-- ===== Screen 2: questions, reflection, future direction, prototype in use ===== -->
-  <section class="sheet" aria-labelledby="questions">
+  <!-- ===== The central statement ===== -->
+  <section class="statement" aria-labelledby="statement-label">
+    <p class="statement-label" id="statement-label">Situated context</p>
+    <blockquote>People wait together, yet are often treated as separate administrative subjects.</blockquote>
+  </section>
+
+  <!-- ===== Screen 2: context, questions, reflection, future direction ===== -->
+  <section class="sheet" aria-labelledby="context">
     <div class="col">
-      <h2 id="questions">Questions for exploration</h2>
-      <ul class="qs">
-        <li><b>Materiality:</b> How might the softness, texture and warmth of textiles shape the experience of digital touch?</li>
-        <li><b>Power and participation:</b> Can shared interaction create opportunities for connection in institutional spaces without making social participation another expectation?</li>
-        <li><b>Public space:</b> Who gets to shape the experience of a waiting space, and what kinds of interaction are usually excluded from its design?</li>
-        <li><b>From screen to material:</b> What changes when digital interaction moves from a screen to a shared, touchable textile surface?</li>
-      </ul>
+      <h2 id="context">Waiting rooms as designed space</h2>
+      <p>TACT considers the waiting room of a public immigration office (Ausländerbehörde) as a possible setting. Such rooms are designed for processing: appointments, documents, numbers, individual cases. Their furniture and procedures place people side by side while addressing each of them alone.</p>
+      <p>TACT asks why public spaces leave so little room for shared, voluntary and embodied experience, and offers a speculative counterproposal: a soft surface that could be touched together, or simply left alone.</p>
+
+      <h2>Questions</h2>
+      <ol class="qs">
+        <li><b>Materiality.</b> When might the softness, texture or warmth of a shared textile invite touch, and when does touching it feel intrusive or unwanted?</li>
+        <li><b>Power and participation.</b> Can a shared interface in an institutional space offer connection without turning participation into one more expectation?</li>
+        <li><b>Public space.</b> Who shapes the experience of public waiting spaces, and which forms of shared, embodied presence does their design leave out?</li>
+      </ol>
 
       <h2>Reflection</h2>
-      <p>TACT is an exploratory design artifact, not a validated intervention. It does not claim to create social connection or transform institutional waiting. Instead, it examines how textile-based interaction might open up alternative ways of experiencing shared presence, while raising questions about touch, comfort, participation and autonomy.</p>
-
-      <h2>Future direction · From screen to shared furniture</h2>
-      <p>A possible physical iteration places a soft, sensor-enabled textile surface between two adjacent seats, integrated into a shared table. The surface could respond to touch and activate digital weaving on a nearby screen.</p>
-      <p>This direction could explore how softness, texture and subtle warmth influence the willingness to touch a shared surface, and whether interaction can emerge through incidental contact rather than deliberate action.</p>
+      <p>TACT is an exploratory design artefact, not a validated intervention. It does not claim to create connection, empathy or trust, nor to change institutional practice. It is offered as a material question about touch, comfort, autonomy and the organisation of public space.</p>
     </div>
 
     <div class="cluster">
+      <div class="col future">
+        <h2>Future direction · From screen to cloth</h2>
+        <p>A speculative physical iteration would move the interaction from glass to textile: a soft, sensor-enabled surface between two adjacent seats, integrated into a shared table, activating the digital weaving on a nearby screen. It would explore whether softness, texture and gentle warmth change the willingness to touch, whether contact can stay incidental rather than requested, and how the surface can be easily declined.</p>
+      </div>
       <figure>
         <div class="frame r1410">
-          <img src="future-shared-furniture.svg?v=4" alt="Concept drawing, front view and plan: two mirrored benches with soft seats and bent-wood frames, whose wooden ends meet as one small shared table. A woven surface on it has a touch area A for one person and B for the other; a screen in the middle shows the digital weaving while both are touched." loading="lazy" style="object-fit:contain">
+          <img src="future-shared-furniture.svg?v=4" alt="Concept drawing, front view and plan: two mirrored benches with soft seats and bent-wood frames, whose wooden ends meet as one small shared table. A woven surface on it has a touch area A on one side and B on the other; a screen in the middle shows the digital weaving while both are touched." loading="lazy" style="object-fit:contain">
         </div>
-        <figcaption><span class="note concept">Speculative concept</span>Speculative design proposal. Not yet built or tested.</figcaption>
+        <figcaption><span class="note concept">Speculative concept</span>Design proposal. Not built or tested.</figcaption>
       </figure>
 
       <div class="related">
@@ -134,8 +143,8 @@
   </main>
 
   <footer class="foot">
-    <span>The digital prototype is the current design contribution. The furniture installation is a proposed future direction. Documentation shows staged interaction, not a formal observational study.</span>
-    <span>Mahya Mirzaee, 2026 · no tracking, no cookies</span>
+    <span>Implemented: digital tablet prototype. Proposed: textile furniture. Documentation: staged demonstrations, not a user study.</span>
+    <span>Mahya Mirzaee, 2026 · this page uses no analytics or cookies</span>
   </footer>
 </div>
 
