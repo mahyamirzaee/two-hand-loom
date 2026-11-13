@@ -588,3 +588,24 @@ ol.qs li { margin-bottom: 0.7em; padding-left: 0.2em; }
 .col .in-use .t-swap   { width: 78%; margin: 0 0 13px 0; }
 .col .in-use .t-chairs { width: 54%; margin: 0 0 15px 41%; }
 .col .in-use .t-sofa   { width: 64%; margin: 0 0 0 11%; }
+
+/* ---------- Staged clips under the scenario: loose, but compact ---------- */
+.cluster .in-use { margin-top: 2px; }
+.cluster .in-use .mosaic {
+  position: relative;
+  display: block;
+  aspect-ratio: 561 / 290;
+}
+.cluster .in-use .tile { position: absolute; aspect-ratio: 16 / 9; }
+.cluster .in-use .t-swap   { left: 0;   top: 0;    width: 46%; }
+.cluster .in-use .t-chairs { right: 0;  top: 13%;  width: 32%; }
+.cluster .in-use .t-sofa   { left: 14%; bottom: 0; width: 38%; }
+
+/* phones: back to a simple loose stack */
+@media (max-width: 760px) {
+  .cluster .in-use .mosaic { position: static; aspect-ratio: auto; }
+  .cluster .in-use .tile { position: relative; left: auto; right: auto; top: auto; bottom: auto; }
+  .cluster .in-use .t-swap   { width: 78%; margin: 0 0 13px 0; }
+  .cluster .in-use .t-chairs { width: 54%; margin: 0 0 15px 41%; }
+  .cluster .in-use .t-sofa   { width: 64%; margin: 0 0 0 11%; }
+}
