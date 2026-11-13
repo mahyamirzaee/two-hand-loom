@@ -525,3 +525,13 @@ ol.qs li { margin-bottom: 0.7em; padding-left: 0.2em; }
 .future-pair .drawing img { object-fit: contain; }
 @media (max-width: 480px) { .future-pair { grid-template-columns: 1fr; } }
 
+
+/* Prototype in use now sits in the text column, beside the scenario frame.
+   The grid keeps its exact proportions, so the tiles only scale down. */
+.col .in-use { margin-top: 1.6em; }
+.col .in-use .mosaic {
+  aspect-ratio: 561 / 322;
+  grid-template-rows: repeat(5, 1fr);
+  grid-auto-rows: auto;
+  gap: 6px;
+}
