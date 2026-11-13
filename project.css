@@ -479,3 +479,7 @@ ol.qs li { margin-bottom: 0.7em; padding-left: 0.2em; }
 .related li { font-size: 13.5px; line-height: 1.45; border-bottom-style: solid; border-bottom-color: var(--rule); }
 .related a { color: var(--indigo); text-decoration: none; }
 .related a:hover { text-decoration: underline; }
+
+/* related work now sits in the text column, under the reflection */
+.col .related { margin-top: 1.3em; }
+.col .related .cluster-title { margin: 0 0 6px; font-size: inherit; }
