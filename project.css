@@ -575,3 +575,16 @@ ol.qs li { margin-bottom: 0.7em; padding-left: 0.2em; }
 .col .in-use .t-swap   { grid-row: 2 / 12; }
 .col .in-use .t-chairs { grid-row: 1 / 7; margin-bottom: 9px; }
 .col .in-use .t-sofa   { grid-row: 7 / 13; margin-top: 9px; margin-left: 18px; }
+
+/* ---------- Staged pictures: stacked under each other, loosely offset ---------- */
+.col .in-use .mosaic {
+  display: block;
+  aspect-ratio: auto;
+}
+.col .in-use .tile {
+  display: block;
+  aspect-ratio: 16 / 9;   /* the photo and both clips are about this shape already */
+}
+.col .in-use .t-swap   { width: 78%; margin: 0 0 13px 0; }
+.col .in-use .t-chairs { width: 54%; margin: 0 0 15px 41%; }
+.col .in-use .t-sofa   { width: 64%; margin: 0 0 0 11%; }
