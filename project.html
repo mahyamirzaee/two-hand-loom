@@ -7,7 +7,7 @@
   <meta name="description" content="TACT: a speculative HCI artefact. A digital textile that only takes shape when two touches meet, questioning how shared, voluntary and embodied experience might find room in institutional public spaces.">
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="project.css?v=15">
+  <link rel="stylesheet" href="project.css?v=16">
 </head>
 <body>
 <div class="page">
@@ -33,19 +33,16 @@
       <h2>The interaction</h2>
       <ol class="stages">
         <li>
-          <span class="thumb"><img src="img/loom-1-presence.webp" alt="" loading="lazy"></span>
           <span><b>01 · One touch.</b> The threads respond: they lean towards the touch and change tension. Nothing is woven.</span>
         </li>
         <li>
-          <span class="thumb"><img src="img/loom-3-weaving.webp" alt="" loading="lazy"></span>
           <span><b>02 · Two touches.</b> When two touch points are active at the same time, light travels through the warp and a textile forms, row by row. More touch points produce other weave structures.</span>
         </li>
         <li>
-          <span class="thumb"><img src="img/loom-4-trace.webp" alt="" loading="lazy"></span>
           <span><b>03 · Release.</b> The woven structure remains, with a loose thread where the touches ended.</span>
         </li>
       </ol>
-      <p class="small">Implemented as a functional tablet prototype. It responds to touch points, not to people: it does not identify who is touching and cannot tell two people from one person using both hands.</p>
+      <p class="small">A working prototype for tablets. It senses touch points, not people: it cannot tell whether two touches come from two different people or from one person using both hands.</p>
     </div>
 
     <div class="cluster">
@@ -60,7 +57,7 @@
           <span class="invite right" aria-hidden="true"><i></i><b>B</b></span>
         </div>
         <div class="slidebar">
-          <figcaption><span class="note">Digital prototype · screen capture</span><span id="slide-caption" aria-live="polite">01 · One touch: the threads lean towards it. Nothing is woven.</span></figcaption>
+          <a class="try" href="./?mode=exhibition&amp;demo=1" target="_blank" rel="noopener">Try the live prototype ↗</a>
           <div class="controls">
             <button type="button" id="slide-pause" aria-label="Pause slideshow">II</button>
             <button type="button" id="slide-prev" aria-label="Previous image">‹</button>
@@ -86,11 +83,6 @@
             <figcaption><span class="note todo">To be added</span>About 60 s, hands only</figcaption>
           </figure>
         </div>
-      </div>
-
-      <div class="try-row">
-        <a class="try" href="./?mode=exhibition&amp;demo=1" target="_blank" rel="noopener">Try the live prototype ↗</a>
-        <span class="small">Touch or click the spots on both edges, A and B. Keyboard: A S D and J K L. Nothing woven in this demo is saved.</span>
       </div>
     </div>
   </section>
@@ -167,7 +159,7 @@
       i = (n + slides.length) % slides.length;
       void slides[i].offsetWidth;
       slides[i].classList.add("on");
-      caption.textContent = slides[i].getAttribute("data-caption");
+      if (caption) caption.textContent = slides[i].getAttribute("data-caption");
       box.setAttribute("data-slide", i);   // the touch marks show on the first slide only
       count.textContent = (i + 1) + "/" + slides.length;
     }
