@@ -260,6 +260,8 @@ figcaption { margin-top: 8px; font-size: 13.5px; line-height: 1.5; color: var(--
 }
 .invite b { font-weight: 500; }
 .slides[data-slide="0"] .invite { opacity: 1; }
+.slides[data-invite="1"][data-slide="0"] .invite { opacity: 0; }
+.slides[data-invite="1"][data-slide="1"] .invite { opacity: 1; }
 @keyframes breathe {
   0%, 100% { transform: scale(0.88); box-shadow: 0 0 0 0 rgba(179, 173, 216, 0.5); }
   50%      { transform: scale(1);    box-shadow: 0 0 0 9px rgba(179, 173, 216, 0); }
@@ -449,3 +451,18 @@ ol.qs li { margin-bottom: 0.7em; padding-left: 0.2em; }
   color: var(--indigo);
   cursor: pointer;
 }
+
+/* a quiet label on a mosaic tile */
+.tile-label {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: rgba(251, 250, 248, 0.88);
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
+  color: var(--indigo);
+  pointer-events: none;
+}
+.tile { position: relative; }
