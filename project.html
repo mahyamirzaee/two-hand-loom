@@ -7,7 +7,7 @@
   <meta name="description" content="TACT: a speculative HCI artefact. A digital textile that only takes shape when two touches meet, questioning how shared, voluntary and embodied experience might find room in institutional public spaces.">
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="project.css?v=26">
+  <link rel="stylesheet" href="project.css?v=28">
 </head>
 <body>
 <div class="page">
@@ -115,12 +115,23 @@
         <p>A speculative physical iteration would move the interaction from glass to textile: a soft, sensor-enabled surface between two adjacent seats, integrated into a shared table, with a small screen on the table showing the digital weaving. It would explore whether softness, texture and gentle warmth change the willingness to touch, whether contact can stay incidental rather than requested, and how the surface can be easily declined.</p>
         <p class="intention"><span>Design intention</span>Could a shared textile surface make room for voluntary, non-verbal interaction without requiring conversation or social engagement?</p>
       </div>
+      <div class="pair future-pair">
       <figure>
-        <div class="frame r1410 zoomable" data-cap="From screen to shared furniture">
+        <div class="frame r43 zoomable scenario" id="scenario" data-cap="Speculative scenario">
+          <img class="swap-item on" src="img/scenario-1.webp" alt="Comic panel 1: two figures sit on chairs on either side of a small table covered with a woven textile and a screen; they ignore each other." loading="lazy" data-cap="Waiting">
+          <img class="swap-item" src="img/scenario-2.webp" alt="Comic panel 2: one figure curiously touches the textile; a soft light appears under the finger; the other still looks away." loading="lazy" data-cap="One touch">
+          <img class="swap-item" src="img/scenario-3.webp" alt="Comic panel 3: both figures rest a hand on the textile; it glows, the screen fills with weaving, and both smile." loading="lazy" data-cap="Two touches">
+          <span class="scenario-count" id="scenario-count">1/3</span>
+        </div>
+        <figcaption><span class="note concept">Speculative scenario</span></figcaption>
+      </figure>
+      <figure>
+        <div class="frame r43 zoomable drawing" data-cap="From screen to shared furniture">
           <img src="future-shared-furniture.svg?v=7" alt="Concept drawing, front view and plan: two mirrored benches with soft seats and bent-wood frames, whose wooden ends meet as one small shared table. A woven surface on it has a touch area A on one side and B on the other; a screen in the middle shows the digital weaving while both are touched." loading="lazy" style="object-fit:contain">
         </div>
         <figcaption><span class="note concept">Speculative</span></figcaption>
       </figure>
+      </div>
 
     </div>
   </section>
@@ -204,6 +215,27 @@
 </script>
 
 <script>
+  // The scenario frame: the three comic panels follow each other, like a short story.
+  (function () {
+    var box = document.getElementById("scenario");
+    if (!box) return;
+    var items = box.querySelectorAll(".swap-item");
+    var count = document.getElementById("scenario-count");
+    var i = 0, hovering = false;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    box.addEventListener("mouseenter", function () { hovering = true; });
+    box.addEventListener("mouseleave", function () { hovering = false; });
+    setInterval(function () {
+      if (hovering) return;
+      items[i].classList.remove("on");
+      i = (i + 1) % items.length;
+      items[i].classList.add("on");
+      count.textContent = (i + 1) + "/" + items.length;
+    }, 4500);
+  })();
+</script>
+
+<script>
   // Large view: click (or Enter) on a picture or video opens it big.
   // Close with a click anywhere, the × button, or Esc.
   (function () {
@@ -236,7 +268,7 @@
       }
       big.addEventListener("click", function (e) { e.stopPropagation(); });
       inner.replaceChildren(big);
-      cap.textContent = tile.getAttribute("data-cap") ||
+      cap.textContent = (m.getAttribute("data-cap")) || tile.getAttribute("data-cap") ||
         tile.getAttribute(m.tagName === "VIDEO" ? "data-cap-video" : "data-cap-img") || "";
       opener = tile;
       lb.hidden = false;
