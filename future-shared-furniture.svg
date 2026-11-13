@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1040" width="1400" height="1040" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1000" width="1400" height="1000" role="img" aria-labelledby="t d">
   <title id="t">From screen to shared furniture: a speculative seating concept for TACT</title>
   <desc id="d">Front view and top view of two adjacent seats whose inner ends meet as a small shared table. A soft, continuous, touch-sensitive textile covers the shared table and is the centre of the drawing. A small nearby screen and a small embedded module are shown in the background. Future design direction; a speculative proposal, not yet built or tested.</desc>
 
@@ -37,7 +37,7 @@
     </style>
   </defs>
 
-  <rect width="1400" height="1040" fill="#fbfaf8"/>
+  <rect width="1400" height="1000" fill="#fbfaf8"/>
 
   <!-- Header -->
   <text class="h" x="70" y="72" font-size="34" font-weight="500">From screen to shared furniture</text>
@@ -78,37 +78,39 @@
   </g>
   <!-- two hands resting -->
   <g fill="none" stroke="#141418" stroke-width="1.4" stroke-dasharray="5 4" opacity="0.7">
-    <ellipse cx="610" cy="370" rx="36" ry="16"/>
-    <ellipse cx="790" cy="370" rx="36" ry="16"/>
+    <ellipse cx="596" cy="372" rx="34" ry="15"/>
+    <ellipse cx="804" cy="372" rx="34" ry="15"/>
   </g>
 
-  <!-- secondary technology: small, quiet -->
+  <!-- secondary technology: a small screen on the shared table, a small module underneath -->
+  <g>
+    <rect x="667" y="298" width="66" height="50" rx="5" fill="#3d3f47"/>
+    <rect x="671" y="302" width="58" height="42" rx="2" fill="url(#screenweave)"/>
+    <rect x="696" y="348" width="8" height="15" fill="#3d3f47"/>
+  </g>
   <g class="quiet">
     <rect x="682" y="474" width="36" height="20" rx="3" fill="#55555f"/>
     <path d="M700 474 L700 434" fill="none" stroke="#55555f" stroke-width="1.2" stroke-dasharray="3 3"/>
-    <path d="M718 486 C900 500, 1160 470, 1268 330" fill="none" stroke="#55555f" stroke-width="1.2" stroke-dasharray="3 4"/>
-    <rect x="1236" y="262" width="74" height="58" rx="6" fill="#3d3f47"/>
-    <rect x="1241" y="267" width="64" height="48" rx="3" fill="url(#screenweave)"/>
-    <line x1="1273" y1="320" x2="1273" y2="580" stroke="#3d3f47" stroke-width="3"/>
-    <line x1="1248" y1="580" x2="1298" y2="580" stroke="#3d3f47" stroke-width="3"/>
   </g>
+  <text class="t" x="596" y="352" font-size="13" font-weight="600" text-anchor="middle" opacity="0.75">A</text>
+  <text class="t" x="804" y="352" font-size="13" font-weight="600" text-anchor="middle" opacity="0.75">B</text>
 
   <!-- Numbered markers -->
   <g>
     <circle cx="382" cy="384" r="14" fill="#26307f"/><text class="n" x="382" y="390" font-size="14" text-anchor="middle">1</text>
     <circle cx="1018" cy="384" r="14" fill="#26307f"/><text class="n" x="1018" y="390" font-size="14" text-anchor="middle">1</text>
 
-    <circle cx="700" cy="470" r="0"/>
-    <circle cx="620" cy="460" r="14" fill="#26307f"/><text class="n" x="620" y="466" font-size="14" text-anchor="middle">2</text>
-    <path class="lead" d="M628 448 L648 430"/>
+    <circle cx="500" cy="486" r="14" fill="#26307f"/><text class="n" x="500" y="492" font-size="14" text-anchor="middle">2</text>
+    <path class="lead" d="M512 478 L552 430"/>
 
-    <circle cx="700" cy="306" r="14" fill="#26307f"/><text class="n" x="700" y="312" font-size="14" text-anchor="middle">3</text>
-    <path class="lead" d="M700 320 L700 360"/>
+    <circle cx="520" cy="300" r="14" fill="#26307f"/><text class="n" x="520" y="306" font-size="14" text-anchor="middle">3</text>
+    <path class="lead" d="M532 310 L556 364"/>
 
-    <circle cx="1210" cy="246" r="14" fill="#26307f"/><text class="n" x="1210" y="252" font-size="14" text-anchor="middle">4</text>
+    <circle cx="700" cy="264" r="14" fill="#26307f"/><text class="n" x="700" y="270" font-size="14" text-anchor="middle">4</text>
+    <path class="lead" d="M700 278 L700 298"/>
 
-    <circle cx="748" cy="500" r="14" fill="#26307f"/><text class="n" x="748" y="506" font-size="14" text-anchor="middle">5</text>
-    <path class="lead" d="M734 496 L720 488"/>
+    <circle cx="820" cy="520" r="14" fill="#26307f"/><text class="n" x="820" y="526" font-size="14" text-anchor="middle">5</text>
+    <path class="lead" d="M806 516 L718 488"/>
   </g>
 
   <!-- ===== Top view ===== -->
@@ -119,17 +121,15 @@
   <rect x="540" y="654" width="320" height="86" rx="14" fill="url(#cloth)" stroke="#26307f" stroke-width="1.2"/>
   <text class="t" x="382" y="702" font-size="15" text-anchor="middle" font-weight="600">Seat A</text>
   <text class="t" x="1018" y="702" font-size="15" text-anchor="middle" font-weight="600">Seat B</text>
-  <g class="quiet">
-    <rect x="1236" y="672" width="74" height="50" rx="5" fill="#3d3f47"/>
-    <rect x="1241" y="677" width="64" height="40" rx="2" fill="url(#screenweave)"/>
-  </g>
+  <rect x="674" y="680" width="52" height="34" rx="4" fill="#3d3f47"/>
+  <rect x="678" y="684" width="44" height="26" rx="2" fill="url(#screenweave)"/>
 
   <!-- ===== Legend: five labels ===== -->
   <line x1="70" y1="780" x2="1330" y2="780" stroke="#26307f" stroke-width="1" opacity="0.25"/>
   <g>
     <circle cx="84" cy="814" r="11" fill="#26307f"/><text class="n" x="84" y="819" font-size="12" text-anchor="middle">1</text>
     <text class="t" x="104" y="810" font-size="15" font-weight="600">Two adjacent seats</text>
-    <text class="s" x="104" y="830" font-size="13.5">Two seating positions are arranged around a shared centre.</text>
+    <text class="s" x="104" y="830" font-size="13.5">Two seating positions, Seat A and Seat B, are arranged around a shared centre.</text>
 
     <circle cx="84" cy="864" r="11" fill="#26307f"/><text class="n" x="84" y="869" font-size="12" text-anchor="middle">2</text>
     <text class="t" x="104" y="860" font-size="15" font-weight="600">A shared table</text>
@@ -141,17 +141,13 @@
 
     <circle cx="764" cy="814" r="11" fill="#26307f"/><text class="n" x="764" y="819" font-size="12" text-anchor="middle">4</text>
     <text class="t" x="784" y="810" font-size="15" font-weight="600">Digital weaving</text>
-    <text class="s" x="784" y="830" font-size="13.5">A nearby screen visualises the weaving when two touch points are active simultaneously.</text>
+    <text class="s" x="784" y="830" font-size="13.5">A small screen on the shared table shows the weaving when two touch points are active together.</text>
 
     <circle cx="764" cy="864" r="11" fill="#26307f"/><text class="n" x="764" y="869" font-size="12" text-anchor="middle">5</text>
     <text class="t" x="784" y="860" font-size="15" font-weight="600">Embedded technology</text>
     <text class="s" x="784" y="880" font-size="13.5">Touch sensors and a microcontroller connect the textile surface to the digital display.</text>
   </g>
 
-  <!-- ===== Design intention ===== -->
-  <text class="t" x="764" y="912" font-size="13" font-weight="600" opacity="0.7">Design intention</text>
-  <text class="h" x="764" y="938" font-size="17" font-style="italic">Could a shared textile surface make room for voluntary, non-verbal</text>
-  <text class="h" x="764" y="962" font-size="17" font-style="italic">interaction without requiring conversation or social engagement?</text>
 
-  <text class="hi" x="70" y="1010" font-size="14">Future design direction. Speculative proposal, not yet built or tested.</text>
+  <text class="hi" x="70" y="980" font-size="14">Future design direction. Speculative proposal, not yet built or tested.</text>
 </svg>

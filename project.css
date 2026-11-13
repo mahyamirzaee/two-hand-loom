@@ -365,3 +365,25 @@ ol.qs li { margin-bottom: 0.7em; padding-left: 0.2em; }
 .stages li { display: block; }
 /* the prototype link sits directly under the slideshow, with the slide controls */
 .slidebar .try { padding: 0; font-size: 15px; }
+
+/* design intention: the closing question of the future direction */
+.intention {
+  margin: 14px 0 4px;
+  padding-left: 14px;
+  border-left: 2px solid var(--lilac);
+  font-family: var(--head);
+  font-style: italic;
+  font-size: 16.5px;
+  line-height: 1.45;
+  color: var(--indigo);
+}
+.intention span {
+  display: block;
+  margin-bottom: 2px;
+  font-family: var(--text);
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
