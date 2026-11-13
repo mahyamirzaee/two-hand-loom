@@ -7,7 +7,7 @@
   <meta name="description" content="TACT: a speculative HCI artefact. A digital textile that only takes shape when two touches meet, questioning how shared, voluntary and embodied experience might find room in institutional public spaces.">
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="project.css?v=32">
+  <link rel="stylesheet" href="project.css?v=33">
 </head>
 <body>
 <div class="page">
@@ -47,10 +47,11 @@
       <div class="in-use">
         <h2 class="cluster-title">Prototype in use</h2>
         <div class="mosaic">
-          <div class="tile zoomable t-swap" id="swap" data-cap-img="Handwoven prototype fabric" data-cap-video="Two hands">
+          <div class="tile zoomable seq t-swap" id="swap" data-cap-img="Handwoven prototype fabric" data-cap-video="Two hands">
             <img class="swap-item on" src="img/photo-textile-v2.webp" alt="The tablet running TACT on the handwoven prototype fabric: indigo and lilac stripes with fringed ends." loading="lazy">
             <video class="swap-item" src="video/in-use-2.mp4" poster="video/poster-2.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two hands, one from each side, touching the edges of the tablet on a table."></video>
             <span class="tile-label" id="swap-label">Handwoven</span>
+            <button class="zoom-btn" type="button" aria-label="Open large view">⤢</button>
           </div>
           <div class="tile zoomable t-chairs" data-cap="Between two chairs"><video src="video/in-use-1.mp4" poster="video/poster-1.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on waiting-room chairs touch the tablet placed on a chair between them."></video></div>
           <div class="tile zoomable t-sofa" data-cap="On a shared sofa"><video src="video/in-use-3.mp4" poster="video/poster-3.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on a sofa rest a hand on the tablet lying between them."></video></div>
@@ -61,7 +62,7 @@
 
     <div class="cluster">
       <figure>
-        <div class="frame r32 slides" id="slides" data-slide="0" aria-roledescription="slideshow" aria-label="Screen captures of the digital prototype">
+        <div class="frame r32 slides seq" id="slides" data-slide="0" aria-roledescription="slideshow" aria-label="Screen captures of the digital prototype">
           <img class="slide on" src="img/loom-1-presence.webp" alt="Warp threads leaning towards the left edge where one touch is placed; nothing is woven." data-caption="01 · One touch: the threads lean towards it. Nothing is woven.">
           <img class="slide" src="img/loom-2-joining.webp" alt="Warp threads lit from both edges towards the centre as a second touch joins." data-caption="02 · A second touch: light travels in from both edges." loading="lazy">
           <img class="slide" src="img/loom-3-weaving.webp" alt="Lilac weft interlaced with indigo warp; a dark shuttle carries the newest row." data-caption="02 · Weaving: each row is one shared beat." loading="lazy">
@@ -69,6 +70,7 @@
           <!-- gentle invitation on the first slide: a quiet touch mark at each edge -->
           <span class="invite left" aria-hidden="true"><i></i><b>A</b></span>
           <span class="invite right" aria-hidden="true"><i></i><b>B</b></span>
+          <button class="zoom-btn" type="button" aria-label="Open large view">⤢</button>
         </div>
         <div class="slidebar">
           <a class="try" href="./?mode=exhibition&amp;demo=1" target="_blank" rel="noopener">Try the live prototype ↗</a>
@@ -82,11 +84,12 @@
       </figure>
 
       <figure>
-        <div class="frame r21 zoomable scenario" id="scenario" data-cap="Speculative scenario">
+        <div class="frame r21 zoomable seq scenario" id="scenario" data-cap="Speculative scenario">
           <img class="swap-item on" src="img/scenario-1.webp" alt="Comic panel 1: two figures sit on chairs on either side of a small table covered with a woven textile and a screen; they ignore each other." loading="lazy" data-cap="Waiting">
           <img class="swap-item" src="img/scenario-2.webp" alt="Comic panel 2: one figure curiously touches the textile; a soft light appears under the finger; the other still looks away." loading="lazy" data-cap="One touch">
           <img class="swap-item" src="img/scenario-3.webp" alt="Comic panel 3: both figures rest a hand on the textile; it glows, the screen fills with weaving, and both smile." loading="lazy" data-cap="Two touches">
           <span class="scenario-count" id="scenario-count">1/3</span>
+          <button class="zoom-btn" type="button" aria-label="Open large view">⤢</button>
         </div>
         <figcaption><span class="note concept">Speculative scenario</span></figcaption>
       </figure>
@@ -150,6 +153,40 @@
 </div>
 
 <script>
+  // Tap or swipe a picture frame to go to the next one.
+  // Tap (or swipe left) = next, swipe right = previous, arrow keys also work.
+  // The small ⤢ button in the corner is left alone, so it can open the large view.
+  function tactAdvance(el, next, prev, onUse) {
+    var x0 = 0, y0 = 0, t0 = 0, id = null, moved = false;
+    function onBtn(e) { return e.target.closest && e.target.closest(".zoom-btn"); }
+    el.addEventListener("pointerdown", function (e) {
+      if (onBtn(e)) return;
+      id = e.pointerId; x0 = e.clientX; y0 = e.clientY; t0 = Date.now(); moved = false;
+    });
+    el.addEventListener("pointermove", function (e) {
+      if (e.pointerId !== id) return;
+      if (Math.abs(e.clientX - x0) > 10 || Math.abs(e.clientY - y0) > 10) moved = true;
+    });
+    el.addEventListener("pointerup", function (e) {
+      if (e.pointerId !== id) return;
+      id = null;
+      if (onBtn(e)) return;
+      var dx = e.clientX - x0, dy = e.clientY - y0;
+      if (Math.abs(dx) > 35 && Math.abs(dx) > Math.abs(dy)) { if (dx < 0) next(); else prev(); }
+      else if (!moved && Date.now() - t0 < 700) next();
+      else return;
+      if (onUse) onUse();
+    });
+    el.addEventListener("pointercancel", function () { id = null; });
+    el.tabIndex = 0;
+    el.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); next(); if (onUse) onUse(); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); prev(); if (onUse) onUse(); }
+    });
+  }
+</script>
+
+<script>
   // Slideshow: a new screen capture every 6 seconds, woven in from the top.
   // It pauses on hover and with the II button, and stays still for visitors who reduce motion.
   (function () {
@@ -186,6 +223,7 @@
     };
     box.addEventListener("mouseenter", function () { hovering = true; schedule(); });
     box.addEventListener("mouseleave", function () { hovering = false; schedule(); });
+    tactAdvance(box, function () { go(i + 1); }, function () { go(i - 1); }, schedule);
     if (reduce) { paused = true; pauseBtn.textContent = "▶"; }
     schedule();
   })();
@@ -198,17 +236,23 @@
     if (!tile) return;
     var items = tile.querySelectorAll(".swap-item");
     var label = document.getElementById("swap-label");
-    var i = 0, hovering = false;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    tile.addEventListener("mouseenter", function () { hovering = true; });
-    tile.addEventListener("mouseleave", function () { hovering = false; });
-    setInterval(function () {
-      if (hovering) return;
+    var i = 0, hovering = false, timer = null;
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function go(n) {
       items[i].classList.remove("on");
-      i = (i + 1) % items.length;
+      i = (n + items.length) % items.length;
       items[i].classList.add("on");
-      label.style.opacity = items[i].tagName === "IMG" ? "1" : "0";
-    }, 7000);
+      if (label) label.style.opacity = items[i].tagName === "IMG" ? "1" : "0";
+    }
+    function schedule() {
+      clearInterval(timer);
+      if (!hovering && !reduce) timer = setInterval(function () { go(i + 1); }, 7000);
+    }
+    tile.addEventListener("mouseenter", function () { hovering = true; schedule(); });
+    tile.addEventListener("mouseleave", function () { hovering = false; schedule(); });
+    tactAdvance(tile, function () { go(i + 1); }, function () { go(i - 1); }, schedule);
+    schedule();
   })();
 </script>
 
@@ -219,22 +263,28 @@
     if (!box) return;
     var items = box.querySelectorAll(".swap-item");
     var count = document.getElementById("scenario-count");
-    var i = 0, hovering = false;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    box.addEventListener("mouseenter", function () { hovering = true; });
-    box.addEventListener("mouseleave", function () { hovering = false; });
-    setInterval(function () {
-      if (hovering) return;
+    var i = 0, hovering = false, timer = null;
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function go(n) {
       items[i].classList.remove("on");
-      i = (i + 1) % items.length;
+      i = (n + items.length) % items.length;
       items[i].classList.add("on");
-      count.textContent = (i + 1) + "/" + items.length;
-    }, 4500);
+      if (count) count.textContent = (i + 1) + "/" + items.length;
+    }
+    function schedule() {
+      clearInterval(timer);
+      if (!hovering && !reduce) timer = setInterval(function () { go(i + 1); }, 4500);
+    }
+    box.addEventListener("mouseenter", function () { hovering = true; schedule(); });
+    box.addEventListener("mouseleave", function () { hovering = false; schedule(); });
+    tactAdvance(box, function () { go(i + 1); }, function () { go(i - 1); }, schedule);
+    schedule();
   })();
 </script>
 
 <script>
-  // Large view: click (or Enter) on a picture or video opens it big.
+  // Large view: the ⤢ button on a sequence, or a click on any other picture, opens it big.
   // Close with a click anywhere, the × button, or Esc.
   (function () {
     var lb = document.createElement("div");
@@ -252,7 +302,7 @@
     var opener = null;
 
     function open(tile) {
-      var m = tile.querySelector(".swap-item.on") || tile.querySelector("img, video");
+      var m = tile.querySelector(".swap-item.on, .slide.on") || tile.querySelector("img, video");
       if (!m) return;
       var big;
       if (m.tagName === "VIDEO") {
@@ -266,7 +316,8 @@
       }
       big.addEventListener("click", function (e) { e.stopPropagation(); });
       inner.replaceChildren(big);
-      cap.textContent = (m.getAttribute("data-cap")) || tile.getAttribute("data-cap") ||
+      cap.textContent = m.getAttribute("data-cap") || m.getAttribute("data-caption") ||
+        tile.getAttribute("data-cap") ||
         tile.getAttribute(m.tagName === "VIDEO" ? "data-cap-video" : "data-cap-img") || "";
       opener = tile;
       lb.hidden = false;
@@ -281,13 +332,22 @@
       if (opener) opener.focus();
     }
 
-    document.querySelectorAll(".zoomable").forEach(function (tile) {
+    // single pictures: a click opens them large
+    document.querySelectorAll(".zoomable:not(.seq)").forEach(function (tile) {
       tile.tabIndex = 0;
       tile.setAttribute("role", "button");
       tile.setAttribute("aria-label", "Open large view");
       tile.addEventListener("click", function () { open(tile); });
       tile.addEventListener("keydown", function (e) {
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(tile); }
+      });
+    });
+    // sequences: the corner button opens whichever picture is on show
+    document.querySelectorAll(".zoom-btn").forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var frame = btn.closest(".frame, .tile");
+        if (frame) open(frame);
       });
     });
     lb.addEventListener("click", close);

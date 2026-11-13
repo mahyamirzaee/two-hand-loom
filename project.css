@@ -535,3 +535,29 @@ ol.qs li { margin-bottom: 0.7em; padding-left: 0.2em; }
   grid-auto-rows: auto;
   gap: 6px;
 }
+
+/* Sequences: tap or swipe to the next picture; the ⤢ button opens the large view */
+.seq { cursor: pointer; touch-action: pan-y; }
+.zoom-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 3;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(251, 250, 248, 0.85);
+  color: var(--indigo);
+  font-size: 13px;
+  line-height: 1;
+  cursor: zoom-in;
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+.seq:hover .zoom-btn, .zoom-btn:focus-visible { opacity: 1; }
+@media (pointer: coarse) { .zoom-btn { opacity: 0.7; } }
