@@ -294,3 +294,17 @@ figcaption { margin-top: 8px; font-size: 13.5px; line-height: 1.5; color: var(--
 .related ol { margin: 0; padding-left: 1.4em; }
 .related li { padding: 6px 0; border-bottom: 1px dashed rgba(20, 20, 24, 0.25); }
 .related .todo-line { color: var(--soft); font-size: 13.5px; }
+
+/* Situated context: the political tension as a quiet but large pull quote */
+.context-sub { margin: -4px 0 10px; font-family: var(--head); font-style: italic; color: var(--soft); }
+.pull {
+  margin: 18px 0 20px;
+  padding: 2px 0 2px 18px;
+  border-left: 3px solid var(--lilac);
+  font-family: var(--head);
+  font-size: 24px;
+  line-height: 1.35;
+  color: var(--indigo);
+  max-width: 30ch;
+}
+.qs b { font-weight: 700; color: var(--ink); }
