@@ -7,7 +7,7 @@
   <meta name="description" content="TACT: a speculative HCI artefact. A digital textile that only takes shape when two touches meet, questioning how shared, voluntary and embodied experience might find room in institutional public spaces.">
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="project.css?v=53">
+  <link rel="stylesheet" href="project.css?v=55">
 </head>
 <body>
 <div class="page">
@@ -70,14 +70,14 @@
 
       <h2 class="cluster-title">Prototype in use</h2>
       <div class="mosaic" data-group="in-use">
-          <div class="tile zoomable seq t-swap" id="swap" data-cap-img="Handwoven prototype fabric" data-cap-video="Two hands">
+          <div class="tile zoomable seq t-swap" id="swap" data-cap="Prototype in use">
             <img class="swap-item on" src="img/photo-textile-v2.webp" alt="The tablet running TACT on the handwoven prototype fabric: indigo and lilac stripes with fringed ends." loading="lazy">
             <video class="swap-item" src="video/in-use-2.mp4" poster="video/poster-2.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two hands, one from each side, touching the edges of the tablet on a table."></video>
             <span class="tile-label" id="swap-label">Handwoven fabric</span>
             <button class="zoom-btn" type="button" aria-label="Open large view">⤢</button>
           </div>
-          <div class="tile zoomable t-chairs" data-cap="Between two chairs"><video src="video/in-use-1.mp4" poster="video/poster-1.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on waiting-room chairs touch the tablet placed on a chair between them."></video></div>
-          <div class="tile zoomable t-sofa" data-cap="On a shared sofa"><video src="video/in-use-3.mp4" poster="video/poster-3.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on a sofa rest a hand on the tablet lying between them."></video></div>
+          <div class="tile zoomable t-chairs" id="use-chairs" data-cap="Prototype in use"><video src="video/in-use-1.mp4" poster="video/poster-1.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on waiting-room chairs touch the tablet placed on a chair between them."></video></div>
+          <div class="tile zoomable t-sofa" id="use-sofa" data-cap="Prototype in use"><video src="video/in-use-3.mp4" poster="video/poster-3.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on a sofa rest a hand on the tablet lying between them."></video></div>
       </div>
     </div>
   </section>
@@ -124,7 +124,7 @@
         <p>A speculative physical iteration would move the interaction from glass to textile: a soft, sensor-enabled surface between two adjacent seats, integrated into a shared table, with a small screen on the table showing the digital weaving. It would explore whether softness, texture and gentle warmth change the willingness to touch, whether contact can stay incidental rather than requested, and how the surface can be easily declined.</p>
       </div>
       <figure>
-        <div class="frame sketch zoomable" data-cap="From screen to shared furniture">
+        <div class="frame sketch zoomable" id="future-sketch" data-cap="From screen to shared furniture">
           <img src="img/future-sketch.webp" alt="Hand-drawn concept: two benches whose inner ends meet as a small shared table, covered with a woven surface marked A and B; a small screen on the table shows the weaving. Below, a top view of Seat A, the woven centre and Seat B." loading="lazy">
         </div>
         <figcaption><span class="note concept">Speculative</span>A possible physical version · not built or tested</figcaption>
@@ -325,9 +325,12 @@
       inner.replaceChildren(big);
       cap.textContent = capOf(m);
     }
+    function allPictures() {
+      return [].slice.call(document.querySelectorAll(
+        ".frame.slides img, .mosaic .tile img, .mosaic .tile video, .frame.scenario img, .frame.sketch img"));
+    }
     function open(el) {
-      var group = el.closest("[data-group]") || el;
-      list = [].slice.call(group.querySelectorAll("img, video"));
+      list = allPictures();
       if (!list.length) return;
       var vis = mediaOf(el);
       var i = list.indexOf(vis);
@@ -365,6 +368,29 @@
       });
     });
     function step(dir) { if (list.length > 1) show(at + dir); }
+
+    // Each picture gets its own address, so a link from a PDF opens the page
+    // exactly at that picture and shows it large.
+    var pics = document.querySelectorAll("#slides, #swap, #use-chairs, #use-sofa, #scenario, #future-sketch");
+    pics.forEach(function (el) {
+      var a = document.createElement("a");
+      a.className = "pic-link";
+      a.href = location.origin + location.pathname + "#" + el.id;
+      a.tabIndex = -1;
+      a.setAttribute("aria-hidden", "true");
+      el.parentNode.insertBefore(a, el);
+      a.appendChild(el);
+      a.addEventListener("click", function (e) { e.preventDefault(); });
+    });
+    function openFromHash() {
+      if (!location.hash) return;
+      var el = document.querySelector(location.hash);
+      if (!el || !el.id) return;
+      el.scrollIntoView({ block: "center" });
+      setTimeout(function () { open(el); }, 400);
+    }
+    window.addEventListener("hashchange", openFromHash);
+    setTimeout(openFromHash, 300);
     prevBtn.addEventListener("click", function (e) { e.stopPropagation(); step(-1); });
     nextBtn.addEventListener("click", function (e) { e.stopPropagation(); step(1); });
     var sx = 0, sy = 0, sid = null;
