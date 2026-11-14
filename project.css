@@ -787,3 +787,6 @@ figcaption, .small, .mosaic-caption, .over-cap, .g-item figcaption, .lb-cap,
   .cluster .mosaic.row3 { grid-template-columns: 1fr 1fr; }
 }
 .foot, .foot span, .lb-close { color: var(--ink); }
+/* the handwoven cloth: the whole photo, not a centre crop of the tablet */
+.cluster .mosaic.row3 .t-fabric { background: var(--paper); }
+.cluster .mosaic.row3 .t-fabric img { object-fit: contain; }
