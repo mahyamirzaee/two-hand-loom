@@ -790,3 +790,5 @@ figcaption, .small, .mosaic-caption, .over-cap, .g-item figcaption, .lb-cap,
 /* the handwoven cloth: the whole photo, not a centre crop of the tablet */
 .cluster .mosaic.row3 .t-fabric { background: var(--paper); }
 .cluster .mosaic.row3 .t-fabric img { object-fit: contain; }
+/* a quiet rule above the reading list, as on the other project pages */
+.related-wide { border-top: 1px solid rgba(20, 20, 24, 0.18); margin-top: 34px; padding-top: 18px; }
