@@ -7,7 +7,7 @@
   <meta name="description" content="TACT: a speculative HCI artefact. A digital textile that only takes shape when two touches meet, questioning how shared, voluntary and embodied experience might find room in institutional public spaces.">
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="project.css?v=55">
+  <link rel="stylesheet" href="project.css?v=56">
 <style id="site-bar">
   /* same top bar as the portfolio (mahyamirzaee.github.io) */
   .site-bar { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 24px; padding: 4px 0 26px; font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; }
@@ -45,7 +45,6 @@
     <div class="col">
       <h1 id="title">TACT</h1>
       <p class="sub">Research through Design · 2026 · Built with Claude Code</p>
-      <div class="thread" aria-hidden="true"></div>
 
       <p class="lead">A digital textile that only takes shape when two touches meet.</p>
       <p>TACT treats weaving as a shared, embodied act rather than individual production. Drawing on my practice in textile design, it translates the qualities of cloth (thread tension, interlacing, the slow accumulation of rows) into an interface that answers to touch.</p>
@@ -54,26 +53,20 @@
       <p class="rq">How might textile-based interaction open room for shared, voluntary and embodied presence in public spaces designed for administrative processing?</p>
 
       <h2>The interaction</h2>
-      <ol class="stages">
-        <li>
-          <span><b>01 · One touch.</b> The threads respond: they lean towards the touch and change tension. Nothing is woven.</span>
-        </li>
-        <li>
-          <span><b>02 · Two touches.</b> When two touch points are active at the same time, light travels through the warp and a hand-woven textile forms, row by row. More touch points produce other weave structures.</span>
-        </li>
-        <li>
-          <span><b>03 · Release.</b> The hand-woven structure remains, with a loose thread where the touches ended.</span>
-        </li>
-      </ol>
+      <p>Touch one edge. The threads lean towards you and change tension. Nothing is woven yet.</p>
+      <p>A second touch, on the other edge. Light crosses the warp and cloth begins, row by row. More touch points make other structures.</p>
+      <p>Let go. What was woven stays, with a loose thread where the touches ended.</p>
+
+      <p class="ask">What if waiting together could mean more than being processed separately?</p>
 
     </div>
 
     <div class="cluster">
       <figure>
         <div class="frame r32 slides seq" id="slides" data-group="overview" data-slide="0" aria-roledescription="slideshow" aria-label="Screen captures of the digital prototype">
-          <img class="slide on" src="img/loom-1-presence.webp" alt="Warp threads leaning towards the left edge where one touch is placed; nothing is woven." data-caption="01 · One touch. The threads lean towards it and change tension. Nothing is woven.">
-          <img class="slide" src="img/loom-3-weaving.webp" alt="Lilac weft interlaced with indigo warp; a dark shuttle carries the newest row." data-caption="02 · Two touches. Light travels through the warp and a hand-woven textile forms, row by row." loading="lazy">
-          <img class="slide" src="img/loom-4-trace.webp" alt="The woven cloth remains after release; the last row stops part-way with a loose thread end." data-caption="03 · Release. The hand-woven structure remains, with a loose thread where the touches ended." loading="lazy">
+          <img class="slide on" src="img/loom-1-presence.webp" alt="Warp threads leaning towards the left edge where one touch is placed; nothing is woven." data-caption="One touch. The threads lean towards it and change tension. Nothing is woven.">
+          <img class="slide" src="img/loom-3-weaving.webp" alt="Lilac weft interlaced with indigo warp; a dark shuttle carries the newest row." data-caption="Two touches. Light travels through the warp and a hand-woven textile forms, row by row." loading="lazy">
+          <img class="slide" src="img/loom-4-trace.webp" alt="The woven cloth remains after release; the last row stops part-way with a loose thread end." data-caption="Release. The hand-woven structure remains, with a loose thread where the touches ended." loading="lazy">
           <!-- gentle invitation on the first slide: a quiet touch mark at each edge -->
           <span class="invite left" aria-hidden="true"><i></i><b>A</b></span>
           <span class="invite right" aria-hidden="true"><i></i><b>B</b></span>
@@ -90,23 +83,14 @@
       </figure>
 
       <h2 class="cluster-title">Prototype in use</h2>
-      <div class="mosaic" data-group="in-use">
-          <div class="tile zoomable seq t-swap" id="swap" data-cap="Prototype in use">
-            <img class="swap-item on" src="img/photo-textile-v2.webp" alt="The tablet running TACT on the handwoven prototype fabric: indigo and lilac stripes with fringed ends." loading="lazy">
-            <video class="swap-item" src="video/in-use-2.mp4" poster="video/poster-2.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two hands, one from each side, touching the edges of the tablet on a table."></video>
-            <span class="tile-label" id="swap-label">Handwoven fabric</span>
-            <button class="zoom-btn" type="button" aria-label="Open large view">⤢</button>
-          </div>
+      <div class="mosaic row3" data-group="in-use">
+          <div class="tile zoomable t-fabric" id="swap" data-cap="Prototype in use"><img src="img/photo-textile-v2.webp" alt="The tablet running TACT on the handwoven prototype fabric: indigo and lilac stripes with fringed ends." loading="lazy"></div>
+          <div class="tile zoomable t-hands" id="use-hands" data-cap="Prototype in use"><video src="video/in-use-2.mp4" poster="video/poster-2.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two hands, one from each side, touching the edges of the tablet on a table."></video></div>
           <div class="tile zoomable t-chairs" id="use-chairs" data-cap="Prototype in use"><video src="video/in-use-1.mp4" poster="video/poster-1.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on waiting-room chairs touch the tablet placed on a chair between them."></video></div>
-          <div class="tile zoomable t-sofa" id="use-sofa" data-cap="Prototype in use"><video src="video/in-use-3.mp4" poster="video/poster-3.webp" autoplay muted loop playsinline preload="metadata" aria-label="Two people seated on a sofa rest a hand on the tablet lying between them."></video></div>
       </div>
     </div>
   </section>
 
-  <!-- ===== The central statement ===== -->
-  <section class="statement" aria-labelledby="statement-label">
-    <blockquote>What if waiting together could mean more than being processed separately?</blockquote>
-  </section>
 
   <!-- ===== Screen 2: context, questions, reflection, future direction ===== -->
   <section class="sheet" aria-labelledby="context">
@@ -116,11 +100,9 @@
       <p>TACT asks why public spaces leave so little room for shared, voluntary and embodied experience, and offers a speculative counterproposal: a soft surface that could be touched together, or simply left alone.</p>
 
       <h2>Questions</h2>
-      <ol class="qs">
-        <li><b>Materiality.</b> When might the softness, texture or warmth of a shared textile invite touch, and when does touching it feel intrusive or unwanted?</li>
-        <li><b>Power and participation.</b> Can a shared interface in an institutional space offer connection without turning participation into one more expectation?</li>
-        <li><b>Public space.</b> Who shapes the experience of public waiting spaces, and which forms of shared, embodied presence does their design leave out?</li>
-      </ol>
+      <p>When does the softness, texture or warmth of a shared textile invite touch, and when does touching it feel intrusive?</p>
+      <p>Can a shared surface in an institutional space offer connection without turning participation into one more expectation?</p>
+      <p>Who shapes the experience of public waiting spaces, and which forms of shared, embodied presence does their design leave out?</p>
 
       <h2>Reflection</h2>
       <p>TACT is an exploratory design artefact, not a validated intervention. It does not claim to create connection, empathy or trust, nor to change institutional practice. It is offered as a material question about touch, comfort, autonomy and the organisation of public space.</p>
@@ -153,7 +135,7 @@
     </div>
   </section>
   <section class="related related-wide" aria-labelledby="related-title">
-    <h2 class="cluster-title" id="related-title">Related work</h2>
+    <h2 class="cluster-title" id="related-title">Most influential related work</h2>
     <ol>
       <li><a href="https://doi.org/10.1145/2839462.2856523" target="_blank" rel="noopener">Four Stories About Feeling Close Over A Distance</a></li>
       <li><a href="https://doi.org/10.1145/3715336.3735441" target="_blank" rel="noopener">Towards Yarnier Interactive Textiles: Mapping a Design Journey through Hand Spun Conductive Yarns</a></li>
@@ -250,6 +232,7 @@
     var tile = document.getElementById("swap");
     if (!tile) return;
     var items = tile.querySelectorAll(".swap-item");
+    if (items.length < 2) return;
     var label = document.getElementById("swap-label");
     var i = 0, hovering = false, timer = null;
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -392,7 +375,7 @@
 
     // Each picture gets its own address, so a link from a PDF opens the page
     // exactly at that picture and shows it large.
-    var pics = document.querySelectorAll("#slides, #swap, #use-chairs, #use-sofa, #scenario, #future-sketch");
+    var pics = document.querySelectorAll("#slides, #swap, #use-hands, #use-chairs, #scenario, #future-sketch");
     pics.forEach(function (el) {
       var a = document.createElement("a");
       a.className = "pic-link";

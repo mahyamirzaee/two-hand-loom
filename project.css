@@ -730,3 +730,60 @@ ol.qs li { margin-bottom: 0.7em; padding-left: 0.2em; }
 }
 /* each picture is wrapped in its own link; the wrapper must not affect the layout */
 .pic-link { display: contents; }
+
+/* ---------- One voice: a single font, one size, black, no decoration ---------- */
+.lead, .rq, .ask, .statement blockquote,
+.col h1, .col h2, .cluster-title,
+figcaption, .note, .small, .mosaic-caption, .over-cap,
+.g-item figcaption, .tile-label, .lb-cap,
+.related a, .related-wide li, .col .sub, .context-sub {
+  font-family: var(--text);
+  font-style: normal;
+  color: var(--ink);
+}
+.lead, .rq, .ask { font-size: inherit; line-height: inherit; }
+.lead { margin-bottom: 0.9em; }
+.rq { margin-bottom: 1em; }
+.ask { margin-top: 1.4em; }
+.col h1 { font-size: 22px; letter-spacing: 0.02em; }
+.col h2, .cluster-title { font-size: inherit; font-weight: 700; letter-spacing: 0.02em; }
+figcaption, .small, .mosaic-caption, .over-cap, .g-item figcaption, .lb-cap,
+.related-wide li, .slidebar, .count { font-size: 13.5px; }
+.note { font-size: inherit; letter-spacing: 0.02em; text-transform: none; margin-right: 0.4em; }
+.note.concept, .note.todo { color: var(--ink); }
+.try, .related a, .related-wide a { color: var(--ink); }
+.zoom-btn, .controls button, .lb-prev, .lb-next, .slidebar .count { color: var(--ink); }
+
+/* no rules, no numbering: the page carries itself */
+.sheet + .sheet { border-top: 0; padding-top: 0; margin-top: 30px; }
+.related-wide { border-top: 0; margin-top: 30px; padding-top: 0; }
+.related-wide li::before { content: none; }
+.related-wide li { padding-left: 0; }
+.related li { border-bottom: 0; }
+.thread { display: none; }
+
+/* ---------- The three clips, square and side by side ---------- */
+.cluster .mosaic.row3 {
+  position: static;
+  grid-auto-rows: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  aspect-ratio: auto;
+  margin-top: 8px;
+}
+.cluster .mosaic.row3 .tile {
+  grid-column: auto;
+  grid-row: auto;
+  position: static;
+  left: auto; right: auto; top: auto; bottom: auto;
+  width: auto;
+  margin: 0;
+  aspect-ratio: 1 / 1;
+}
+.cluster .mosaic.row3 .tile img,
+.cluster .mosaic.row3 .tile video { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 760px) {
+  .cluster .mosaic.row3 { grid-template-columns: 1fr 1fr; }
+}
+.foot, .foot span, .lb-close { color: var(--ink); }
