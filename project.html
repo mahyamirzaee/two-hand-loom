@@ -8,11 +8,34 @@
   <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="project.css?v=55">
+<style id="site-bar">
+  /* same top bar as the portfolio (mahyamirzaee.github.io) */
+  .site-bar { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 24px; padding: 4px 0 26px; font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; }
+  .site-bar .sb-name { margin-right: auto; font-size: 15px; font-weight: 600; color: #141418; text-decoration: none; }
+  .site-bar nav { display: flex; flex-wrap: wrap; gap: 6px 32px; }
+  .site-bar nav a { font-size: 15px; color: #55545f; text-decoration: none; }
+  .site-bar nav a[aria-current="page"] { color: #141418; font-weight: 600; }
+  .site-bar .sb-lang { font-size: 13px; color: #55545f; text-decoration: none; padding: 2px 7px; }
+  .site-bar a:hover { color: #26307f; }
+  /* one look for every back link */
+  .top { font-size: 14px; }
+  .top a { color: #55545f; text-decoration: none; }
+  .top a:hover { color: #141418; text-decoration: underline; }
+  @media (max-width: 640px) { .site-bar .sb-name { width: 100%; } }
+</style>
 </head>
 <body>
 <div class="page">
 
-  <nav class="top" aria-label="Site">
+  <header class="site-bar">
+    <a class="sb-name" href="https://mahyamirzaee.github.io/">Mahya Mirzaee</a>
+    <nav aria-label="Main">
+      <a href="https://mahyamirzaee.github.io/projects/" aria-current="page">Design projects</a>
+      <a href="https://mahyamirzaee.github.io/publications/">Publications</a>
+    </nav>
+    <a class="sb-lang" href="https://mahyamirzaee.github.io/de/projects/" lang="de" hreflang="de" aria-label="Deutsch">DE</a>
+  </header>
+  <nav class="top" aria-label="Back">
     <a href="https://mahyamirzaee.github.io/projects/">‹ back</a>
   </nav>
 
@@ -42,7 +65,6 @@
           <span><b>03 · Release.</b> The hand-woven structure remains, with a loose thread where the touches ended.</span>
         </li>
       </ol>
-      <p class="small">A working prototype for tablets. It senses touch points, not people: it cannot tell whether two touches come from two different people or from one person using both hands.</p>
 
     </div>
 
